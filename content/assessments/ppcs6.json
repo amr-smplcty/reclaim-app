@@ -1,0 +1,15 @@
+{
+  "citation": "Bőthe et al., 2020, Journal of Sex Research",
+  "scale_labels": ["Never", "Rarely", "Occasionally", "Sometimes", "Often", "Usually", "All the time"],
+  "cutoff": 20,
+  "timeframe_default": "past_6_months",
+  "timeframe_reassessment": "past_2_weeks",
+  "items": [
+    { "id": "ppcs6_1", "component": "salience", "text": "TODO(content): exact item wording from Bőthe et al. (2020) — do not paraphrase, verify against published instrument" },
+    { "id": "ppcs6_2", "component": "tolerance", "text": "TODO(content)" },
+    { "id": "ppcs6_3", "component": "mood_modification", "text": "TODO(content)" },
+    { "id": "ppcs6_4", "component": "conflict", "text": "TODO(content)" },
+    { "id": "ppcs6_5", "component": "withdrawal", "text": "TODO(content)" },
+    { "id": "ppcs6_6", "component": "relapse", "text": "TODO(content)" }
+  ]
+}

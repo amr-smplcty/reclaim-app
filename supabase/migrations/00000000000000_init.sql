@@ -1,0 +1,4 @@
+-- Placeholder migration. Tables land per feature as each epic is built (auth
+-- profiles with Epic 2, subscriptions with Epic 3, journal/program state after).
+-- Every table must have row-level security enabled and scoped to auth.uid()
+-- per CLAUDE.md privacy defaults — no table ships without its RLS policy.

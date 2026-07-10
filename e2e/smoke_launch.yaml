@@ -1,0 +1,6 @@
+appId: com.smplctyanalytics.reclaim
+---
+- launchApp
+- assertVisible: "Start assessment"
+- tapOn: "Start assessment"
+- assertVisible: "Today"
