@@ -73,6 +73,7 @@ Opened via tab or SOS. Must load instantly (all assets bundled offline).
 - **90-second breather** — box-breathing animation.
 - **Defusion exercise** — ACT thought-labeling interactive ("I'm having the thought that…").
 - **Shift environment** — checklist prompt (stand up, leave room, phone in other room, cold water).
+- **10-Minute Shift** — evidence-based delay+substitute protocol: user picks one activity from their personal "shift list" (built in Week 2; e.g., walk, shower, call someone, 20 pushups), a 10-minute countdown runs with a calm progress ring, then the app re-rates the urge and displays the delta ("Urge: 8 → 4"). Rationale shown in-tool: urges crest and fall on their own, typically within 10–30 minutes, when not fed.
 - **Log the urge** — 30-second structured log: intensity (1–10), trigger (chips: stress/boredom/loneliness/late night/saw trigger/other), location, what happened next. Feeds Progress patterns.
 - After any tool: "How's the urge now?" (better/same/worse) → logged.
 - **Lapse flow:** "It happened" button — non-judgmental. Structured 4-question lapse debrief (CLINICAL_SPEC §5.4), reframe copy ("A lapse is a data point, not a verdict"), program continues (no streak reset drama; the metric that matters is the clinical score trend).
@@ -86,6 +87,7 @@ Opened via tab or SOS. Must load instantly (all assets bundled offline).
 - **Primary chart:** PPCS-6 score over time (re-administered every 2 weeks, push-prompted).
 - Secondary: urge frequency/intensity trend (from logs), engagement calendar, pattern insights (rule-based v1: e.g., "70% of your urges logged between 10pm–1am" → suggests toolkit + wind-down routine).
 - Milestones framed on behavior and score, not abstinence purity: "First re-assessment: −6 points," "10 urges surfed."
+- **Commitment Goals (opt-in module):** graduated goal ladder (7-day goal ×3 completions → 14 → 30 → 90) with a self-funded **Reward Jar**: user names a personal reward, pledges a daily amount, app tracks committed savings toward it (no real money custody — it's a tracked pledge the user honors themselves). Goal completion = "unlock" celebration + prompt to claim the reward. Goals are **process-weighted** (daily lesson + check-in + clean day; a lapse with a completed debrief still counts partial credit). A lapse **delays** the unlock date and triggers the lapse debrief — it never zeroes the jar or the ladder tier. Design rules in CLINICAL_SPEC §9.
 
 ### 5.6 Settings
 - Subscription management (RevenueCat), notification times (daily check-in time, risky-hours reminder), FaceID app lock (privacy is a feature — many users hide this app), discreet app icon option, export data, **delete account + all data** (one flow, required).
@@ -126,4 +128,5 @@ No PII in event payloads. Journal free-text is never sent to analytics.
 2. Content blocker via iOS Screen Time / DNS profile.
 3. Android release (same codebase).
 4. Accountability-partner lite (share progress chart with one trusted person).
+4b. Real-money deposit contracts (opt-in): stake via external web payment flow, forfeiture to charity on failed **process** goals (never self-reported abstinence). Requires legal + App Store compliance review first; evidence supports ~2x effectiveness among opt-ins but expect low uptake (~10–14%).
 5. Social-media-addiction vertical: same engine, swap assessment (e.g., BSMAS) + content pack.

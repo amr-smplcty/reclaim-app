@@ -93,6 +93,21 @@ User types the thought → app reframes display: "You are having the thought tha
 4. What's one thing to change for next time? (free text → appended to relapse-prevention plan)
 Close copy: "A lapse is a data point, not a verdict. Your plan just got smarter." Clinical score trend remains the progress metric; no streak-reset punishment mechanics.
 
+### 5.5 Ten-Minute Shift protocol
+Basis: urges rise, peak, and subside within ~10–30 minutes when not acted on (Mindfulness-Based Relapse Prevention literature; Marlatt's relapse-prevention "delay + distract/substitute" a.k.a. the 5 D's). Flow: intensity rating → pick activity from user's pre-built shift list (created in Week 2 exercise "My Shift List": 5+ concrete, immediately-available alternatives, at least one physical) → 10-min timer → re-rate → show delta + reinforcement copy ("You just proved the urge passes without you obeying it."). Log both ratings. If post-rating ≥ pre-rating, offer Urge Surf next (escalation path), never shame copy.
+
+## 9. Commitment Goals & contingency design (opt-in module)
+
+Evidence basis: financial commitment devices roughly doubled-to-tripled cessation rates in RCTs (Volpp et al. 2009 NEJM; Halpern et al. 2015 NEJM — deposit contracts ~2x more effective than rewards among acceptors), mechanism = loss aversion. Known limits: low uptake (~2–14%), and effects depend on verifiable outcomes.
+
+Hard design rules (non-negotiable):
+1. **Opt-in only.** Never part of the default program; introduced end of Week 1.
+2. **Stake process, not abstinence.** Goal credit weights verifiable engagement (lesson + check-in completed) alongside self-reported clean days. Never make money/reward outcomes depend solely on self-reported abstinence — it incentivizes dishonest logging, which corrupts the clinical data the program runs on.
+3. **No confiscation, no zeroing in v1.** Reward Jar is a tracked self-pledge (no money custody). A lapse delays the unlock (e.g., +2 days per lapse, capped) and requires the lapse debrief; it never resets the ladder tier or empties the jar. Rationale: preserve loss-flavored motivation while avoiding abstinence-violation-effect shame spirals.
+4. **Graduated ladder (shaping):** 7-day goal; 3 completions promote to 14 days; then 30; then 90. Demotion never happens automatically — user may voluntarily step down.
+5. **Copy tone:** saving-toward-a-life-you-want framing ("This is you paying yourself"), never fines/punishment language.
+6. **v2 real-money deposits** (external payment flow, charity forfeiture): permitted only with legal + platform-policy review; stakes bind to process goals only; include cool-off period before contract start and hardship cancellation.
+
 ## 6. Safety & escalation (hard requirements)
 
 - **Crisis detection:** if free-text input matches self-harm/suicide indicators (maintain keyword+pattern list in `safety/crisis_patterns.json`), immediately show full-screen supportive resource card: encouragement to reach out now + local crisis line lookup (988 in US; international directory link) + "talk to someone you trust." Never gate this behind subscription. Log event class only (no text) to analytics.

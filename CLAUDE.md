@@ -34,7 +34,7 @@ e2e/            # maestro flows
    declaring any task done.
 2. **One epic per session.** Epics, in order: (1) scaffold+navigation, (2) onboarding+assessment,
    (3) paywall/RevenueCat, (4) program engine + lesson player, (5) Toolkit, (6) journal+check-ins,
-   (7) progress+re-assessment, (8) settings+privacy, (9) notifications, (10) polish+E2E.
+   (7) progress+re-assessment+commitment goals (CLINICAL_SPEC §9), (8) settings+privacy, (9) notifications, (10) polish+E2E.
 3. **Scoring is sacred:** PPCS-6 sum 6–42, cutoff ≥20; PHQ-2/GAD-2 cutoff ≥3. Unit-test the band
    table from CLINICAL_SPEC §2.3 exhaustively.
 4. **Privacy defaults:** RLS on all tables keyed to `auth.uid()`; journal free-text never in analytics
