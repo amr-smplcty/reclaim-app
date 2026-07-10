@@ -1,0 +1,42 @@
+{
+  "content_version": "0.0.1-placeholder",
+  "modules": [
+    {
+      "week": 1,
+      "title": "Understand & Commit",
+      "days": [
+        {
+          "day": 1,
+          "lesson": {
+            "id": "w1d1_lesson",
+            "title": "TODO(content)",
+            "body_md": "TODO(content)",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": { "type": "single_choice", "prompt": "TODO(content)", "options": [] }
+          },
+          "exercise": {
+            "id": "w1d1_ex",
+            "type": "decisional_balance",
+            "title": "TODO(content)",
+            "steps": [],
+            "payload": {}
+          }
+        }
+      ]
+    }
+  ],
+  "assessments": {
+    "ppcs6": { "ref": "content/assessments/ppcs6.json" },
+    "phq2": { "items": ["TODO(content)", "TODO(content)"], "cutoff": 3 },
+    "gad2": { "items": ["TODO(content)", "TODO(content)"], "cutoff": 3 }
+  },
+  "toolkit": {
+    "urge_surf": { "audio_url": null, "duration_s": 180 },
+    "breather": {},
+    "defusion": {},
+    "environment_shift": {}
+  },
+  "checkin_prompts": [],
+  "booster_lessons": []
+}
