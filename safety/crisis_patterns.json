@@ -1,0 +1,31 @@
+{
+  "_note": "Starter v1 list per CLINICAL_SPEC §6 — conservative, common self-harm/suicide phrasing. Needs clinician review/expansion (CLINICAL_SPEC §8) before launch; treat as a floor, not a complete list.",
+  "crisis": [
+    "suicide",
+    "suicidal",
+    "kill myself",
+    "kill me",
+    "want to die",
+    "wish i was dead",
+    "wish i were dead",
+    "end my life",
+    "ending my life",
+    "no reason to live",
+    "not worth living",
+    "better off dead",
+    "better off without me",
+    "can't go on",
+    "cant go on",
+    "hurt myself",
+    "hurting myself",
+    "self harm",
+    "self-harm",
+    "cutting myself"
+  ],
+  "illegal_content": [
+    "child porn",
+    "child pornography",
+    "underage",
+    "csam"
+  ]
+}

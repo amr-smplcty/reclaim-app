@@ -28,8 +28,29 @@
   ],
   "assessments": {
     "ppcs6": { "ref": "content/assessments/ppcs6.json" },
-    "phq2": { "items": ["TODO(content)", "TODO(content)"], "cutoff": 3 },
-    "gad2": { "items": ["TODO(content)", "TODO(content)"], "cutoff": 3 }
+    "phq2": {
+      "items": ["TODO(content)", "TODO(content)"],
+      "scale_labels": ["TODO(content)", "TODO(content)", "TODO(content)", "TODO(content)"],
+      "cutoff": 3
+    },
+    "gad2": {
+      "items": ["TODO(content)", "TODO(content)"],
+      "scale_labels": ["TODO(content)", "TODO(content)", "TODO(content)", "TODO(content)"],
+      "cutoff": 3
+    }
+  },
+  "intake": {
+    "motivations": [
+      { "id": "relationships", "label": "Relationships" },
+      { "id": "focus_energy", "label": "Focus / energy" },
+      { "id": "values_self_respect", "label": "Values / self-respect" },
+      { "id": "sexual_function", "label": "Sexual function" },
+      { "id": "time_lost", "label": "Time lost" },
+      { "id": "other", "label": "Other" }
+    ],
+    "years_of_use": ["Less than 1 year", "1-3 years", "3-5 years", "5-10 years", "10+ years"],
+    "frequency_now": ["Daily", "Several times a week", "About weekly", "Less than weekly"],
+    "prior_quit_attempts": ["None yet", "1-2 times", "3-5 times", "6+ times"]
   },
   "toolkit": {
     "urge_surf": { "audio_url": null, "duration_s": 180 },
