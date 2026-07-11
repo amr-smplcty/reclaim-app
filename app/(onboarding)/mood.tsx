@@ -11,7 +11,7 @@ import { getContentPack } from '@/lib/content';
 import { isMoodElevated, scoreGad2, scorePhq2 } from '@/features/assessment/scoring';
 import { Spacing } from '@/constants/theme';
 
-const { phq2, gad2 } = getContentPack().assessments;
+const { phq2, gad2, mood_stem: moodStem } = getContentPack().assessments;
 
 interface ScreenerBlockProps {
   items: string[];
@@ -68,7 +68,7 @@ export default function MoodScreen() {
     <OnboardingLayout step="mood">
       <ScrollView showsVerticalScrollIndicator={false}>
         <ThemedText type="title" style={styles.title}>
-          Over the last 2 weeks
+          {moodStem}
         </ThemedText>
         <ScreenerBlock
           items={phq2.items}

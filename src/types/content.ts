@@ -82,6 +82,7 @@ export interface ContentPack {
   modules: ProgramModule[];
   assessments: {
     ppcs6: { ref: string };
+    mood_stem: string;
     phq2: ScreenerAssessment;
     gad2: ScreenerAssessment;
   };

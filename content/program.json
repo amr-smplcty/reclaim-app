@@ -28,14 +28,15 @@
   ],
   "assessments": {
     "ppcs6": { "ref": "content/assessments/ppcs6.json" },
+    "mood_stem": "Over the last 2 weeks, how often have you been bothered by the following problems?",
     "phq2": {
-      "items": ["TODO(content)", "TODO(content)"],
-      "scale_labels": ["TODO(content)", "TODO(content)", "TODO(content)", "TODO(content)"],
+      "items": ["Little interest or pleasure in doing things", "Feeling down, depressed, or hopeless"],
+      "scale_labels": ["Not at all", "Several days", "More than half the days", "Nearly every day"],
       "cutoff": 3
     },
     "gad2": {
-      "items": ["TODO(content)", "TODO(content)"],
-      "scale_labels": ["TODO(content)", "TODO(content)", "TODO(content)", "TODO(content)"],
+      "items": ["Feeling nervous, anxious, or on edge", "Not being able to stop or control worrying"],
+      "scale_labels": ["Not at all", "Several days", "More than half the days", "Nearly every day"],
       "cutoff": 3
     }
   },
