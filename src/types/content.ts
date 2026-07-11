@@ -54,6 +54,7 @@ export interface Ppcs6Assessment {
 
 export interface ScreenerAssessment {
   items: string[];
+  scale_labels: string[];
   cutoff: number;
 }
 
@@ -64,6 +65,18 @@ export interface ToolkitContent {
   environment_shift: Record<string, unknown>;
 }
 
+export interface MotivationOption {
+  id: string;
+  label: string;
+}
+
+export interface IntakeContent {
+  motivations: MotivationOption[];
+  years_of_use: string[];
+  frequency_now: string[];
+  prior_quit_attempts: string[];
+}
+
 export interface ContentPack {
   content_version: string;
   modules: ProgramModule[];
@@ -72,6 +85,7 @@ export interface ContentPack {
     phq2: ScreenerAssessment;
     gad2: ScreenerAssessment;
   };
+  intake: IntakeContent;
   toolkit: ToolkitContent;
   checkin_prompts: string[];
   booster_lessons: string[];
