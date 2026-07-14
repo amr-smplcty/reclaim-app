@@ -1,0 +1,297 @@
+{
+  "content_version": "1.1.0",
+  "notes_for_engineering": "Week 1 pack. Exercise payload.kind values used here: multi_select_write, rated_inventory, guided_list, decisional_balance_compare, dual_slider_write, letter_write, commitment_builder. If a kind is not yet supported, render steps as a sequential worksheet. All copy below is clinician-review-pending; do not edit wording in code. Reading levels ~grade 7-8. No item may be shown to users under 18.",
+  "modules": [
+    {
+      "week": 1,
+      "title": "Understand & Commit",
+      "days": [
+        {
+          "day": 1,
+          "lesson": {
+            "id": "w1d1_lesson",
+            "title": "Start here: you're not broken",
+            "body_md": "You made it here. That took more honesty than most people ever apply to this problem — so let's return the favor and be honest with you.\n\n**First: you're in a very large club.** Millions of people struggle to control their porn use. Most never tell anyone. The silence makes everyone in the club feel like the only member.\n\n**Second: this is not a character defect.** The World Health Organization recognizes compulsive sexual behavior as a real, treatable condition — a pattern where a behavior keeps happening despite your efforts to stop, and despite costs you can see piling up. Notice what that definition is about: *control* and *consequences*. Not sin. Not weakness. Not what kind of person you are.\n\nThis program takes no moral position on porn. Plenty of people use it without problems. You're here because *your* use has come into conflict with *your* life — your time, your focus, your relationships, or just the person you want to be. That conflict is the problem we're going to work on.\n\n**Third: your assessment score is your starting line, not your label.** You took a short screening questionnaire during setup — the same one used in published research. We'll re-take it every two weeks. That number trending down is what progress actually looks like here. Not a perfect streak. Not white-knuckled purity. A measurable loosening of the grip.\n\n**What the next six weeks look like:** about ten minutes a day. Week 1 is about understanding what you're dealing with and deciding — really deciding — that you want to change it. Weeks 2 and 3 teach you your pattern and how to handle urges. Weeks 4 to 6 rebuild the life that makes this stick.\n\nNo lectures. No shame. Skills.\n\nOne more thing, because it matters: on the days this feels hard, remember that showing up here today was already a move most people never make.",
+            "read_minutes": 3,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Which of these is closest to why you're here?",
+              "options": [
+                "I've tried to stop before and couldn't",
+                "It's affecting my relationship or dating life",
+                "It's stealing my time, focus, or energy",
+                "It conflicts with who I want to be",
+                "Something else"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w1d1_ex",
+            "type": "worksheet",
+            "title": "Your Why",
+            "steps": [
+              "Pick the three reasons for change that hit hardest. Not the ones that sound noble — the ones you actually feel.",
+              "Now write two or three sentences: it's six months from now and this is no longer running your life. What's different on an ordinary Tuesday?",
+              "Save it. This becomes the anchor the rest of the program builds on — we'll show it back to you at the moments it matters."
+            ],
+            "payload": {
+              "kind": "multi_select_write",
+              "select_options": [
+                "My relationship or future relationship",
+                "My focus and mental energy",
+                "My time",
+                "My self-respect",
+                "My sex life working the way it should",
+                "My faith in my own word to myself",
+                "Being present for people who need me"
+              ],
+              "select_count": 3,
+              "write_prompt": "Six months from now, on an ordinary Tuesday, what's different?",
+              "save_to": "anchor_why"
+            }
+          }
+        },
+        {
+          "day": 2,
+          "lesson": {
+            "id": "w1d2_lesson",
+            "title": "The loop that runs you",
+            "body_md": "Every habit — good or bad — runs on the same four-part loop:\n\n**Cue → Craving → Response → Reward.**\n\nA cue is anything your brain has linked to the behavior: a time of night, a feeling of stress, being alone with your phone, even boredom itself. The cue triggers a craving — that pull you know well. The response is the behavior. The reward is the payoff: relief, escape, a hit of intensity.\n\nHere's the part that matters: **your brain is doing its job.** It's a learning machine built to notice what delivers a reward fast and to make that path more automatic every time you take it. Porn delivers an unusually strong reward with unusually little effort — endless novelty, zero cost of entry, available in seconds. Your brain didn't get damaged. It got *trained*, by thousands of repetitions, exactly the way it's designed to be trained.\n\nThat reframe changes everything about how we fix it. If this were a character flaw, you'd need to become a different person. But it's a learned loop — and learned loops can be mapped, interrupted, and rewired with new learning. That is precisely what the published treatment research does, and it's what this program does.\n\nTwo honest expectations to set:\n\n1. **The old loop doesn't get deleted.** It gets quieter and weaker as it goes unused, while new responses get stronger. Early on, the pull will still be there. That's not failure — that's the starting condition.\n2. **Automatic behaviors reverse fastest when you catch them early in the loop.** The further the loop runs — cue, then craving, then reaching for the phone — the harder it is to exit. So this whole program leans on catching things *early*, which is why tomorrow we start looking at where your loop actually begins.\n\nFor today, just start noticing: the loop has parts. It has a beginning. And anything with a beginning can be interrupted there.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "Think of the most recent time the loop ran all the way through. What do you think the cue was — what happened, or what were you feeling, right before?"
+            }
+          },
+          "exercise": {
+            "id": "w1d2_ex",
+            "type": "worksheet",
+            "title": "The cost inventory",
+            "steps": [
+              "For each area below, rate how much your porn use has cost you: 0 = nothing, 1 = a little, 2 = noticeable, 3 = a lot.",
+              "For any area you rate 2 or 3, add one honest sentence about what that cost looks like in real life.",
+              "Don't dramatize and don't minimize. Accuracy is the point — this inventory is for you, and nobody else sees it."
+            ],
+            "payload": {
+              "kind": "rated_inventory",
+              "areas": [
+                "Time (hours that went somewhere you didn't choose)",
+                "Energy and focus (work, study, ambition)",
+                "Relationship or dating life",
+                "Sexual function or satisfaction",
+                "Self-respect and mood",
+                "Sleep",
+                "Money or opportunity"
+              ],
+              "scale_max": 3,
+              "note_threshold": 2,
+              "save_to": "cost_inventory"
+            }
+          }
+        },
+        {
+          "day": 3,
+          "lesson": {
+            "id": "w1d3_lesson",
+            "title": "Why willpower keeps losing",
+            "body_md": "If willpower were enough, you'd have solved this years ago. You've probably made late-night promises, deleted things, sworn *never again* — and meant every word. Then the moment came back around and the promise didn't hold.\n\nHere's why that's not a verdict on you.\n\n**Suppression backfires.** Psychologists have a famous demonstration: try hard *not* to think about a white bear, and the white bear is suddenly everywhere. Actively fighting a thought keeps it in the spotlight. When your whole strategy is \"don't think about it, don't want it,\" you're rehearsing the thought all day. It rebounds — usually at night, when you're least defended.\n\n**Your resistance isn't constant.** The moments this behavior happens are almost never your strong moments. They're late at night, or stressed, or lonely, or bored, or tired — often several at once. You're comparing your *strongest* intentions (made at noon, feeling motivated) against your *weakest* moments (11:40pm, drained, phone in hand). That's not a fair fight, and it never will be.\n\n**Decisions wear down.** Every \"no\" you grind out through pure force takes effort. A strategy that requires winning a hundred small battles a day loses eventually — not because you're weak, but because that's true of everyone.\n\nSo what works instead? Three things, and they're the spine of this program:\n\n1. **Change the environment,** so fewer battles start (Week 2).\n2. **Change your relationship with the urge,** so an urge stops being a command you must either obey or wrestle (Week 3).\n3. **Change what your life is aimed at,** so there's something stronger to say yes to (Weeks 4–6).\n\nWillpower still matters — as the thing that gets you to *practice the skills*. It's the ignition, not the engine. Stop blaming yourself for the engine you were never given, and let's build one.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "When is your resistance realistically at its weakest?",
+              "options": [
+                "Late at night",
+                "When I'm stressed or overwhelmed",
+                "When I'm bored with nothing planned",
+                "When I'm lonely or feeling low",
+                "When I'm tired or can't sleep"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w1d3_ex",
+            "type": "worksheet",
+            "title": "The honest half of the ledger",
+            "steps": [
+              "Today you list what porn use *gives* you. Yes, really. Relief? Escape? Excitement? Comfort? Something to do? Help falling asleep?",
+              "List every genuine benefit — be as honest as you were with the costs yesterday.",
+              "Here's why: naming what it does for you isn't endorsing it. Those benefits are real needs. If we don't know what needs it's meeting, we can't build better ways to meet them — and the needs will keep dragging you back."
+            ],
+            "payload": {
+              "kind": "guided_list",
+              "prompt": "What does it actually give you? List everything true.",
+              "suggestions": [
+                "Relief from stress",
+                "Escape from difficult feelings",
+                "Excitement when life feels flat",
+                "Comfort when lonely",
+                "Something to do when bored",
+                "Helps me fall asleep",
+                "A reliable feeling of reward"
+              ],
+              "min_items": 2,
+              "save_to": "benefits_list"
+            }
+          }
+        },
+        {
+          "day": 4,
+          "lesson": {
+            "id": "w1d4_lesson",
+            "title": "What it's really doing for you",
+            "body_md": "Look at the list you made yesterday. Notice something about it?\n\nAlmost nothing on it is actually about sex.\n\nRelief. Escape. Comfort. Stimulation. Sleep. These are the entries people write, and they describe *emotional jobs* — stress management, boredom management, loneliness management. Somewhere along the way, porn became your all-purpose tool for those jobs. It's fast, it's reliable, it never says no. As a coping tool, it's genuinely effective in the moment. That's exactly why it's hard to put down.\n\nThis is one of the most useful reframes in the entire program: **an urge is a need, knocking.** When the pull shows up, something underneath is asking for care — tension that needs release, a feeling that wants escaping, an empty evening that wants filling, a loneliness that wants contact.\n\nThe compulsion isn't the need. It's just the *fastest known answer* to the need. And fast answers crowd out better ones: the workout that actually discharges stress, the conversation that actually touches loneliness, the project that actually cures boredom. Each time the fast answer wins, the better answers get less practice — and life gets a little smaller, which creates more of the very feelings that trigger the loop. That's the real trap: it manufactures its own demand.\n\nThe way out is not to become a person with no needs. It's to give each need a better answer — deliberately, one by one. That's what the Toolkit and Weeks 2–5 are for.\n\nFor now, your only job is diagnostic. Over the next few days, when you feel the pull, silently ask one question: ***\"What is this actually asking for?\"*** Stressed? Bored? Lonely? Tired? Just name it. You're not fighting anything yet. You're learning to read your own signals — and that skill, more than any other, is the foundation everything else stands on.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "Of the needs on your list — stress, escape, boredom, loneliness, sleep, stimulation — which one does porn most often answer for you?"
+            }
+          },
+          "exercise": {
+            "id": "w1d4_ex",
+            "type": "decisional_balance",
+            "title": "The full ledger",
+            "steps": [
+              "Yesterday's benefits list and Day 2's cost inventory come together, side by side. Read both columns slowly.",
+              "Now add one final column: what do you stand to *gain* by changing? Write at least three things in your own words.",
+              "Last step: pick the single line — from any column — that hits you hardest. That line goes on your Emergency Card, and the app will show it to you in the moments you need it most."
+            ],
+            "payload": {
+              "kind": "decisional_balance_compare",
+              "left_source": "benefits_list",
+              "right_source": "cost_inventory",
+              "gain_prompt": "What do you gain by changing? (at least 3)",
+              "hardest_line_prompt": "Which single line hits hardest?",
+              "save_to": "emergency_card_line"
+            }
+          }
+        },
+        {
+          "day": 5,
+          "lesson": {
+            "id": "w1d5_lesson",
+            "title": "What actually works",
+            "body_md": "You've been sold a lot of fixes for this problem — cold showers, magic supplements, pure grit, 90-day miracle timelines. Here's what the published clinical research actually supports, because it's what this program is built from.\n\nControlled studies on reducing problematic pornography use converge on four approaches, usually combined:\n\n**1. CBT — see the pattern.** Cognitive-behavioral therapy maps your personal loop — cues, thoughts, situations — and then re-engineers it: changing the environment, breaking the chain early, planning ahead for known risks. That's your Week 2.\n\n**2. Mindfulness — outlast the urge.** Urges rise, peak, and pass on their own, usually within minutes, *if you don't feed them*. Mindfulness training — especially a skill called urge surfing — teaches you to ride that wave instead of being knocked over by it. Week 3.\n\n**3. ACT — stop the tug-of-war.** Acceptance and Commitment Therapy delivered meaningful improvements in randomized trials of exactly this problem. Its insight: fighting your urges head-on is a rope you can't win pulling. ACT teaches you to *drop the rope* — let the urge be there, un-obeyed — and put your energy into acting on your values instead. Weeks 3 and 4.\n\n**4. Motivational work — keep the engine running.** Change sticks when it's driven by your own reasons, revisited often. That's why this week keeps asking about *your* why — it's not filler, it's the fuel line.\n\nTwo more research-backed truths to carry with you:\n\n**Progress is measured in trend, not perfection.** Your re-assessment score every two weeks is the real scoreboard.\n\n**Lapses are part of most successful recoveries.** People who ultimately get free usually stumble on the way. What separates them isn't never falling — it's what they do in the hour after. Tomorrow's lesson is entirely about that hour, and it might be the most important one this week.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Which of the four sounds most useful for you right now?",
+              "options": [
+                "Seeing and re-engineering my pattern (CBT)",
+                "Learning to outlast urges (mindfulness)",
+                "Dropping the internal tug-of-war (ACT)",
+                "Keeping my motivation alive (MI)"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w1d5_ex",
+            "type": "worksheet",
+            "title": "The readiness ruler",
+            "steps": [
+              "Two sliders, zero to ten. First: how *important* is making this change to you right now?",
+              "Second: how *confident* are you that you can do it?",
+              "Now the question that matters: whatever numbers you chose — why aren't they lower? Write your answer. (Notice what just happened: you argued for your own change. That's the voice we're going to keep feeding.)",
+              "Finally: what's one thing that would move your confidence up by a single point?"
+            ],
+            "payload": {
+              "kind": "dual_slider_write",
+              "sliders": [
+                { "label": "Importance", "min": 0, "max": 10 },
+                { "label": "Confidence", "min": 0, "max": 10 }
+              ],
+              "write_prompts": [
+                "Why isn't your number lower?",
+                "What would move confidence up one point?"
+              ],
+              "save_to": "readiness_ruler"
+            }
+          }
+        },
+        {
+          "day": 6,
+          "lesson": {
+            "id": "w1d6_lesson",
+            "title": "The lapse trap — read this before you need it",
+            "body_md": "We need to talk about something before it happens, because the plan you make *now* decides what it costs you *then*.\n\nAt some point in recovery, most people slip. Not everyone — but most. If it happens, the slip itself is rarely what does the damage. The damage comes from what researchers call the **abstinence violation effect**, and it works like this:\n\nYou slip. Then the story starts: *\"I blew it. I knew I couldn't do this. I'm back to zero. I'm just like this.\"* That story produces a wave of shame. And what have you learned is your fastest, most reliable escape from painful feelings? Exactly. So the shame about the behavior drives *more of the behavior* — often within hours — and one slip snowballs into a lost weekend. **The spiral isn't caused by the lapse. It's caused by the story about the lapse.**\n\nHere's how this program breaks that machine:\n\n**A lapse is a data point, not a verdict.** One slip after two weeks of new patterns is not \"back to zero\" — the lessons learned, the urges outlasted, the awareness built: none of that un-happens. Your progress lives in your re-assessment score and your skills, and one bad night doesn't erase either.\n\n**The move is a debrief, not a punishment.** If it happens, the app will ask you four short questions: what was happening before, what you were feeling, where the plan broke, and what to change. Five minutes, done with the same tone a good coach reviews game film — no yelling, just information. Every lapse you debrief makes your plan smarter. Every lapse you *hide from* makes the spiral stronger.\n\n**Self-compassion is strategy, not softness.** In study after study, people who respond to their own failures with steadiness recover faster than people who self-punish. Shame is fuel for this problem. Refusing to shame yourself isn't letting yourself off the hook — it's cutting the fuel line.\n\nYou now know the trap. Tomorrow, we put your commitment in writing — with this clause built in.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "Be honest: in the past, how have you treated yourself after a slip — and what did that lead to next?"
+            }
+          },
+          "exercise": {
+            "id": "w1d6_ex",
+            "type": "worksheet",
+            "title": "A letter to the version of you who slipped",
+            "steps": [
+              "Write three or four sentences to yourself, to be read in the hour after a slip — the moment the shame story usually starts.",
+              "Write it the way you'd talk to a close friend in the same spot: honest, steady, no contempt. Remind them what's still true, and what the next right move is.",
+              "The app saves this to your Emergency Card. If you ever log a lapse, these are the first words you'll see — your own."
+            ],
+            "payload": {
+              "kind": "letter_write",
+              "prompt": "To me, in the hour after a slip:",
+              "min_chars": 100,
+              "save_to": "lapse_letter"
+            }
+          }
+        },
+        {
+          "day": 7,
+          "lesson": {
+            "id": "w1d7_lesson",
+            "title": "Your commitment — the kind that bends without breaking",
+            "body_md": "You've done the groundwork this week. You know the loop, you know your costs, you know what the habit's been doing for you, you know what works, and you know the trap that catches most people. One thing left: deciding, in writing, what you're committing to.\n\nBut first, let's kill the kind of commitment that fails.\n\nThe midnight vow — *\"NEVER again, starting NOW, forever\"* — feels powerful and breaks on contact with reality. It's rigid, so the first crack shatters it. It's built entirely on the feeling of the moment it was made. And it commits you to an *outcome* you don't fully control yet, using skills you haven't built yet. You've made that vow before. You know its lifespan.\n\nWhat holds up instead is a **values-based commitment to practice**. It sounds like this: *\"Because of what I want my life to be, I commit to showing up and doing the work — daily practice, honest logging, using my tools when urges come, and debriefing instead of spiraling if I slip.\"*\n\nSee the difference? It's aimed at what you're *for*, not just what you're against. It commits to actions that are 100% in your control today. And it has the lapse clause built in — it's a commitment that can take a hit and keep standing, which is the only kind that survives six weeks of real life.\n\nToday's exercise assembles your statement from your own words — your why from Day 1, the line that hit hardest from Day 4, your letter from yesterday. You'll edit it until it sounds like you, and then you'll sign it.\n\nOne more thing about that signature. It's not a promise to be perfect. It's a promise to *stay in the process* — to keep showing up on the good days and, especially, on the bad ones. That is the entire ask. Everything else, the program will teach you.\n\nWeek 2 starts tomorrow: we map your personal pattern and start re-engineering your environment. The real work begins. Sign your name, and let's go.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Ready to sign?",
+              "options": [
+                "Ready",
+                "Nervous, but ready",
+                "I want to re-read this week first"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w1d7_ex",
+            "type": "worksheet",
+            "title": "Sign your commitment",
+            "steps": [
+              "Read the draft statement below — it's assembled from your own words this week.",
+              "Edit anything that doesn't sound like you. It should read like something you'd actually say.",
+              "Sign with your name. Your statement gets pinned where you'll see it, and joins your Emergency Card."
+            ],
+            "payload": {
+              "kind": "commitment_builder",
+              "template": "Because {anchor_why_summary}, I'm committing to this program: daily practice, honest check-ins, reaching for my tools when urges come — and if I slip, a debrief instead of a spiral. I'm not promising perfection. I'm promising to stay in the process.\n\nWhat's at stake for me: {emergency_card_line}",
+              "inputs": ["anchor_why", "emergency_card_line", "lapse_letter"],
+              "signature_required": true,
+              "save_to": "commitment_statement",
+              "pin_to_today": true
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "checkin_prompts": [
+    "What was the strongest feeling you had today, and what did you do with it?",
+    "Did an urge show up today? What was it actually asking for?",
+    "What's one moment today you're quietly proud of?",
+    "What drained you most today?",
+    "If tonight gets hard, what's your plan for the next hour?",
+    "What did you do today that your six-months-from-now self would thank you for?",
+    "Rate today's stress 1-10. What was the biggest source?",
+    "Who did you actually connect with today, even briefly?",
+    "What's one thing you noticed about your pattern today?",
+    "What are you looking forward to tomorrow — anything at all?"
+  ]
+}
