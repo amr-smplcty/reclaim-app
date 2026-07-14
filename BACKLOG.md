@@ -1,0 +1,57 @@
+# BACKLOG.md — Deferred items (fine as-is now, must be addressed later)
+
+> Running list maintained across epics. Items get a status, a source, and a "due before" gate.
+> Gates: **E3** = during Epic 3 · **TF** = before TestFlight · **L** = before public launch · **P** = post-launch polish.
+
+## 🔴 Launch-critical (hard blockers at their gate)
+
+| # | Item | Source | Gate |
+|---|------|--------|------|
+| 1 | Replace hardcoded `HAS_PRO_ENTITLEMENT = true` with real RevenueCat entitlement check — must not survive into any build that reaches other humans | Epic 5 report | E3 / TF |
+| 2 | Attorney review of legal/tou.md + legal/privacy.md (both marked DRAFT); tailor arbitration + state notices; confirm DBA/trade-name need for "Reclaim"/"Smplcty Analytics" under Simplifico LLC | Epic 2b / LEGAL_COMPLIANCE §4–8 | L |
+| 3 | Clinician review batch (CLINICAL_SPEC §8): Weeks 1–6 lesson/exercise copy, Urge Surf script, lapse-debrief emotion chips, urge trigger chips, onboarding intake options, crisis_patterns.json expansion | Epics 2/4/5 reports | L |
+| 4 | Record (or TTS-generate) the Urge Surf guided audio from the authored narration script; wire into toolkit.urge_surf.audio_url | Epic 5 TODO(content) | L |
+| 5 | Bundle ID + app icon are placeholders — confirm com.smplctyanalytics.reclaim (or change) and add real icon/splash before any EAS build | Epic 1 report | TF |
+| 6 | Apple Developer organization enrollment as Simplifico LLC (pending D-U-N-S) → unblocks Epic 3, TestFlight | Business track | E3 |
+
+## 🟡 Engineering debt (correct behavior exists; wiring or robustness pending)
+
+| # | Item | Source | Gate |
+|---|------|--------|------|
+| 7 | Email/OTP sign-in path: legal acceptance stored locally but not remote-synced until session exists — close when real session/deep-link handling is built | Epic 2b report | TF |
+| 8 | legal/*.md and src/lib/legal/content.ts are hand-duplicated — automate sync or add a CI check that they match (critical once attorney edits land) | Epic 2b report | L |
+| 9 | Supabase project credentials in .env (if not yet created) + first real auth/sync test end-to-end | Setup step | TF |
+| 10 | Content currently bundled at build time; move to Supabase-served content packs + offline cache (MMKV) once hot-updating matters | Epic 4 report | P |
+| 11 | Evening check-in is lightweight (rotating prompt + free text); reconcile with full mood/urge-count check-in data model in Epic 6 | Epic 4 report | Epic 6 |
+| 12 | Decisional-balance "hardest line" saved as plain string; revisit if Journal needs provenance/structure | Epic 4 report | Epic 6 |
+| 13 | 10-Minute Shift: add dev-build-only fast-timer toggle (15s) for manual testing of full flow incl. escalation; impossible to trigger in production | Epic 5 review | TF |
+| 14 | 10-Minute Shift shift-list: reconcile in-tool builder with Week 2 Day 6 exercise save (`shift_list` key) — in-tool builder becomes fallback for pre-Week-2 users; both write the same key | Epic 5 report / Week 2 pack | next epic |
+| 15 | Native modules (MMKV, RevenueCat, Skia/victory-native) installed but unwired — require EAS dev client from Epic 3 onward | Epic 1 report | E3 |
+| 16 | End-of-content messaging: Today shows "more content coming soon" past latest week — update as Weeks 2–6 land; final state = maintenance mode per CLINICAL_SPEC §4 | Epic 4 report | L |
+
+## 🟢 UX polish (works, but rough)
+
+| # | Item | Source | Gate |
+|---|------|--------|------|
+| 17 | Age input is plain DD/MM/YYYY text fields — replace with native date picker when a dev client exists | Epic 2 report | TF/P |
+| 18 | Manually run the real 10-minute Shift timer to completion once on device (founder QA) | Epic 5 review | TF |
+| 19 | Full manual QA pass of Week 1 content threading on device (D2/D3 → D4; D1/D4/D6 → D7 commitment; crisis guard; relaunch-resume) | Epic 4 review | ongoing |
+
+## 🔵 Business track (not code)
+
+| # | Item | Source | Gate |
+|---|------|--------|------|
+| 20 | RevenueCat account creation (company email) + project setup, so Epic 3 starts instantly when Apple clears | Wait-time plan | E3 |
+| 21 | Name check: App Store search for "Reclaim" in health/wellness, domain availability, USPTO trademark search — before brand hardens | Wait-time plan | L |
+| 22 | Clinician recruitment (licensed, behavioral-addiction familiar, $300–500 review) — lead time now, review after Week 6 content exists | Wait-time plan | L |
+| 23 | Attorney shortlist (2–3 app/health-tech lawyers) — engage when legal drafts final | Wait-time plan | L |
+| 24 | Substantiation folder: PDFs of every cited study + claims-to-source mapping sheet | LEGAL_COMPLIANCE §8 | L |
+| 25 | Tech E&O / general liability insurance quotes | LEGAL_COMPLIANCE §8 | post-revenue |
+
+## ✅ Resolved (kept for the record)
+
+| Item | Resolved by |
+|------|-------------|
+| Supabase client crashed at import with no .env | Fixed in Epic 2b run |
+| Banned-words lint false positive on CBT/ACT proper nouns | Lint allowlist + LEGAL_COMPLIANCE §2.1 exception codified |
+| PPCS-6 component tags mismatched item order | Remapped in PPCS-6 fill task |

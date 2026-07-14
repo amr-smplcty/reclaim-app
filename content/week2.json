@@ -1,0 +1,339 @@
+{
+  "content_version": "1.2.0",
+  "notes_for_engineering": "Week 2 pack + authored Urge Surf script (replaces the interim Epic 5 text beats; see toolkit_scripts.urge_surf). New exercise payload kinds introduced this week: chain_builder, checklist_commit, if_then_builder, profile_builder — all are steps+prompts structures and render acceptably via the Epic 4 sequential-worksheet fallback; native implementations can be a small task in the next epic. CRITICAL: Day 6's exercise saves to key 'shift_list' — this is the same key the 10-Minute Shift tool reads (BACKLOG #14): the in-tool builder becomes a fallback for users who haven't reached W2D6, both write the same key, and W2D6 pre-fills from any existing in-tool list rather than overwriting. All copy is clinician-review-pending; do not edit wording in code.",
+  "modules": [
+    {
+      "week": 2,
+      "title": "Know Your Pattern",
+      "days": [
+        {
+          "day": 1,
+          "lesson": {
+            "id": "w2d1_lesson",
+            "title": "Where it starts (it's not where you think)",
+            "body_md": "Ask most people when an episode started and they'll name the moment they opened a site. But by then, the ending was mostly written. The real start was earlier — sometimes an hour earlier — at a **trigger**: the cue that set your loop in motion.\n\nThis week you become an expert on your own pattern. Not because insight alone fixes anything, but because you cannot interrupt what you cannot see coming. Every tool you build from here on gets aimed by what you learn in the next seven days.\n\nToday: the **outside layer** — external triggers. These are conditions in the world that your brain has linked to the behavior through repetition:\n\n**Time.** For most people there's a witching hour — very often late night, when defenses are lowest. You identified yours in Week 1.\n\n**Place.** In bed. Bathroom. Home alone. A hotel room. The body knows what it has done in a place before.\n\n**Device state.** Phone in hand, in private, no one around, nothing scheduled. For many people the *phone in bed* is less a trigger than a loaded starting pistol.\n\n**Situations.** Aimless scrolling. Working late. A free afternoon with no plans. Even *finishing* something — the little void after a task ends.\n\nHere's the encouraging part: external triggers are the most fixable part of this entire problem. You can't delete stress from your life, but you can absolutely change where your phone sleeps at night. That's coming on Day 4.\n\nFor now, just map honestly. When you fill in today's exercise, think like a detective reconstructing scenes: not *why* it happens — just **when, where, and under what conditions**. Patterns you've never said out loud will be obvious within minutes of writing them down.\n\nAnd keep logging every urge in the Toolkit this week, even ones you handle easily. Each log is a data point that sharpens the map.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Which outside condition shows up most in your episodes?",
+              "options": [
+                "A time of day (usually late)",
+                "A place (bed, bathroom, home alone)",
+                "Phone in hand with privacy",
+                "Aimless scrolling that drifts",
+                "Empty, unplanned stretches of time"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w2d1_ex",
+            "type": "worksheet",
+            "title": "Trigger map — the outside layer",
+            "steps": [
+              "Select every external condition that has been part of your episodes. Be thorough — more selected is more useful, not more shameful.",
+              "Now write your single most dangerous combination in one sentence (for example: 'Alone at home, late, phone in bed, nothing planned tomorrow morning.').",
+              "This becomes the first layer of your Pattern Profile on Day 7."
+            ],
+            "payload": {
+              "kind": "multi_select_write",
+              "select_options": [
+                "Late at night",
+                "In bed with my phone",
+                "Home alone",
+                "Bathroom with phone",
+                "Aimless scrolling / social media drift",
+                "Weekend or free afternoons with no plans",
+                "Working late / procrastinating on something hard",
+                "Traveling or staying somewhere alone",
+                "Right after finishing a task or obligation"
+              ],
+              "select_count": 0,
+              "write_prompt": "My most dangerous combination is:",
+              "save_to": "trigger_map_external"
+            }
+          }
+        },
+        {
+          "day": 2,
+          "lesson": {
+            "id": "w2d2_lesson",
+            "title": "The inside layer",
+            "body_md": "Yesterday was the world outside. Today is the layer that actually powers the loop: **internal triggers** — the feelings that come knocking before the urge does.\n\nIn Week 1 you discovered that your use has been doing emotional jobs: relieving stress, escaping discomfort, filling boredom, soothing loneliness. Flip that around and you get a precise prediction: **the feelings you've been medicating are your triggers.** When one of them rises, the urge follows like thunder after lightning.\n\nThe classic checklist from recovery research is **HALT**: Hungry, Angry, Lonely, Tired. Any of those four states drains your resistance and raises the volume on urges. To those, most people with this pattern add a few of their own: **stress** (deadline pressure, money worry, conflict), **boredom** (the restless, under-stimulated flatness), **anxiety** (the buzzing kind that wants an off switch), **rejection or failure** (after a bad interaction, a criticism, a defeat), and — this one surprises people — **feeling low about the habit itself**, which is the shame loop you learned about on Day 6 of Week 1.\n\nHere's the skill that makes this layer workable, and it's backed by a lovely finding from emotion research: **naming a feeling reduces its grip.** The simple act of labeling — *\"that's loneliness\"*, *\"that's deadline stress\"* — engages the reflective part of you and turns the volume down a notch. Psychologists call it affect labeling; you can call it *name it to tame it*.\n\nSo this week, when an urge arrives, your move is one silent question — the one you practiced in Week 1: ***\"What is this actually asking for?\"*** — followed by a name. Not fighting, not obeying. Just: *\"Noted. That's boredom.\"*\n\nToday's exercise maps your inside layer. Tomorrow, we connect the two layers into the chain that runs the whole show.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "Which feeling most reliably shows up before your urges — and how early do you usually notice it?"
+            }
+          },
+          "exercise": {
+            "id": "w2d2_ex",
+            "type": "worksheet",
+            "title": "Trigger map — the inside layer",
+            "steps": [
+              "Select every internal state that has preceded your episodes.",
+              "Pick the strongest one and write two or three sentences: how does it usually show up, and what time of day does it tend to arrive?",
+              "Layer two of your Pattern Profile — saved."
+            ],
+            "payload": {
+              "kind": "multi_select_write",
+              "select_options": [
+                "Stress or pressure",
+                "Boredom / restless flatness",
+                "Loneliness",
+                "Anxiety or worry",
+                "Tiredness / can't sleep",
+                "Anger or frustration",
+                "Rejection, failure, or criticism",
+                "Feeling down about the habit itself",
+                "Hunger or general depletion"
+              ],
+              "select_count": 0,
+              "write_prompt": "My strongest internal trigger, and how it shows up:",
+              "save_to": "trigger_map_internal"
+            }
+          }
+        },
+        {
+          "day": 3,
+          "lesson": {
+            "id": "w2d3_lesson",
+            "title": "The chain",
+            "body_md": "No episode happens in one step. It happens in a **chain of small links** — and each link, on its own, looks completely innocent.\n\nA classic chain: long stressful day *(internal trigger)* → flop on bed with phone *(external trigger)* → \"just checking\" social media → twenty minutes of drift → an image that's not quite porn but points that way → \"I'll just look for a minute\" → episode. Six links. And notice: at link three, nothing *looked* like it was happening. That's the trap. Relapse research even has a name for those early moves — **seemingly irrelevant decisions**. Taking the phone to bed isn't watching porn. It's just… taking the phone to bed. Except on your chain, it's link two of six.\n\nTwo properties of chains change everything about strategy:\n\n**1. Chains are easiest to break early.** At link two, stepping away costs almost nothing — the urge barely exists yet. By link five, you're fighting the full current. Same chain, wildly different difficulty. This is why your trigger maps matter: they let you spot link one and two, where exits are cheap.\n\n**2. Chains are surprisingly consistent.** Most people don't have twenty different chains — they have one or two favorites that run on rails. Map your main chain once, and you've mapped most of your future episodes.\n\nToday's exercise is the centerpiece of the week: you'll reconstruct your most recent episode **backwards**, link by link — starting from the episode and asking *\"and what happened right before that?\"* until you reach the innocent-looking beginning. Then you'll mark the **weakest link**: the earliest point where stepping out would have been easy.\n\nThat weakest link is gold. It's where your if-then plans (Day 5) and your environment changes (tomorrow) will aim.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Honestly — at which point do you usually first notice the chain is running?",
+              "options": [
+                "Right at the start — I see it coming",
+                "Somewhere in the middle drift",
+                "Only at the last link, when it feels too late",
+                "Usually only afterwards, looking back"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w2d3_ex",
+            "type": "worksheet",
+            "title": "Rebuild the chain",
+            "steps": [
+              "Bring to mind your most recent episode. No judgment — you're a detective, and this is evidence.",
+              "Start at the episode and work backwards. What happened right before? And before that? Write each link — aim for four to six, back to an innocent-looking beginning.",
+              "Now mark the weakest link: the earliest moment where stepping out would have cost you almost nothing.",
+              "Optional but powerful: repeat for one more episode and notice how much the two chains rhyme."
+            ],
+            "payload": {
+              "kind": "chain_builder",
+              "link_prompt": "…and what happened right before that?",
+              "min_links": 4,
+              "max_links": 8,
+              "weakest_link_prompt": "My weakest link — the cheapest early exit — was:",
+              "save_to": "chain_analysis"
+            }
+          }
+        },
+        {
+          "day": 4,
+          "lesson": {
+            "id": "w2d4_lesson",
+            "title": "Design beats discipline",
+            "body_md": "In Week 1 you learned why willpower keeps losing: it's a fair-weather resource being asked to win battles at your weakest moments. Today you learn the move that makes most of those battles never start: **friction**.\n\nHere's the principle. Urges are impulsive and impatient — they want the fast, easy path *right now*. Behavior research shows something almost comically powerful: **small obstacles collapse impulsive behavior.** Not because the obstacle is hard to overcome — you could always fetch the phone from the kitchen — but because those thirty seconds of effort create a gap, and in the gap, the reflective you gets a vote. The chain needs smoothness to run. Friction breaks the rails.\n\nThis cuts both ways, and both directions matter:\n\n**Add friction to the old path.** Phone charges outside the bedroom. Screen-time passcode held by inconvenience (a code you have to get up to retrieve). No devices in the bathroom. Autoplay and infinite-scroll apps off the home screen. Each one targets a link in *your* chain from yesterday.\n\n**Remove friction from the new path.** Your book on the pillow. Running shoes by the door. The Toolkit one tap away. If the shift is easier to start than the slip, the shift starts winning.\n\nTwo honest notes. First, **friction is not a fortress.** A determined person defeats any blocker — that's not the point. The point is that most episodes aren't determined; they're *drift*. Friction beats drift almost every time. Second, expect a strange resistance to making these changes — part of you will argue that moving the charger is unnecessary, silly, overkill. Notice that voice. Ask whose side it's on.\n\nToday's exercise audits your environment against your actual chain and commits you to **three concrete changes**. Not ten — three, done tonight.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Which single change would break your chain earliest?",
+              "options": [
+                "Phone sleeps outside the bedroom",
+                "No phone in the bathroom",
+                "Blocker/passcode with real friction",
+                "Killing the aimless-scroll apps at night",
+                "A planned activity in my risky window"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w2d4_ex",
+            "type": "worksheet",
+            "title": "Environment audit — three changes tonight",
+            "steps": [
+              "Go through the audit list and mark what's true of your current setup.",
+              "Look back at your chain from yesterday. Choose the three changes that hit your earliest links.",
+              "Commit to doing all three tonight — physically, before you sleep. The app will ask you tomorrow whether they're done."
+            ],
+            "payload": {
+              "kind": "checklist_commit",
+              "audit_items": [
+                "My phone charges in the bedroom / within arm's reach of bed",
+                "I take my phone into the bathroom",
+                "No content blocker, or one I can bypass in seconds",
+                "Infinite-scroll apps sit on my home screen",
+                "My risky window (late night / free afternoon) has nothing planned in it",
+                "I browse in private mode out of habit",
+                "My devices are unsupervised for long stretches at my risky times"
+              ],
+              "commit_prompt": "My three changes, happening tonight:",
+              "commit_count": 3,
+              "followup_next_day": true,
+              "save_to": "environment_changes"
+            }
+          }
+        },
+        {
+          "day": 5,
+          "lesson": {
+            "id": "w2d5_lesson",
+            "title": "If-then: decide now, not at 11pm",
+            "body_md": "Every plan you've ever made to handle an urge had a fatal flaw: it required you to *make a decision* at the worst possible moment — tired, triggered, half-persuaded already. Today's skill removes the decision entirely.\n\nIt's called an **implementation intention**, and it's one of the most-studied tools in all of behavior science. The format is almost embarrassingly simple:\n\n**\"If [my trigger situation], then I will [specific action].\"**\n\n*If it's 10:30pm and I'm reaching for my phone in bed, then I plug it in across the room and pick up my book.*\n*If I notice deadline stress building, then I do the 90-second breather before I open anything.*\n*If I catch myself in a scroll-drift, then I stand up and open the 10-Minute Shift.*\n\nWhy does something so simple work? Because it moves the decision from your weakest moment to your strongest one — from 11pm-you to right-now-you. A meta-analysis covering nearly a hundred studies found if-then planning produces a meaningful boost to follow-through across almost every behavior tested, precisely because the response becomes semi-automatic: the situation itself fires the plan, no deliberation required, no negotiation window for the urge to exploit. You're not deciding in the moment. You already decided.\n\nThree rules for if-then plans that actually fire:\n\n1. **The \"if\" must be specific and detectable.** \"If I'm stressed\" is fog; \"if I notice I've been scrolling in bed more than five minutes\" is a tripwire.\n2. **The \"then\" must be one concrete, immediate action** — not \"be strong,\" but \"stand up and start the breather.\"\n3. **Anchor them to YOUR chain.** Your weakest link from Day 3 and your top triggers from Days 1–2 are exactly where the tripwires belong.\n\nToday you write three. They join your Pattern Profile — and this week, when a trigger hits, you'll get to watch a decision you already made execute itself.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "Write your strongest if-then in one line — the one aimed at your weakest link."
+            }
+          },
+          "exercise": {
+            "id": "w2d5_ex",
+            "type": "worksheet",
+            "title": "Three tripwires",
+            "steps": [
+              "Build three if-then plans. For each: pick the trigger situation (your maps and chain are shown for reference), then attach one concrete, immediate action.",
+              "At least one 'then' should be a Toolkit tool (breather, 10-Minute Shift, or Urge Surf) — so the tool becomes the trained reflex.",
+              "Read each one out loud once. Research quirk that helps: plans rehearsed verbatim fire more reliably."
+            ],
+            "payload": {
+              "kind": "if_then_builder",
+              "plan_count": 3,
+              "reference_sources": ["trigger_map_external", "trigger_map_internal", "chain_analysis"],
+              "then_suggestions": [
+                "Plug phone in across the room and pick up my book",
+                "Stand up and start the 10-Minute Shift",
+                "Do the 90-second breather before opening anything",
+                "Leave the room and drink a glass of water",
+                "Text or call someone on my shift list",
+                "Open the Toolkit and log the urge"
+              ],
+              "save_to": "if_then_plans"
+            }
+          }
+        },
+        {
+          "day": 6,
+          "lesson": {
+            "id": "w2d6_lesson",
+            "title": "Give the urge somewhere to go",
+            "body_md": "There's a reason \"just stop\" has never worked as a strategy: **you can't delete a habit — you can only redirect it.** The cue will keep firing and the energy will keep arriving; the only real question is where it goes when it does. If the answer is \"nowhere,\" the old path wins by default, because it's the only road on the map.\n\nSo today you build the new roads: your **Shift List** — the menu of things you actually do when an urge or a risky window arrives. This list powers the 10-Minute Shift tool in your Toolkit: from now on, when you open it, these are the options it hands you.\n\nWhat makes a shift *work*? Four criteria, learned the hard way by everyone who ever wrote \"go to the gym\" on a list at midnight:\n\n1. **Immediate.** Startable in under two minutes, from wherever your urges actually find you. \"Plan a hike\" fails; \"walk around the block right now\" passes.\n2. **Actually available at your risky time.** Your list needs late-night entries if you're a late-night person. Be brutally realistic about 11pm-you.\n3. **At least one physical.** Movement is the fastest state-changer we know — pushups, a walk, a shower, cold water on the face. When the urge lives in your body, answer in the body's language.\n4. **At least one connecting.** A text to a friend, a call, even a message into a group chat. Urges thrive in isolation; contact is kryptonite. It doesn't need to be *about* the urge — it just needs to be human.\n\nAnd a fifth, unofficial criterion: **at least one thing you genuinely like.** This list can't be all vegetables. If chess puzzles, a guitar riff, or a favorite show genuinely absorbs you for ten minutes, it belongs here. The shift isn't punishment — it's proof that the urge passes while you're busy living.\n\nBuild at least five today. Tomorrow, everything from this week assembles into your Pattern Profile — the one-page map of how your loop runs and exactly where you now break it.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Which shift is most realistic for YOUR risky window?",
+              "options": [
+                "Something physical (walk, pushups, shower)",
+                "Reaching out to a person",
+                "An absorbing hobby or game",
+                "Changing rooms + water + music",
+                "A wind-down routine that ends with sleep"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w2d6_ex",
+            "type": "guided_list",
+            "title": "My Shift List",
+            "steps": [
+              "Build your list: at least five shifts, each startable in under two minutes at your actual risky times.",
+              "Include at least one physical and at least one connecting entry. And at least one thing you genuinely enjoy.",
+              "This list goes live in your Toolkit's 10-Minute Shift immediately — these are now the options it offers you."
+            ],
+            "payload": {
+              "kind": "guided_list",
+              "prompt": "When the urge or the risky window arrives, I can immediately:",
+              "suggestions": [
+                "Walk around the block (no phone)",
+                "20 pushups or a 2-minute stretch",
+                "Hot shower or cold water on my face",
+                "Text a friend — about anything",
+                "Make tea and put on one specific album",
+                "10 minutes of a game or puzzle I like",
+                "Tidy one small area (weirdly effective)",
+                "Step outside, regardless of weather"
+              ],
+              "min_items": 5,
+              "requirements_note": "At least one physical, one connecting, one enjoyable.",
+              "save_to": "shift_list",
+              "merge_with_existing": true
+            }
+          }
+        },
+        {
+          "day": 7,
+          "lesson": {
+            "id": "w2d7_lesson",
+            "title": "Your pattern, on paper",
+            "body_md": "Two weeks ago, this problem probably felt like weather — something that just *happened* to you, unpredictable and overwhelming. Look at what you've built since: a map of exactly when and where it starts, the feelings that fuel it, the chain it runs on, the weakest link in that chain, three tripwires aimed at it, a re-engineered environment, and a menu of places for the energy to go instead.\n\nThat's not weather anymore. That's a **pattern** — and a pattern you can see coming is a pattern you can step out of.\n\nToday everything assembles into your **Pattern Profile**: a one-page summary the app compiles from this week's work. It reads like a scouting report on your own loop — *here's how it ambushes me, here's where I exit* — and it lives in your Progress tab and feeds your Emergency Card, so the most important intelligence you own is always one tap away.\n\nA few truths to carry out of this week:\n\n**The map will keep improving.** Every urge you log, every debrief you complete adds detail. Expect to discover a trigger next month that you can't see today. That's the system working.\n\n**Seeing the pattern already weakens it.** An automatic behavior depends on running *unobserved* — in the drift, in the fog. You've turned the lights on. Many people notice the loop stumbling this week for that reason alone; if you've felt that, it's real, and it compounds.\n\n**But awareness isn't the whole fight.** Some urges will still arrive at full strength no matter how well you've mapped them — usually at your weakest moments, because that's their specialty. Which is exactly what next week is for: **Week 3 teaches you what to do inside the urge itself** — how to ride it, defuse it, and outlast it without white-knuckling.\n\nAssemble your profile, look it over, and take a second to respect the work. You know your opponent's playbook now. Next week, you learn to win the live rounds.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "After mapping your pattern this week, how does the problem feel?",
+              "options": [
+                "Clearer — I can see the shape of it now",
+                "More manageable than I expected",
+                "Bigger than I realized, but at least visible",
+                "About the same — hoping Week 3 lands harder"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w2d7_ex",
+            "type": "worksheet",
+            "title": "Assemble your Pattern Profile",
+            "steps": [
+              "Review the draft profile below — it's compiled from your week: outside triggers, inside triggers, your chain and its weakest link, your three if-then plans, your environment changes, and your shift list.",
+              "Edit anything that reads wrong. This is a working document, not a diploma.",
+              "Save it. It lives in Progress, feeds your Emergency Card, and gets smarter with every urge you log."
+            ],
+            "payload": {
+              "kind": "profile_builder",
+              "sections": [
+                {"title": "My risky conditions", "source": "trigger_map_external"},
+                {"title": "My fuel (inside triggers)", "source": "trigger_map_internal"},
+                {"title": "My chain & weakest link", "source": "chain_analysis"},
+                {"title": "My tripwires (if-then)", "source": "if_then_plans"},
+                {"title": "My environment changes", "source": "environment_changes"},
+                {"title": "My shift list", "source": "shift_list"}
+              ],
+              "save_to": "pattern_profile",
+              "surface_in": ["progress_tab", "emergency_card"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "toolkit_scripts": {
+    "urge_surf": {
+      "duration_seconds": 180,
+      "note": "Authored per CLINICAL_SPEC §5.2. Replaces the interim Epic 5 text beats. on_screen_beats drive the current text-based experience; narration_script is the verbatim script for the future recorded/TTS audio (BACKLOG #4). Clinician review pending.",
+      "on_screen_beats": [
+        {"at_seconds": 0, "text": "You're here. Good move. Nothing to fight — we're just going to watch this one together."},
+        {"at_seconds": 15, "text": "Find the urge in your body. Chest? Stomach? Skin? Just locate it."},
+        {"at_seconds": 35, "text": "Describe it to yourself like a scientist: tight… warm… buzzing… pulling. Just sensation."},
+        {"at_seconds": 60, "text": "Breathe into that exact spot. Slow in… slow out. You're not pushing it away — you're making room."},
+        {"at_seconds": 90, "text": "Picture it as a wave. It rose. It's cresting. No wave stays at its peak."},
+        {"at_seconds": 120, "text": "Keep breathing. You're not the wave — you're the water it moves through."},
+        {"at_seconds": 145, "text": "Bring one of your reasons to mind. That's who you're doing this for."},
+        {"at_seconds": 165, "text": "It's passing. Now choose your next ten minutes — on purpose."}
+      ],
+      "narration_script": "Alright. You're here — and that, right there, was the hardest step. You don't have to fight anything for the next three minutes. We're just going to watch this urge together, and let it do what every urge eventually does.\n\nStart by finding it in your body. Urges aren't just thoughts — they live somewhere physical. Chest? Stomach? Your skin, your hands, behind your eyes? Take a moment… and just locate it.\n\nNow describe it to yourself the way a scientist would. Not 'bad,' not 'unbearable' — just sensation. Is it tight? Warm? Buzzing? A pulling feeling? Notice its edges. Notice if it moves. You're not judging it. You're observing it.\n\nGood. Now breathe into that exact spot. A slow breath in… and a long, slow breath out. Again — in… and out. You're not pushing the feeling away. You're doing something braver: making room for it, without obeying it.\n\nHere's the truth about what you're feeling: it's a wave. It rose — that's why you're here. Right now it may be cresting, and cresting feels loud. But no wave stays at its peak. Not one, ever, in the history of waves. Its only options are to crest… and to pass.\n\nKeep breathing with it. You are not the wave. You're the water it's moving through — and water is always still there, calm underneath, after every wave has gone.\n\nNow, gently, bring to mind one of your reasons. The person, the future, the self-respect you wrote about. Hold it for a breath. That's who you're riding this out for.\n\nFeel that? It's already losing its grip. You did that — not by winning a fight, but by refusing to have one.\n\nLast step, and it matters: choose your next ten minutes on purpose. Stand up, change rooms, start a shift from your list. The urge came, the urge crested, and you're still here. That's called proof."
+    }
+  },
+  "checkin_prompts_additions": [
+    "Did any of your if-then plans fire today? What happened?",
+    "Which link of your chain showed up today, and how early did you spot it?",
+    "Are your three environment changes still in place tonight?"
+  ]
+}
