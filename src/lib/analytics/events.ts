@@ -18,3 +18,15 @@ export function trackCrisisLanguageDetected() {
 export function trackIllegalContentDisclosed() {
   getAnalyticsClient()?.capture('illegal_content_disclosed');
 }
+
+export function trackUrgeToolUsed(tool: string, preIntensity: number, postDelta: number) {
+  getAnalyticsClient()?.capture('urge_tool_used', { tool, pre_intensity: preIntensity, post_delta: postDelta });
+}
+
+export function trackUrgeLogged(trigger: string, intensity: number) {
+  getAnalyticsClient()?.capture('urge_logged', { trigger, intensity });
+}
+
+export function trackLapseLogged() {
+  getAnalyticsClient()?.capture('lapse_logged');
+}

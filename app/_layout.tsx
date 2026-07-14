@@ -23,6 +23,7 @@ export default function RootLayout() {
           <Stack.Screen name="(onboarding)" />
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="(program)" />
+          <Stack.Screen name="(toolkit)" />
           <Stack.Screen name="(modals)" options={{ presentation: 'modal' }} />
         </Stack>
       </ThemeProvider>

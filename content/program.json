@@ -54,8 +54,23 @@
     "prior_quit_attempts": ["None yet", "1-2 times", "3-5 times", "6+ times"]
   },
   "toolkit": {
-    "urge_surf": { "audio_url": null, "duration_s": 180 },
-    "breather": {},
+    "urge_surf": {
+      "audio_url": null,
+      "_audio_note": "TODO(content): 3-minute guided recording pending. script_prompts below are the interim on-screen text implementing the CLINICAL_SPEC §5.2 script beats (author-written for this engine, not a clinician-reviewed verbatim script — flag for review alongside Week 1-6 lesson copy per CLINICAL_SPEC §8).",
+      "duration_s": 180,
+      "script_prompts": [
+        "Notice where the urge sits in your body right now. Just notice it.",
+        "Describe the sensation plainly — tight, warm, buzzing. No story, just sensation.",
+        "Breathe slowly into that spot. In for four. Out for six.",
+        "Picture it as a wave — rising, cresting, about to fall. You don't have to do anything.",
+        "It's passing. Remind yourself what matters to you right now.",
+        "Choose one small thing for the next ten minutes. You're already through the hardest part."
+      ]
+    },
+    "breather": {
+      "total_seconds": 90,
+      "cycle_seconds": { "inhale": 4, "hold_in": 4, "exhale": 4, "hold_out": 4 }
+    },
     "defusion": {},
     "environment_shift": {}
   },
