@@ -62,8 +62,8 @@ export interface ScreenerAssessment {
 }
 
 export interface ToolkitContent {
-  urge_surf: { audio_url: string | null; duration_s: number };
-  breather: Record<string, unknown>;
+  urge_surf: { audio_url: string | null; duration_s: number; script_prompts: string[] };
+  breather: { total_seconds: number; cycle_seconds: { inhale: number; hold_in: number; exhale: number; hold_out: number } };
   defusion: Record<string, unknown>;
   environment_shift: Record<string, unknown>;
 }
