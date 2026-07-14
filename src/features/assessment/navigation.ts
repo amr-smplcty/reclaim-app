@@ -11,6 +11,7 @@ const ROUTE_FOR_STEP: Record<OnboardingStepId, Href> = {
   'context-frequency': '/(onboarding)/context-frequency' as Href,
   'context-escalation': '/(onboarding)/context-escalation' as Href,
   'context-quits': '/(onboarding)/context-quits' as Href,
+  disclaimer: '/(onboarding)/disclaimer' as Href,
   ppcs6: '/(onboarding)/ppcs6' as Href,
   mood: '/(onboarding)/mood' as Href,
   results: '/(onboarding)/results' as Href,

@@ -2,7 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-// Step order mirrors PRODUCT_SPEC §4 steps 1-11 (paywall placeholder until Epic 3).
+// Step order mirrors PRODUCT_SPEC §4 steps 1-12 (paywall placeholder until Epic 3).
+// "disclaimer" is the wellness-disclaimer interstitial added ahead of the
+// assessment per LEGAL_COMPLIANCE §3/§6.
 export type OnboardingStepId =
   | 'welcome'
   | 'age'
@@ -11,6 +13,7 @@ export type OnboardingStepId =
   | 'context-frequency'
   | 'context-escalation'
   | 'context-quits'
+  | 'disclaimer'
   | 'ppcs6'
   | 'mood'
   | 'results'
@@ -27,6 +30,7 @@ export const ONBOARDING_STEPS: OnboardingStepId[] = [
   'context-frequency',
   'context-escalation',
   'context-quits',
+  'disclaimer',
   'ppcs6',
   'mood',
   'results',
@@ -59,6 +63,7 @@ export interface OnboardingAnswers {
   phq2Responses: Array<number | null>;
   gad2Responses: Array<number | null>;
   notificationsRequested: boolean;
+  legalAcceptedAt: string | null;
 }
 
 const defaultAnswers: OnboardingAnswers = {
@@ -74,6 +79,7 @@ const defaultAnswers: OnboardingAnswers = {
   phq2Responses: [null, null],
   gad2Responses: [null, null],
   notificationsRequested: false,
+  legalAcceptedAt: null,
 };
 
 interface OnboardingState {
