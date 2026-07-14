@@ -184,6 +184,10 @@ export interface ProfileBuilderOutput {
 export interface LessonReflectionRecord {
   type: 'single_choice' | 'free_text';
   value: string;
+  // Stamped by useProgramStore.saveReflection — needed so the Journal
+  // timeline (Epic 6) can interleave reflections with checkins/urge logs/
+  // lapse debriefs in true chronological order.
+  timestamp: string;
 }
 
 export interface UrgeSurfBeat {

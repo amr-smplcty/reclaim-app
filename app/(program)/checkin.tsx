@@ -1,29 +1,37 @@
 import { useMemo, useState } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 
+import { ChoiceChip } from '@/components/choice-chip';
 import { CompletionBadge } from '@/components/completion-badge';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { getAllCheckinPrompts } from '@/lib/content/week';
-import { guardFreeText } from '@/lib/safety/guard';
+import { NumberScale } from '@/features/program/exercises/NumberScale';
+import { buildCheckinEntry } from '@/features/journal/checkinSubmission';
+import { useJournalStore } from '@/features/journal/useJournalStore';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { dayKey } from '@/features/program/progression';
+import { trackCheckinCompleted } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/constants/theme';
 
-// Evening check-in prompt (PRODUCT_SPEC §5.1c) — a single rotating question.
-// The full mood/urge-count check-in form lives in Journal (Epic 6); this is
-// just Today's lightweight entry point.
+// Full evening check-in (PRODUCT_SPEC §5.4): mood (5-point), urges today
+// (y/n + count), one rotating free-text prompt. Replaces the Epic 4
+// lightweight version (BACKLOG #11) — this is the only check-in system now.
 export default function CheckinScreen() {
   const theme = useTheme();
   const position = useProgramStore((s) => s.position);
   const completions = useProgramStore((s) => s.completions);
   const completeCheckin = useProgramStore((s) => s.completeCheckin);
+  const addCheckin = useJournalStore((s) => s.addCheckin);
 
-  const [response, setResponse] = useState('');
-  const [justCompleted, setJustCompleted] = useState(false);
+  const [mood, setMood] = useState<number | null>(null);
+  const [urgesToday, setUrgesToday] = useState<boolean | null>(null);
+  const [urgeCount, setUrgeCount] = useState<number | null>(null);
+  const [promptResponse, setPromptResponse] = useState('');
+  const [done, setDone] = useState(false);
 
   const prompt = useMemo(() => {
     const prompts = getAllCheckinPrompts();
@@ -33,13 +41,28 @@ export default function CheckinScreen() {
 
   const alreadyComplete = completions[dayKey(position)]?.checkinComplete ?? false;
 
+  const canSubmit =
+    mood !== null && urgesToday !== null && (!urgesToday || urgeCount !== null) && promptResponse.trim().length > 0;
+
   function handleSubmit() {
-    if (!guardFreeText(response)) return;
-    completeCheckin(position.week, position.day, response);
-    setJustCompleted(true);
+    const entry = buildCheckinEntry({
+      week: position.week,
+      day: position.day,
+      mood: mood as number,
+      urgesToday: urgesToday as boolean,
+      urgeCount: urgesToday ? (urgeCount as number) : 0,
+      promptText: prompt,
+      promptResponse,
+    });
+    if (!entry) return;
+
+    addCheckin(entry);
+    completeCheckin(position.week, position.day);
+    trackCheckinCompleted();
+    setDone(true);
   }
 
-  if (justCompleted || alreadyComplete) {
+  if (done || alreadyComplete) {
     return (
       <ThemedView style={styles.completeContainer}>
         <CompletionBadge label="Check-in saved." />
@@ -49,32 +72,69 @@ export default function CheckinScreen() {
   }
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title" style={styles.prompt}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <ThemedText type="title" style={styles.title}>
+        Evening check-in
+      </ThemedText>
+
+      <ThemedText type="subtitle" style={styles.prompt}>
+        How's your mood right now?
+      </ThemedText>
+      <NumberScale min={1} max={5} value={mood} onChange={setMood} />
+
+      <ThemedText type="subtitle" style={styles.prompt}>
+        Any urges today?
+      </ThemedText>
+      <View style={styles.row}>
+        <ChoiceChip label="Yes" selected={urgesToday === true} onPress={() => setUrgesToday(true)} />
+        <ChoiceChip
+          label="No"
+          selected={urgesToday === false}
+          onPress={() => {
+            setUrgesToday(false);
+            setUrgeCount(null);
+          }}
+        />
+      </View>
+      {urgesToday ? (
+        <>
+          <ThemedText type="small" themeColor="textSecondary" style={styles.hint}>
+            How many?
+          </ThemedText>
+          <NumberScale min={0} max={10} value={urgeCount} onChange={setUrgeCount} />
+        </>
+      ) : null}
+
+      <ThemedText type="subtitle" style={styles.prompt}>
         {prompt}
       </ThemedText>
       <TextInput
-        value={response}
-        onChangeText={setResponse}
+        value={promptResponse}
+        onChangeText={setPromptResponse}
         placeholder="Write as much or as little as you want"
         placeholderTextColor={theme.textSecondary}
         multiline
         style={[styles.input, { color: theme.text, borderColor: theme.border }]}
         accessibilityLabel={prompt}
       />
-      <PrimaryButton label="Save" onPress={handleSubmit} disabled={response.trim().length === 0} />
-    </ThemedView>
+
+      <PrimaryButton label="Save" onPress={handleSubmit} disabled={!canSubmit} />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four },
-  prompt: { marginBottom: Spacing.four },
+  container: { flex: 1 },
+  content: { padding: Spacing.four, paddingBottom: Spacing.six },
+  title: { marginBottom: Spacing.three },
+  prompt: { marginTop: Spacing.four, marginBottom: Spacing.two },
+  row: { flexDirection: 'row', gap: Spacing.two },
+  hint: { marginTop: Spacing.two, marginBottom: Spacing.one },
   input: {
     borderWidth: 1,
     borderRadius: 10,
     padding: 14,
-    minHeight: 140,
+    minHeight: 120,
     fontSize: 16,
     textAlignVertical: 'top',
     marginBottom: Spacing.four,

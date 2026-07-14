@@ -30,3 +30,8 @@ export function trackUrgeLogged(trigger: string, intensity: number) {
 export function trackLapseLogged() {
   getAnalyticsClient()?.capture('lapse_logged');
 }
+
+// No journal free-text in the payload — mood/urge counts only (PRODUCT_SPEC §8).
+export function trackCheckinCompleted() {
+  getAnalyticsClient()?.capture('checkin_completed');
+}

@@ -18,11 +18,12 @@ interface ProgramState {
   reflections: Record<string, LessonReflectionRecord>;
   completeLesson: (week: number, day: number) => void;
   completeExercise: (week: number, day: number) => void;
-  completeCheckin: (week: number, day: number, response: string) => void;
-  checkinResponses: Record<string, string>;
+  // Evening check-in *content* (mood, urges, prompt response) now lives in
+  // useJournalStore (Epic 6) — this just flips the day's completion flag.
+  completeCheckin: (week: number, day: number) => void;
   saveExerciseOutput: (key: string, value: unknown) => void;
   getExerciseOutput: <T = unknown>(key: string) => T | undefined;
-  saveReflection: (lessonId: string, record: LessonReflectionRecord) => void;
+  saveReflection: (lessonId: string, record: Omit<LessonReflectionRecord, 'timestamp'>) => void;
   commitmentFollowups: Record<string, CommitmentFollowupAnswer>;
   recordCommitmentFollowup: (dayKey: string, answer: CommitmentFollowupAnswer) => void;
   reset: () => void;
@@ -45,7 +46,6 @@ export const useProgramStore = create<ProgramState>()(
       completions: {},
       exerciseOutputs: {},
       reflections: {},
-      checkinResponses: {},
       commitmentFollowups: {},
 
       completeLesson: (week, day) => {
@@ -64,10 +64,9 @@ export const useProgramStore = create<ProgramState>()(
         advanceIfDayComplete(get, set, { week, day });
       },
 
-      completeCheckin: (week, day, response) => {
+      completeCheckin: (week, day) => {
         set((state) => ({
           completions: updateCompletion(state.completions, { week, day }, { checkinComplete: true }),
-          checkinResponses: { ...state.checkinResponses, [dayKey({ week, day })]: response },
         }));
       },
 
@@ -78,7 +77,8 @@ export const useProgramStore = create<ProgramState>()(
       getExerciseOutput: <T,>(key: string) => get().exerciseOutputs[key] as T | undefined,
 
       saveReflection: (lessonId, record) => {
-        set((state) => ({ reflections: { ...state.reflections, [lessonId]: record } }));
+        const stamped: LessonReflectionRecord = { ...record, timestamp: new Date().toISOString() };
+        set((state) => ({ reflections: { ...state.reflections, [lessonId]: stamped } }));
       },
 
       recordCommitmentFollowup: (key, answer) => {
@@ -91,7 +91,6 @@ export const useProgramStore = create<ProgramState>()(
           completions: {},
           exerciseOutputs: {},
           reflections: {},
-          checkinResponses: {},
           commitmentFollowups: {},
         }),
     }),

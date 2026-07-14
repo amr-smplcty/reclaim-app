@@ -27,7 +27,7 @@ describe('useProgramStore — completion-based progression', () => {
   });
 
   it('checkin completion never gates or triggers advance', () => {
-    useProgramStore.getState().completeCheckin(1, 1, 'It was a hard day.');
+    useProgramStore.getState().completeCheckin(1, 1);
     expect(useProgramStore.getState().position).toEqual({ week: 1, day: 1 });
     expect(useProgramStore.getState().completions['1-1'].checkinComplete).toBe(true);
 
@@ -84,12 +84,13 @@ describe('useProgramStore — exercise outputs and reflections', () => {
     expect(useProgramStore.getState().getExerciseOutput('nonexistent')).toBeUndefined();
   });
 
-  it('saves a lesson reflection by lesson id', () => {
+  it('saves a lesson reflection by lesson id, stamped with a timestamp', () => {
     useProgramStore.getState().saveReflection('w1d1_lesson', { type: 'single_choice', value: 'Something else' });
-    expect(useProgramStore.getState().reflections.w1d1_lesson).toEqual({
+    expect(useProgramStore.getState().reflections.w1d1_lesson).toMatchObject({
       type: 'single_choice',
       value: 'Something else',
     });
+    expect(typeof useProgramStore.getState().reflections.w1d1_lesson.timestamp).toBe('string');
   });
 });
 

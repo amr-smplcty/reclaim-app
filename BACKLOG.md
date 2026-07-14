@@ -22,13 +22,14 @@
 | 8 | legal/*.md and src/lib/legal/content.ts are hand-duplicated — automate sync or add a CI check that they match (critical once attorney edits land) | Epic 2b report | L |
 | 9 | Supabase project credentials in .env (if not yet created) + first real auth/sync test end-to-end | Setup step | TF |
 | 10 | Content currently bundled at build time; move to Supabase-served content packs + offline cache (MMKV) once hot-updating matters | Epic 4 report | P |
-| 11 | Evening check-in is lightweight (rotating prompt + free text); reconcile with full mood/urge-count check-in data model in Epic 6 | Epic 4 report | Epic 6 |
-| 12 | Decisional-balance "hardest line" saved as plain string; revisit if Journal needs provenance/structure | Epic 4 report | Epic 6 |
+| 12 | Decisional-balance "hardest line" (emergency_card_line) still saved as a plain string, not restructured — Journal's data model (checkins/urge logs/lapse debriefs/reflections) never touches exercise outputs like this one, so Epic 6 gave no natural occasion to revisit it. Still only worth structuring if a future feature (e.g. Emergency Card, #27) needs provenance | Epic 4 report / Epic 6 review | Epic 7 or Emergency Card epic |
 | 13 | 10-Minute Shift: add dev-build-only fast-timer toggle (15s) for manual testing of full flow incl. escalation; impossible to trigger in production | Epic 5 review | TF |
 | 15 | Native modules (MMKV, RevenueCat, Skia/victory-native) installed but unwired — require EAS dev client from Epic 3 onward | Epic 1 report | E3 |
 | 16 | End-of-content messaging: Today shows "more content coming soon" past latest week — update as Weeks 3–6 land; final state = maintenance mode per CLINICAL_SPEC §4 | Epic 4 report | L |
-| 26 | Checklist_commit next-day follow-up only checks the position immediately before current — if a user completes multiple days without opening Today in between, an eligible follow-up (e.g. W2D4's) can be skipped entirely. Should scan all unanswered eligible follow-ups, not just the last one | Epic 5b report | Epic 6 |
+| 26 | Checklist_commit next-day follow-up only checks the position immediately before current — if a user completes multiple days without opening Today in between, an eligible follow-up (e.g. W2D4's) can be skipped entirely. Should scan all unanswered eligible follow-ups, not just the last one | Epic 5b report | Epic 7 |
 | 27 | Emergency Card UI doesn't exist yet — pattern_profile (and future emergency_card_line-style data) is persisted and surface_in-tagged, ready to feed it, but there's no dedicated screen. CLINICAL_SPEC introduces the Emergency Card properly in Week 6 ("auto-compiled from their own data") | Epic 5b report | Week 6 content epic |
+| 28 | Journal encryption-at-rest (AES via crypto-js, key in expo-secure-store) covers only the new check-in store (useJournalStore). Urge logs and lapse debriefs (toolkit store) and lesson reflections (program store) — all of which the Journal timeline displays — remain on plain unencrypted AsyncStorage. Consider extending the same encrypted-storage adapter to those stores in a hardening pass | Epic 6 report | TF |
+| 29 | Legacy check-in migration (useJournalStore.migrateLegacyCheckins) runs on Journal tab mount, not on app launch — if a user never opens Journal, any pre-Epic-6 check-in data sits unmigrated (harmless, just not yet visible in the timeline). Fine given no real users exist yet; revisit if that's no longer true | Epic 6 report | TF |
 
 ## 🟢 UX polish (works, but rough)
 
@@ -57,3 +58,4 @@
 | Banned-words lint false positive on CBT/ACT proper nouns | Lint allowlist + LEGAL_COMPLIANCE §2.1 exception codified |
 | PPCS-6 component tags mismatched item order | Remapped in PPCS-6 fill task |
 | #14 10-Minute Shift shift-list reconciliation with Week 2 Day 6 | Epic 5b: both now read/write the program store's `exerciseOutputs.shift_list`; the toolkit store's separate copy was removed |
+| #11 Evening check-in was lightweight (rotating prompt + free text only) | Epic 6: full mood (5-pt) + urges y/n+count + rotating prompt model in useJournalStore, one system only; old `useProgramStore.checkinResponses` migrated via a one-time, idempotent `migrateLegacyCheckins()` (honest neutral defaults for fields the old model never captured) |
