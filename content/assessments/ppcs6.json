@@ -1,15 +1,18 @@
 {
   "citation": "Bőthe et al., 2020, Journal of Sex Research",
-  "scale_labels": ["Never", "Rarely", "Occasionally", "Sometimes", "Often", "Usually", "All the time"],
+  "citation_short": "Bőthe et al., 2020",
+  "definition": "Pornography is defined as material (text, picture, video, etc.) that (1) creates or elicits sexual feelings or thoughts and (2) contains explicit exposure or descriptions of sexual acts involving the genitals, such as vaginal or anal intercourse, oral sex, or masturbation.",
+  "timeframe_instruction": "Thinking about the past 6 months...",
+  "scale_labels": ["Never", "Rarely", "Occasionally", "Sometimes", "Often", "Very often", "All the time"],
   "cutoff": 20,
   "timeframe_default": "past_6_months",
   "timeframe_reassessment": "past_2_weeks",
   "items": [
-    { "id": "ppcs6_1", "component": "salience", "text": "TODO(content): exact item wording from Bőthe et al. (2020) — do not paraphrase, verify against published instrument" },
-    { "id": "ppcs6_2", "component": "tolerance", "text": "TODO(content)" },
-    { "id": "ppcs6_3", "component": "mood_modification", "text": "TODO(content)" },
-    { "id": "ppcs6_4", "component": "conflict", "text": "TODO(content)" },
-    { "id": "ppcs6_5", "component": "withdrawal", "text": "TODO(content)" },
-    { "id": "ppcs6_6", "component": "relapse", "text": "TODO(content)" }
+    { "id": "ppcs6_1", "component": "salience", "text": "I felt that porn is an important part of my life." },
+    { "id": "ppcs6_2", "component": "mood_modification", "text": "I released my tension by watching porn." },
+    { "id": "ppcs6_3", "component": "conflict", "text": "I neglected other leisure activities as a result of watching porn." },
+    { "id": "ppcs6_4", "component": "tolerance", "text": "I felt that I had to watch more and more porn for satisfaction." },
+    { "id": "ppcs6_5", "component": "relapse", "text": "When I vowed not to watch porn anymore, I could only do it for a short period of time." },
+    { "id": "ppcs6_6", "component": "withdrawal", "text": "I became stressed when something prevented me from watching porn." }
   ]
 }

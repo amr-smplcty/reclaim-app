@@ -7,7 +7,10 @@ import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getPpcs6Band, scorePpcs6 } from '@/features/assessment/scoring';
 import { trackAssessmentCompleted } from '@/lib/analytics/events';
+import { getPpcs6Assessment } from '@/lib/content';
 import { Spacing } from '@/constants/theme';
+
+const { citation_short: citationShort } = getPpcs6Assessment();
 
 // Results screen (PRODUCT_SPEC §4 step 7) — band table + framing from
 // CLINICAL_SPEC §2.3, "the moment of clarity."
@@ -41,6 +44,11 @@ export default function ResultsScreen() {
           Find professional support resources
         </ThemedText>
       ) : null}
+      <ThemedText type="small" themeColor="textSecondary" style={styles.legalFooter}>
+        Screening result, not a diagnosis. Based on the PPCS-6 ({citationShort}).
+        If your struggles feel bigger than an app, a licensed professional is
+        the right next step — and that's a strong move, not a defeat.
+      </ThemedText>
       <PrimaryButton label="Continue" onPress={handleNext} />
     </OnboardingLayout>
   );
@@ -52,4 +60,5 @@ const styles = StyleSheet.create({
   framing: { marginBottom: Spacing.four },
   chartPlaceholder: { marginBottom: Spacing.five, fontStyle: 'italic' },
   resourcesLink: { marginBottom: Spacing.four },
+  legalFooter: { marginBottom: Spacing.four },
 });

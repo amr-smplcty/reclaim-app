@@ -45,6 +45,9 @@ export interface Ppcs6Item {
 
 export interface Ppcs6Assessment {
   citation: string;
+  citation_short: string;
+  definition: string;
+  timeframe_instruction: string;
   scale_labels: string[];
   cutoff: number;
   timeframe_default: string;
