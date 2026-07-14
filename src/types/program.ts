@@ -59,6 +59,44 @@ export interface CommitmentBuilderPayload {
   pin_to_today: boolean;
 }
 
+export interface ChainBuilderPayload {
+  kind: 'chain_builder';
+  link_prompt: string;
+  min_links: number;
+  max_links: number;
+  weakest_link_prompt: string;
+  save_to: string;
+}
+
+export interface ChecklistCommitPayload {
+  kind: 'checklist_commit';
+  audit_items: string[];
+  commit_prompt: string;
+  commit_count: number;
+  followup_next_day: boolean;
+  save_to: string;
+}
+
+export interface IfThenBuilderPayload {
+  kind: 'if_then_builder';
+  plan_count: number;
+  reference_sources: string[];
+  then_suggestions: string[];
+  save_to: string;
+}
+
+export interface ProfileSection {
+  title: string;
+  source: string;
+}
+
+export interface ProfileBuilderPayload {
+  kind: 'profile_builder';
+  sections: ProfileSection[];
+  save_to: string;
+  surface_in: string[];
+}
+
 export type ExercisePayload =
   | MultiSelectWritePayload
   | RatedInventoryPayload
@@ -66,7 +104,11 @@ export type ExercisePayload =
   | DecisionalBalanceComparePayload
   | DualSliderWritePayload
   | LetterWritePayload
-  | CommitmentBuilderPayload;
+  | CommitmentBuilderPayload
+  | ChainBuilderPayload
+  | ChecklistCommitPayload
+  | IfThenBuilderPayload
+  | ProfileBuilderPayload;
 
 export const KNOWN_PAYLOAD_KINDS = [
   'multi_select_write',
@@ -76,6 +118,10 @@ export const KNOWN_PAYLOAD_KINDS = [
   'dual_slider_write',
   'letter_write',
   'commitment_builder',
+  'chain_builder',
+  'checklist_commit',
+  'if_then_builder',
+  'profile_builder',
 ] as const;
 
 // -- Saved output shapes, keyed by each payload's save_to name --
@@ -112,14 +158,57 @@ export interface CommitmentBuilderOutput {
   signed_at: string;
 }
 
+export interface ChainBuilderOutput {
+  links: string[];
+  weakest_link: string;
+}
+
+export type CommitmentFollowupAnswer = 'yes' | 'partly' | 'no';
+
+export interface ChecklistCommitOutput {
+  audit: Record<string, boolean>;
+  commitments: string[];
+}
+
+export interface IfThenPlan {
+  if_text: string;
+  then_text: string;
+}
+
+export type IfThenBuilderOutput = IfThenPlan[];
+
+export interface ProfileBuilderOutput {
+  sections: Array<{ title: string; content: string }>;
+}
+
 export interface LessonReflectionRecord {
   type: 'single_choice' | 'free_text';
   value: string;
+}
+
+export interface UrgeSurfBeat {
+  at_seconds: number;
+  text: string;
+}
+
+export interface UrgeSurfScript {
+  duration_seconds: number;
+  note: string;
+  on_screen_beats: UrgeSurfBeat[];
+  narration_script: string;
+}
+
+export interface ToolkitScripts {
+  urge_surf?: UrgeSurfScript;
 }
 
 export interface WeekContentPack {
   content_version: string;
   notes_for_engineering: string;
   modules: ProgramModule[];
-  checkin_prompts: string[];
+  // Week 1 carries the base list; later weeks add to it (checkin_prompts_additions)
+  // rather than each redeclaring the full list.
+  checkin_prompts?: string[];
+  checkin_prompts_additions?: string[];
+  toolkit_scripts?: ToolkitScripts;
 }

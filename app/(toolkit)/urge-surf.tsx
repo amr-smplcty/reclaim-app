@@ -6,7 +6,7 @@ import { CompletionBadge } from '@/components/completion-badge';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { getContentPack } from '@/lib/content';
+import { getUrgeSurfScript } from '@/lib/content/week';
 import { CountdownRing } from '@/features/toolkit/CountdownRing';
 import { WaveAnimation } from '@/features/toolkit/WaveAnimation';
 import { PostToolRating } from '@/features/toolkit/PostToolRating';
@@ -14,13 +14,26 @@ import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { describeDelta } from '@/features/toolkit/suggestion';
 import { trackUrgeToolUsed } from '@/lib/analytics/events';
 import { Spacing } from '@/constants/theme';
+import type { UrgeSurfBeat } from '@/types/program';
 
-const { duration_s: durationSeconds, script_prompts: scriptPrompts } = getContentPack().toolkit.urge_surf;
-const promptDurationSeconds = durationSeconds / scriptPrompts.length;
+// Week 2's authored script (content/program.json's earlier interim text
+// beats are superseded) — the guided audio itself is still TODO(content),
+// see BACKLOG #4.
+const script = getUrgeSurfScript();
+const durationSeconds = script?.duration_seconds ?? 180;
+const beats: UrgeSurfBeat[] = script?.on_screen_beats ?? [];
+
+function currentBeatText(elapsedSeconds: number): string {
+  let text = beats[0]?.text ?? '';
+  for (const beat of beats) {
+    if (beat.at_seconds <= elapsedSeconds) text = beat.text;
+    else break;
+  }
+  return text;
+}
 
 // Urge Surf (PRODUCT_SPEC §5.3, free forever per §6) — on-screen timed text
-// prompts implementing the CLINICAL_SPEC §5.2 script beats as an interim for
-// the guided audio, which is still TODO(content) (see content/program.json).
+// prompts implementing the CLINICAL_SPEC §5.2 script beats.
 export default function UrgeSurfScreen() {
   const activeSession = useToolkitStore((s) => s.activeSession);
   const logToolUse = useToolkitStore((s) => s.logToolUse);
@@ -34,11 +47,6 @@ export default function UrgeSurfScreen() {
     const interval = setInterval(() => setRemaining((r) => Math.max(0, r - 1)), 1000);
     return () => clearInterval(interval);
   }, [remaining]);
-
-  const promptIndex = Math.min(
-    scriptPrompts.length - 1,
-    Math.floor((durationSeconds - remaining) / promptDurationSeconds)
-  );
 
   function handleRate(postIntensity: number) {
     const preIntensity = activeSession?.preIntensity ?? postIntensity;
@@ -70,7 +78,7 @@ export default function UrgeSurfScreen() {
       <CountdownRing remainingSeconds={remaining} totalSeconds={durationSeconds} />
       <WaveAnimation />
       <ThemedText type="subtitle" style={styles.prompt}>
-        {scriptPrompts[promptIndex]}
+        {currentBeatText(durationSeconds - remaining)}
       </ThemedText>
     </ThemedView>
   );

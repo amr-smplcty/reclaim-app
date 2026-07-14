@@ -62,7 +62,9 @@ export interface ScreenerAssessment {
 }
 
 export interface ToolkitContent {
-  urge_surf: { audio_url: string | null; duration_s: number; script_prompts: string[] };
+  // Script/timing now come from content/week2.json's toolkit_scripts.urge_surf
+  // (getUrgeSurfScript()) — this just carries the still-pending audio asset.
+  urge_surf: { audio_url: string | null };
   breather: { total_seconds: number; cycle_seconds: { inhale: number; hold_in: number; exhale: number; hold_out: number } };
   defusion: Record<string, unknown>;
   environment_shift: Record<string, unknown>;

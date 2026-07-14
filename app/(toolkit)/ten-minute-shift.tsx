@@ -11,28 +11,32 @@ import { guardAllFreeText } from '@/lib/safety/guard';
 import { CountdownRing } from '@/features/toolkit/CountdownRing';
 import { PostToolRating } from '@/features/toolkit/PostToolRating';
 import { EditableList } from '@/features/program/exercises/EditableList';
+import { useProgramStore } from '@/features/program/useProgramStore';
+import { resolveShiftListSeed } from '@/features/program/shiftList';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { describeDelta, shouldOfferUrgeSurfEscalation } from '@/features/toolkit/suggestion';
 import { trackUrgeToolUsed } from '@/lib/analytics/events';
 import { Spacing } from '@/constants/theme';
+import type { GuidedListOutput } from '@/types/program';
 
 const TOTAL_SECONDS = 600;
 const MIN_SHIFT_LIST_ITEMS = 5;
 
 type Step = 'build_list' | 'pick_activity' | 'counting' | 'rate' | 'done';
 
-// 10-Minute Shift (CLINICAL_SPEC §5.5). TODO: once Week 2's "My Shift List"
-// exercise exists, read its saved output instead of shiftList here — the
-// save_to key it'll use isn't known yet since that content isn't authored.
-// Until then, this screen lets the user build the list in-tool.
+// 10-Minute Shift (CLINICAL_SPEC §5.5). The shift list lives at the program
+// store's exerciseOutputs.shift_list — the same key Week 2 Day 6's "My Shift
+// List" exercise reads/writes (BACKLOG #14), so building it here first and
+// reaching W2D6 later (or vice versa) merges instead of overwriting.
 export default function TenMinuteShiftScreen() {
   const activeSession = useToolkitStore((s) => s.activeSession);
-  const shiftList = useToolkitStore((s) => s.shiftList);
-  const setShiftList = useToolkitStore((s) => s.setShiftList);
+  const shiftListOutput = useProgramStore((s) => s.getExerciseOutput<GuidedListOutput>('shift_list'));
+  const saveExerciseOutput = useProgramStore((s) => s.saveExerciseOutput);
   const logToolUse = useToolkitStore((s) => s.logToolUse);
   const startSession = useToolkitStore((s) => s.startSession);
   const clearSession = useToolkitStore((s) => s.clearSession);
 
+  const shiftList = resolveShiftListSeed(shiftListOutput);
   const [draftList, setDraftList] = useState<string[]>(shiftList);
   const [selectedActivity, setSelectedActivity] = useState<string | null>(null);
   const [remaining, setRemaining] = useState(TOTAL_SECONDS);
@@ -51,7 +55,7 @@ export default function TenMinuteShiftScreen() {
 
   function handleSaveList() {
     if (!guardAllFreeText(draftList)) return;
-    setShiftList(draftList);
+    saveExerciseOutput('shift_list', { items: draftList });
     setStep('pick_activity');
   }
 
@@ -120,7 +124,7 @@ export default function TenMinuteShiftScreen() {
           Pick one thing to do for 10 minutes
         </ThemedText>
         <View>
-          {shiftList.map((item) => (
+          {shiftList.map((item: string) => (
             <ChoiceChip
               key={item}
               label={item}

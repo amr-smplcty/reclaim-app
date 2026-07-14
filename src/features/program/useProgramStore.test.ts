@@ -92,3 +92,19 @@ describe('useProgramStore — exercise outputs and reflections', () => {
     });
   });
 });
+
+describe('useProgramStore — checklist_commit next-day follow-up', () => {
+  afterEach(() => {
+    useProgramStore.getState().reset();
+  });
+
+  it('records a followup answer keyed by the original day', () => {
+    useProgramStore.getState().recordCommitmentFollowup('2-4', 'partly');
+    expect(useProgramStore.getState().commitmentFollowups['2-4']).toBe('partly');
+  });
+
+  it('accepts any of yes/partly/no with no special-casing', () => {
+    useProgramStore.getState().recordCommitmentFollowup('2-4', 'no');
+    expect(useProgramStore.getState().commitmentFollowups['2-4']).toBe('no');
+  });
+});

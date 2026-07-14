@@ -11,10 +11,15 @@ import { EditableList } from '@/features/program/exercises/EditableList';
 interface Props {
   payload: GuidedListPayload;
   onSubmit: (output: GuidedListOutput) => void;
+  initialItems?: string[];
 }
 
-export function GuidedList({ payload, onSubmit }: Props) {
-  const [items, setItems] = useState<string[]>([]);
+// Pre-fills from any existing save at this payload's save_to key rather than
+// starting blank — resuming a guided_list exercise merges with prior work
+// instead of discarding it (this is how shift_list reconciles the in-tool
+// 10-Minute Shift builder with Week 2 Day 6, BACKLOG #14).
+export function GuidedList({ payload, onSubmit, initialItems }: Props) {
+  const [items, setItems] = useState<string[]>(initialItems ?? []);
   const canSubmit = items.length >= payload.min_items;
 
   function handleSubmit() {

@@ -6,33 +6,43 @@ import { CompletionBadge } from '@/components/completion-badge';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { getWeekContent } from '@/lib/content/week';
+import { getProgramModules } from '@/lib/content/week';
 import { useProgramStore } from '@/features/program/useProgramStore';
-import { dayKey } from '@/features/program/progression';
+import { dayKey, findProgramDay } from '@/features/program/progression';
 import { Spacing } from '@/constants/theme';
+import { ChainBuilder } from '@/features/program/exercises/ChainBuilder';
+import { ChecklistCommit } from '@/features/program/exercises/ChecklistCommit';
 import { CommitmentBuilder } from '@/features/program/exercises/CommitmentBuilder';
 import { DecisionalBalanceCompare } from '@/features/program/exercises/DecisionalBalanceCompare';
 import { DualSliderWrite } from '@/features/program/exercises/DualSliderWrite';
 import { GuidedList } from '@/features/program/exercises/GuidedList';
+import { IfThenBuilder } from '@/features/program/exercises/IfThenBuilder';
 import { LetterWrite } from '@/features/program/exercises/LetterWrite';
 import { MultiSelectWrite } from '@/features/program/exercises/MultiSelectWrite';
+import { ProfileBuilder } from '@/features/program/exercises/ProfileBuilder';
 import { RatedInventory } from '@/features/program/exercises/RatedInventory';
 import { WorksheetFallback } from '@/features/program/exercises/WorksheetFallback';
+import { resolveShiftListSeed } from '@/features/program/shiftList';
+import { summarizeExerciseOutput } from '@/features/program/exerciseHelpers';
 import type {
+  ChainBuilderPayload,
+  ChecklistCommitPayload,
   CommitmentBuilderPayload,
   DecisionalBalanceComparePayload,
   DualSliderWritePayload,
   GuidedListOutput,
   GuidedListPayload,
+  IfThenBuilderPayload,
   MultiSelectWriteOutput,
   MultiSelectWritePayload,
+  ProfileBuilderPayload,
   RatedInventoryOutput,
   RatedInventoryPayload,
 } from '@/types/program';
 
 // Exercise renderer (PRODUCT_SPEC §5.3 program tie-in) — switches on
-// payload.kind for the 7 kinds week1.json's notes_for_engineering lists,
-// falling back to a sequential worksheet for anything unrecognized.
+// payload.kind for the 11 kinds week1.json/week2.json's notes_for_engineering
+// list, falling back to a sequential worksheet for anything unrecognized.
 export default function ExerciseScreen() {
   const position = useProgramStore((s) => s.position);
   const completions = useProgramStore((s) => s.completions);
@@ -45,10 +55,7 @@ export default function ExerciseScreen() {
 
   const [justCompleted, setJustCompleted] = useState(false);
 
-  const day = useMemo(() => {
-    const week = getWeekContent().modules.find((m) => m.week === position.week);
-    return week?.days.find((d) => d.day === position.day);
-  }, [position]);
+  const day = useMemo(() => findProgramDay(getProgramModules(), position), [position]);
 
   if (!day) {
     return (
@@ -95,7 +102,14 @@ export default function ExerciseScreen() {
     }
     case 'guided_list': {
       const p = payload as unknown as GuidedListPayload;
-      body = <GuidedList payload={p} onSubmit={(o) => handleSubmit(p.save_to, o)} />;
+      const existing = exerciseOutputs[p.save_to] as GuidedListOutput | undefined;
+      body = (
+        <GuidedList
+          payload={p}
+          initialItems={resolveShiftListSeed(existing)}
+          onSubmit={(o) => handleSubmit(p.save_to, o)}
+        />
+      );
       break;
     }
     case 'decisional_balance_compare': {
@@ -131,6 +145,31 @@ export default function ExerciseScreen() {
           onSubmit={(o) => handleSubmit(p.save_to, o)}
         />
       );
+      break;
+    }
+    case 'chain_builder': {
+      const p = payload as unknown as ChainBuilderPayload;
+      body = <ChainBuilder payload={p} onSubmit={(o) => handleSubmit(p.save_to, o)} />;
+      break;
+    }
+    case 'checklist_commit': {
+      const p = payload as unknown as ChecklistCommitPayload;
+      body = <ChecklistCommit payload={p} onSubmit={(o) => handleSubmit(p.save_to, o)} />;
+      break;
+    }
+    case 'if_then_builder': {
+      const p = payload as unknown as IfThenBuilderPayload;
+      const referenceSummaries = p.reference_sources
+        .map((key) => summarizeExerciseOutput(exerciseOutputs[key]))
+        .filter((summary) => summary && summary !== 'Not yet completed.');
+      body = (
+        <IfThenBuilder payload={p} referenceSummaries={referenceSummaries} onSubmit={(o) => handleSubmit(p.save_to, o)} />
+      );
+      break;
+    }
+    case 'profile_builder': {
+      const p = payload as unknown as ProfileBuilderPayload;
+      body = <ProfileBuilder payload={p} sourceOutputs={exerciseOutputs} onSubmit={(o) => handleSubmit(p.save_to, o)} />;
       break;
     }
     default:

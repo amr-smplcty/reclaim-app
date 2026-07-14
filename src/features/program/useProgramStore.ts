@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { dayKey, isDayComplete, nextPosition, type DayCompletion, type ProgramPosition } from '@/features/program/progression';
-import type { LessonReflectionRecord } from '@/types/program';
+import type { CommitmentFollowupAnswer, LessonReflectionRecord } from '@/types/program';
 
 const emptyCompletion: DayCompletion = {
   lessonComplete: false,
@@ -23,6 +23,8 @@ interface ProgramState {
   saveExerciseOutput: (key: string, value: unknown) => void;
   getExerciseOutput: <T = unknown>(key: string) => T | undefined;
   saveReflection: (lessonId: string, record: LessonReflectionRecord) => void;
+  commitmentFollowups: Record<string, CommitmentFollowupAnswer>;
+  recordCommitmentFollowup: (dayKey: string, answer: CommitmentFollowupAnswer) => void;
   reset: () => void;
 }
 
@@ -44,6 +46,7 @@ export const useProgramStore = create<ProgramState>()(
       exerciseOutputs: {},
       reflections: {},
       checkinResponses: {},
+      commitmentFollowups: {},
 
       completeLesson: (week, day) => {
         set((state) => {
@@ -78,6 +81,10 @@ export const useProgramStore = create<ProgramState>()(
         set((state) => ({ reflections: { ...state.reflections, [lessonId]: record } }));
       },
 
+      recordCommitmentFollowup: (key, answer) => {
+        set((state) => ({ commitmentFollowups: { ...state.commitmentFollowups, [key]: answer } }));
+      },
+
       reset: () =>
         set({
           position: { week: 1, day: 1 },
@@ -85,6 +92,7 @@ export const useProgramStore = create<ProgramState>()(
           exerciseOutputs: {},
           reflections: {},
           checkinResponses: {},
+          commitmentFollowups: {},
         }),
     }),
     {

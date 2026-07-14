@@ -1,4 +1,4 @@
-import type { GuidedListOutput, MultiSelectWriteOutput, RatedInventoryOutput } from '@/types/program';
+import type { GuidedListOutput, MultiSelectWriteOutput, ProfileSection, RatedInventoryOutput } from '@/types/program';
 
 // Fills the {anchor_why_summary} placeholder in the Day 7 commitment template
 // (content/week1.json) from the Day 1 multi_select_write output. The result is
@@ -23,4 +23,53 @@ export function collectComparisonLines(
   const benefitLines = benefits?.items ?? [];
   const costLines = costs ? Object.entries(costs.notes).map(([area, note]) => `${area}: ${note}`) : [];
   return [...benefitLines, ...costLines, ...gains];
+}
+
+// Turns any saved exercise output into a short human-readable line — used by
+// if_then_builder's reference display and profile_builder's section assembly
+// (Week 2 Day 7's Pattern Profile) so both read the same summarization rules
+// regardless of which payload kind originally produced the data.
+export function summarizeExerciseOutput(value: unknown): string {
+  if (value === undefined || value === null) return 'Not yet completed.';
+  if (typeof value === 'string') return value;
+
+  if (Array.isArray(value)) {
+    if (value.every((item) => item && typeof item === 'object' && 'if_text' in item && 'then_text' in item)) {
+      return value.map((plan) => `If ${plan.if_text}, then ${plan.then_text}.`).join(' ');
+    }
+    return value.join(', ');
+  }
+
+  if (typeof value === 'object') {
+    const v = value as Record<string, unknown>;
+    if (Array.isArray(v.selected)) {
+      const write = typeof v.write === 'string' && v.write ? ` — ${v.write}` : '';
+      return `${(v.selected as string[]).join(', ')}${write}`;
+    }
+    if (Array.isArray(v.links)) {
+      return `Chain: ${(v.links as string[]).join(' → ')}. Weakest link: ${v.weakest_link ?? '—'}`;
+    }
+    if (Array.isArray(v.commitments)) {
+      return `Committed to: ${(v.commitments as string[]).join('; ')}`;
+    }
+    if (Array.isArray(v.items)) {
+      return (v.items as string[]).join(', ');
+    }
+  }
+
+  return '';
+}
+
+// Compiles the Day 7 Pattern Profile (profile_builder) from this week's
+// saves — each section pulls whatever's at its source key through the same
+// summarizer, so a missing save reads as "Not yet completed" rather than
+// crashing the assembly.
+export function assembleProfileSections(
+  sections: ProfileSection[],
+  outputs: Record<string, unknown>
+): Array<{ title: string; content: string }> {
+  return sections.map((section) => ({
+    title: section.title,
+    content: summarizeExerciseOutput(outputs[section.source]),
+  }));
 }

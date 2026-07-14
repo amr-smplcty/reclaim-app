@@ -4,12 +4,13 @@ import { router } from 'expo-router';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { getWeekContent } from '@/lib/content/week';
+import { getProgramModules } from '@/lib/content/week';
 import { useProgramStore } from '@/features/program/useProgramStore';
-import { dayKey } from '@/features/program/progression';
+import { dayKey, findProgramDay, previousPosition } from '@/features/program/progression';
 import { DailyCard } from '@/features/program/DailyCard';
+import { CommitmentFollowupCard } from '@/features/program/CommitmentFollowupCard';
 import { Spacing } from '@/constants/theme';
-import type { CommitmentBuilderOutput } from '@/types/program';
+import type { ChecklistCommitOutput, ChecklistCommitPayload, CommitmentBuilderOutput } from '@/types/program';
 
 // Today (PRODUCT_SPEC §5.1) — daily card stack. Progression advances on
 // completion, not calendar: whatever day the store says is current, that's
@@ -18,14 +19,29 @@ export default function TodayScreen() {
   const position = useProgramStore((s) => s.position);
   const completions = useProgramStore((s) => s.completions);
   const exerciseOutputs = useProgramStore((s) => s.exerciseOutputs);
+  const commitmentFollowups = useProgramStore((s) => s.commitmentFollowups);
+  const recordCommitmentFollowup = useProgramStore((s) => s.recordCommitmentFollowup);
 
-  const day = useMemo(() => {
-    const week = getWeekContent().modules.find((m) => m.week === position.week);
-    return week?.days.find((d) => d.day === position.day);
-  }, [position]);
+  const day = useMemo(() => findProgramDay(getProgramModules(), position), [position]);
 
   const completion = completions[dayKey(position)];
   const commitment = exerciseOutputs.commitment_statement as CommitmentBuilderOutput | undefined;
+
+  // Generic scan for any previous day's checklist_commit exercise that asked
+  // for a next-day follow-up (currently Week 2 Day 4) — not hardcoded to a
+  // specific day, so it keeps working if a future week reuses the pattern.
+  const previousDayPosition = previousPosition(position);
+  const previousDay = previousDayPosition ? findProgramDay(getProgramModules(), previousDayPosition) : undefined;
+  const previousPayload =
+    previousDay?.exercise.payload?.kind === 'checklist_commit'
+      ? (previousDay.exercise.payload as unknown as ChecklistCommitPayload)
+      : undefined;
+  const previousKey = previousDayPosition ? dayKey(previousDayPosition) : null;
+  const alreadyAnsweredFollowup = previousKey ? !!commitmentFollowups[previousKey] : true;
+  const followupOutput = previousPayload
+    ? (exerciseOutputs[previousPayload.save_to] as ChecklistCommitOutput | undefined)
+    : undefined;
+  const showFollowup = !!previousPayload?.followup_next_day && !!followupOutput && !alreadyAnsweredFollowup;
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -48,6 +64,13 @@ export default function TodayScreen() {
             {commitment.statement}
           </ThemedText>
         </ThemedView>
+      ) : null}
+
+      {showFollowup && followupOutput ? (
+        <CommitmentFollowupCard
+          commitments={followupOutput.commitments}
+          onAnswer={(answer) => previousKey && recordCommitmentFollowup(previousKey, answer)}
+        />
       ) : null}
 
       {!day ? (
