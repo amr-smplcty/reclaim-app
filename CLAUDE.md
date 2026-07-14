@@ -4,6 +4,11 @@ You are building "Reclaim," an iOS-first recovery app. **PRODUCT_SPEC.md** defin
 **CLINICAL_SPEC.md** defines all clinical logic and is authoritative — never invent, alter, or
 paraphrase clinical content, scores, cutoffs, or therapeutic copy. If content is missing, insert
 `TODO(content)` placeholders and list them at the end of your session summary.
+**LEGAL_COMPLIANCE.md** governs all user-facing language and legal surfaces: follow its §2
+banned/approved claims tables in every string you write, implement its §9 engineering rules
+(versioned legal docs in `legal/`, un-prechecked ToS acceptance checkbox with stored
+{doc_version, accepted_at}, banned-words CI lint on user-facing strings, crisis resources
+reachable logged-out), and never add advertising SDKs, pixels, or ad-platform data sharing.
 
 ## Stack (fixed — do not substitute)
 

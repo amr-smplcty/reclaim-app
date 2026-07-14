@@ -41,13 +41,14 @@ Steps (one screen each, progress bar on top, all answers persisted locally then 
 2. **Age confirmation** (date of birth or age bracket; gate under-18 → resources screen, exit flow).
 3. **Motivation** (multi-select): relationships, focus/energy, values/self-respect, sexual function, time lost, other.
 4. **Context questions** (3–4 screens): years of use, frequency now, escalation (yes/no/unsure), prior quit attempts.
-5. **Clinical assessment** — PPCS-6, one item per screen, 7-point scale (see CLINICAL_SPEC §2). Frame as: "These 6 questions come from a validated clinical screening instrument."
-6. **Mood screen** — PHQ-2 + GAD-2 (see CLINICAL_SPEC §3). If elevated, show supportive interstitial recommending professional support alongside the app (non-blocking).
-7. **Results screen** — score band (see CLINICAL_SPEC §2.3), plain-language explanation, what the program will do about it. This screen must feel like the moment of clarity. Chart placeholder: "We'll re-measure every 2 weeks — this number going down is your real progress."
-8. **Personalization summary** — "Your plan: 6 weeks, ~10 min/day, focused on [top motivations]."
-9. **Notification permission** primer → OS prompt (frame: "so we can check in daily, and be there at your risky times").
-10. **Account creation** — Sign in with Apple (required option), email fallback. Anonymous display name auto-generated.
-11. **Paywall** (§6).
+5. **Wellness disclaimer interstitial** — exact text from LEGAL_COMPLIANCE.md §6, single "I understand" CTA.
+6. **Clinical assessment** — PPCS-6, one item per screen, 7-point scale (see CLINICAL_SPEC §2). Frame as: "These 6 questions come from a validated clinical screening instrument."
+7. **Mood screen** — PHQ-2 + GAD-2 (see CLINICAL_SPEC §3). If elevated, show supportive interstitial recommending professional support alongside the app (non-blocking).
+8. **Results screen** — score band (see CLINICAL_SPEC §2.3), plain-language explanation, what the program will do about it, and the "screening result, not a diagnosis" footer from LEGAL_COMPLIANCE.md §6. This screen must feel like the moment of clarity. Chart placeholder: "We'll re-measure every 2 weeks — this number going down is your real progress."
+9. **Personalization summary** — "Your plan: 6 weeks, ~10 min/day, focused on [top motivations]."
+10. **Notification permission** primer → OS prompt (frame: "so we can check in daily, and be there at your risky times").
+11. **Account creation** — Sign in with Apple (required option), email fallback. Anonymous display name auto-generated. Required un-prechecked checkbox: "I agree to the Terms of Use and Privacy Policy" (links open in-app); store {doc_version, accepted_at} per LEGAL_COMPLIANCE.md §9.
+12. **Paywall** (§6).
 
 Edge cases:
 - Kill/relaunch mid-onboarding → resume at last completed step.
@@ -96,7 +97,7 @@ Opened via tab or SOS. Must load instantly (all assets bundled offline).
 
 - **Hard paywall after results screen** (category-proven). 
 - Pricing: **$12.99/mo, $49.99/yr (default-highlighted, "save 68%"), 7-day free trial on annual only.**
-- Paywall copy: outcome-focused, references their own assessment result ("Your score: 27 — the 6-week program is built to bring it down"). No countdown timers, no dark patterns — trust is the brand.
+- Paywall copy: personal and confident without outcome promises, referencing their own assessment result ("Your score: 27. The 6-week program teaches the skills — from published research — to work on exactly that. Re-measure every two weeks and watch your own trend."). All paywall language follows LEGAL_COMPLIANCE.md §2. No countdown timers, no dark patterns — trust is the brand.
 - RevenueCat entitlement: `pro`. All program content behind it; Toolkit's Urge Surf + breather remain free forever (ethical floor: never paywall someone mid-crisis; also drives retention/word-of-mouth).
 - Restore purchases, family-sharing off, promo codes enabled for influencer/clinician seeding.
 
@@ -118,7 +119,8 @@ No PII in event payloads. Journal free-text is never sent to analytics.
 
 - Toolkit usable offline; content pack cached on first launch.
 - Cold start < 2s on iPhone 11.
-- All clinical/therapeutic copy sourced from CLINICAL_SPEC or content JSON — never improvised by the coding agent.
+- All clinical/therapeutic copy sourced from CLINICAL_SPEC or content JSON — never improvised by the coding agent. ALL user-facing copy must comply with LEGAL_COMPLIANCE.md §2 (banned/approved claim language); a CI wordlist lint enforces the banned list.
+- No advertising SDKs or tracking pixels, ever (LEGAL_COMPLIANCE.md §5.1). Crisis resources reachable logged-out and unsubscribed.
 - Accessibility: Dynamic Type, VoiceOver labels on all interactive elements.
 - App Store: category Health & Fitness, 17+ rating, medical disclaimer in onboarding + settings ("educational program, not therapy or a medical device; not a substitute for professional care").
 
