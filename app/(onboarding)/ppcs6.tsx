@@ -52,6 +52,16 @@ export default function Ppcs6Screen() {
       <ThemedText type="small" themeColor="accent" style={styles.badge}>
         Validated clinical screening instrument · {ppcs6.citation}
       </ThemedText>
+      {itemIndex === 0 ? (
+        <>
+          <ThemedText type="small" themeColor="textSecondary" style={styles.definition}>
+            {ppcs6.definition}
+          </ThemedText>
+          <ThemedText type="default" style={styles.timeframe}>
+            {ppcs6.timeframe_instruction}
+          </ThemedText>
+        </>
+      ) : null}
       <ThemedText type="small" themeColor="textSecondary">
         Question {itemIndex + 1} of {ppcs6.items.length}
       </ThemedText>
@@ -75,5 +85,7 @@ export default function Ppcs6Screen() {
 const styles = StyleSheet.create({
   backRow: { height: 20, marginBottom: Spacing.one },
   badge: { marginBottom: Spacing.three, fontWeight: '600' },
+  definition: { marginBottom: Spacing.three },
+  timeframe: { fontWeight: '600' },
   prompt: { marginTop: Spacing.two, marginBottom: Spacing.four },
 });
