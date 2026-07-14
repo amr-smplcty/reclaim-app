@@ -30,7 +30,7 @@ published trials) rather than to the *app* (which does not, yet).
 |---|---|
 | "treats / cures / heals porn addiction" | Disease-treatment claim → medical device territory + unsubstantiated |
 | "diagnose / diagnosis" (about our assessment) | We screen, we never diagnose |
-| "therapy," "therapeutic," "clinical program," "digital therapeutic" | Implies regulated treatment |
+| "therapy," "therapeutic," "clinical program," "digital therapeutic" | Implies regulated treatment. **Exception:** the proper names of studied techniques — "Cognitive-Behavioral Therapy (CBT)," "Acceptance and Commitment Therapy (ACT)" — are permitted in §2.3 citation style when describing the research a lesson draws on; never when describing what Reclaim itself is or provides. The CI lint allowlists these exact proper nouns (case-insensitive). |
 | "clinically proven / guaranteed results / will reduce your score" | Unsubstantiated efficacy claim about OUR product |
 | "overcome addiction in X days/weeks" | Outcome promise + disease claim |
 | "rewire / heal / repair your brain" | Pseudo-neuroscience + implied treatment claim |
