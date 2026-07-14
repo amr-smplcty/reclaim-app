@@ -3,7 +3,7 @@
 export interface ProgramReflection {
   type: 'single_choice' | 'free_text';
   prompt: string;
-  options: string[];
+  options?: string[];
 }
 
 export interface Lesson {
