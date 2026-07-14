@@ -29,9 +29,19 @@ function normalize(text) {
   return text.replace(/\s+/g, ' ').trim();
 }
 
+function escapeRegExp(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 const ALLOWLISTED_PHRASES = [
   'not therapy, medical care, or a diagnosis',
   'not a diagnosis',
+  // Naming the peer-reviewed technique a program element is modeled on is the
+  // approved citation style (LEGAL_COMPLIANCE §2.2/§2.3: "attribute results to
+  // the studied technique, never to Reclaim") — not a claim that Reclaim
+  // itself is therapy. Content will keep citing these across future weeks.
+  'Cognitive-behavioral therapy',
+  'Acceptance and Commitment Therapy',
 ].map(normalize);
 
 const BANNED_TERMS = [
@@ -68,7 +78,7 @@ function scanFile(file) {
   const raw = fs.readFileSync(file, 'utf8');
   let normalized = normalize(raw);
   for (const phrase of ALLOWLISTED_PHRASES) {
-    normalized = normalized.split(phrase).join('');
+    normalized = normalized.replace(new RegExp(escapeRegExp(phrase), 'gi'), '');
   }
 
   const found = [];
