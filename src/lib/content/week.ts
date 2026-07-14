@@ -1,9 +1,14 @@
 import week1Raw from '../../../content/week1.json';
+import week2Raw from '../../../content/week2.json';
 
-import type { WeekContentPack } from '@/types/program';
+import type { ProgramModule } from '@/types/content';
+import type { UrgeSurfScript, WeekContentPack } from '@/types/program';
 
 const REFLECTION_TYPES = ['single_choice', 'free_text'];
-const EXERCISE_TYPES = ['decisional_balance', 'worksheet', 'audio_practice', 'planner', 'card_sort'];
+// CLINICAL_SPEC §7 lists decisional_balance|worksheet|audio_practice|planner|card_sort
+// as examples, not an exhaustive enum — content/week2.json's Day 6 exercise
+// uses "guided_list" as its top-level type too (matching its payload kind).
+const EXERCISE_TYPES = ['decisional_balance', 'worksheet', 'audio_practice', 'planner', 'card_sort', 'guided_list'];
 
 function fail(message: string): never {
   throw new Error(`Invalid content pack: ${message}`);
@@ -79,22 +84,61 @@ export function validateWeekContentPack(raw: unknown): WeekContentPack {
   if (typeof raw.notes_for_engineering !== 'string') fail('notes_for_engineering must be a string');
   if (!Array.isArray(raw.modules)) fail('modules must be an array');
   raw.modules.forEach((module, index) => validateModule(module, index));
-  if (!Array.isArray(raw.checkin_prompts) || raw.checkin_prompts.some((p) => typeof p !== 'string')) {
-    fail('checkin_prompts must be an array of strings');
+
+  // checkin_prompts is optional per-pack — week1.json carries the base list,
+  // later weeks add to it via checkin_prompts_additions instead of repeating it.
+  if (raw.checkin_prompts !== undefined) {
+    if (!Array.isArray(raw.checkin_prompts) || raw.checkin_prompts.some((p) => typeof p !== 'string')) {
+      fail('checkin_prompts must be an array of strings when present');
+    }
+  }
+  if (raw.checkin_prompts_additions !== undefined) {
+    if (!Array.isArray(raw.checkin_prompts_additions) || raw.checkin_prompts_additions.some((p) => typeof p !== 'string')) {
+      fail('checkin_prompts_additions must be an array of strings when present');
+    }
+  }
+  if (raw.toolkit_scripts !== undefined) {
+    if (!isPlainObject(raw.toolkit_scripts)) fail('toolkit_scripts must be an object when present');
+    const urgeSurf = (raw.toolkit_scripts as Record<string, unknown>).urge_surf;
+    if (urgeSurf !== undefined) {
+      if (!isPlainObject(urgeSurf)) fail('toolkit_scripts.urge_surf must be an object');
+      if (typeof urgeSurf.duration_seconds !== 'number') fail('toolkit_scripts.urge_surf.duration_seconds must be a number');
+      if (!Array.isArray(urgeSurf.on_screen_beats)) fail('toolkit_scripts.urge_surf.on_screen_beats must be an array');
+    }
   }
 
   return raw as unknown as WeekContentPack;
 }
 
-let cached: WeekContentPack | null = null;
+let cachedPacks: WeekContentPack[] | null = null;
 
-// week1.json is bundled into the JS bundle at build time (no network fetch),
-// so it's inherently available offline — no separate MMKV cache layer is
-// needed until content is served from Supabase (CLINICAL_SPEC §8, not yet
-// built). Validation runs once and the result is memoized.
-export function getWeekContent(): WeekContentPack {
-  if (!cached) {
-    cached = validateWeekContentPack(week1Raw);
+// Each week's JSON is bundled into the JS bundle at build time (no network
+// fetch), so it's inherently available offline — no separate MMKV cache
+// layer is needed until content is served from Supabase (CLINICAL_SPEC §8,
+// not yet built). Validation runs once per pack and is memoized.
+export function getAllWeekPacks(): WeekContentPack[] {
+  if (!cachedPacks) {
+    cachedPacks = [validateWeekContentPack(week1Raw), validateWeekContentPack(week2Raw)];
   }
-  return cached;
+  return cachedPacks;
+}
+
+export function getProgramModules(): ProgramModule[] {
+  return getAllWeekPacks().flatMap((pack) => pack.modules);
+}
+
+export function getAllCheckinPrompts(): string[] {
+  const packs = getAllWeekPacks();
+  return [...packs.flatMap((p) => p.checkin_prompts ?? []), ...packs.flatMap((p) => p.checkin_prompts_additions ?? [])];
+}
+
+// Later weeks' authored script replaces earlier interim ones — walk packs
+// newest-first and take the first urge_surf script defined.
+export function getUrgeSurfScript(): UrgeSurfScript | undefined {
+  const packs = getAllWeekPacks();
+  for (let i = packs.length - 1; i >= 0; i--) {
+    const script = packs[i].toolkit_scripts?.urge_surf;
+    if (script) return script;
+  }
+  return undefined;
 }

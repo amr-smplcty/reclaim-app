@@ -104,14 +104,7 @@ describe('useToolkitStore — lapse debrief flow state (CLINICAL_SPEC §5.4)', (
   });
 });
 
-describe('useToolkitStore — shift list (10-Minute Shift, in-tool build pending Week 2)', () => {
-  afterEach(() => {
-    useToolkitStore.getState().reset();
-  });
-
-  it('saves the in-tool shift list', () => {
-    const items = ['Walk around the block', 'Cold water on my face', 'Call a friend', '20 pushups', 'Make tea'];
-    useToolkitStore.getState().setShiftList(items);
-    expect(useToolkitStore.getState().shiftList).toEqual(items);
-  });
-});
+// The shift list moved to the program store's exerciseOutputs.shift_list —
+// see src/features/program/shiftList.test.ts (BACKLOG #14: it's the same key
+// Week 2 Day 6's exercise reads/writes, so both entry points share one source
+// of truth instead of the toolkit store keeping its own separate copy).

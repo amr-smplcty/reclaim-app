@@ -54,14 +54,12 @@ interface ToolkitState {
   toolUses: ToolUseEntry[];
   lapseDebriefs: LapseDebriefEntry[];
   relapsePreventionNotes: string[];
-  shiftList: string[];
 
   startSession: (preIntensity: number) => void;
   clearSession: () => void;
   logUrge: (entry: Omit<UrgeLogEntry, 'id' | 'timestamp'>) => void;
   logToolUse: (tool: ToolId, preIntensity: number, postIntensity: number) => ToolUseEntry;
   logLapseDebrief: (answers: LapseDebriefAnswers) => void;
-  setShiftList: (items: string[]) => void;
   reset: () => void;
 }
 
@@ -73,7 +71,6 @@ export const useToolkitStore = create<ToolkitState>()(
       toolUses: [],
       lapseDebriefs: [],
       relapsePreventionNotes: [],
-      shiftList: [],
 
       startSession: (preIntensity) => set({ activeSession: { preIntensity } }),
       clearSession: () => set({ activeSession: null }),
@@ -109,8 +106,6 @@ export const useToolkitStore = create<ToolkitState>()(
         }));
       },
 
-      setShiftList: (items) => set({ shiftList: items }),
-
       reset: () =>
         set({
           activeSession: null,
@@ -118,7 +113,6 @@ export const useToolkitStore = create<ToolkitState>()(
           toolUses: [],
           lapseDebriefs: [],
           relapsePreventionNotes: [],
-          shiftList: [],
         }),
     }),
     {

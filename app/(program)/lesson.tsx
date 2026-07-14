@@ -8,10 +8,10 @@ import { MarkdownBody } from '@/components/markdown-body';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { getWeekContent } from '@/lib/content/week';
+import { getProgramModules } from '@/lib/content/week';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useProgramStore } from '@/features/program/useProgramStore';
-import { dayKey } from '@/features/program/progression';
+import { dayKey, findProgramDay } from '@/features/program/progression';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/constants/theme';
 
@@ -24,10 +24,7 @@ export default function LessonScreen() {
   const completeLesson = useProgramStore((s) => s.completeLesson);
   const saveReflection = useProgramStore((s) => s.saveReflection);
 
-  const day = useMemo(() => {
-    const week = getWeekContent().modules.find((m) => m.week === position.week);
-    return week?.days.find((d) => d.day === position.day);
-  }, [position]);
+  const day = useMemo(() => findProgramDay(getProgramModules(), position), [position]);
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [freeText, setFreeText] = useState('');

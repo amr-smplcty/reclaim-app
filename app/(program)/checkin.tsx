@@ -6,7 +6,7 @@ import { CompletionBadge } from '@/components/completion-badge';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { getWeekContent } from '@/lib/content/week';
+import { getAllCheckinPrompts } from '@/lib/content/week';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { dayKey } from '@/features/program/progression';
@@ -26,8 +26,9 @@ export default function CheckinScreen() {
   const [justCompleted, setJustCompleted] = useState(false);
 
   const prompt = useMemo(() => {
-    const prompts = getWeekContent().checkin_prompts;
-    return prompts[(position.day - 1) % prompts.length];
+    const prompts = getAllCheckinPrompts();
+    const globalDayIndex = (position.week - 1) * 7 + (position.day - 1);
+    return prompts[globalDayIndex % prompts.length];
   }, [position]);
 
   const alreadyComplete = completions[dayKey(position)]?.checkinComplete ?? false;

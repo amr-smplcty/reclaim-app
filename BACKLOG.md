@@ -10,7 +10,7 @@
 | 1 | Replace hardcoded `HAS_PRO_ENTITLEMENT = true` with real RevenueCat entitlement check — must not survive into any build that reaches other humans | Epic 5 report | E3 / TF |
 | 2 | Attorney review of legal/tou.md + legal/privacy.md (both marked DRAFT); tailor arbitration + state notices; confirm DBA/trade-name need for "Reclaim"/"Smplcty Analytics" under Simplifico LLC | Epic 2b / LEGAL_COMPLIANCE §4–8 | L |
 | 3 | Clinician review batch (CLINICAL_SPEC §8): Weeks 1–6 lesson/exercise copy, Urge Surf script, lapse-debrief emotion chips, urge trigger chips, onboarding intake options, crisis_patterns.json expansion | Epics 2/4/5 reports | L |
-| 4 | Record (or TTS-generate) the Urge Surf guided audio from the authored narration script; wire into toolkit.urge_surf.audio_url | Epic 5 TODO(content) | L |
+| 4 | Record (or TTS-generate) the Urge Surf guided audio from the authored narration script (content/week2.json `toolkit_scripts.urge_surf.narration_script`); wire into toolkit.urge_surf.audio_url | Epic 5 TODO(content) / Week 2 pack | L |
 | 5 | Bundle ID + app icon are placeholders — confirm com.smplctyanalytics.reclaim (or change) and add real icon/splash before any EAS build | Epic 1 report | TF |
 | 6 | Apple Developer organization enrollment as Simplifico LLC (pending D-U-N-S) → unblocks Epic 3, TestFlight | Business track | E3 |
 
@@ -25,9 +25,10 @@
 | 11 | Evening check-in is lightweight (rotating prompt + free text); reconcile with full mood/urge-count check-in data model in Epic 6 | Epic 4 report | Epic 6 |
 | 12 | Decisional-balance "hardest line" saved as plain string; revisit if Journal needs provenance/structure | Epic 4 report | Epic 6 |
 | 13 | 10-Minute Shift: add dev-build-only fast-timer toggle (15s) for manual testing of full flow incl. escalation; impossible to trigger in production | Epic 5 review | TF |
-| 14 | 10-Minute Shift shift-list: reconcile in-tool builder with Week 2 Day 6 exercise save (`shift_list` key) — in-tool builder becomes fallback for pre-Week-2 users; both write the same key | Epic 5 report / Week 2 pack | next epic |
 | 15 | Native modules (MMKV, RevenueCat, Skia/victory-native) installed but unwired — require EAS dev client from Epic 3 onward | Epic 1 report | E3 |
-| 16 | End-of-content messaging: Today shows "more content coming soon" past latest week — update as Weeks 2–6 land; final state = maintenance mode per CLINICAL_SPEC §4 | Epic 4 report | L |
+| 16 | End-of-content messaging: Today shows "more content coming soon" past latest week — update as Weeks 3–6 land; final state = maintenance mode per CLINICAL_SPEC §4 | Epic 4 report | L |
+| 26 | Checklist_commit next-day follow-up only checks the position immediately before current — if a user completes multiple days without opening Today in between, an eligible follow-up (e.g. W2D4's) can be skipped entirely. Should scan all unanswered eligible follow-ups, not just the last one | Epic 5b report | Epic 6 |
+| 27 | Emergency Card UI doesn't exist yet — pattern_profile (and future emergency_card_line-style data) is persisted and surface_in-tagged, ready to feed it, but there's no dedicated screen. CLINICAL_SPEC introduces the Emergency Card properly in Week 6 ("auto-compiled from their own data") | Epic 5b report | Week 6 content epic |
 
 ## 🟢 UX polish (works, but rough)
 
@@ -55,3 +56,4 @@
 | Supabase client crashed at import with no .env | Fixed in Epic 2b run |
 | Banned-words lint false positive on CBT/ACT proper nouns | Lint allowlist + LEGAL_COMPLIANCE §2.1 exception codified |
 | PPCS-6 component tags mismatched item order | Remapped in PPCS-6 fill task |
+| #14 10-Minute Shift shift-list reconciliation with Week 2 Day 6 | Epic 5b: both now read/write the program store's `exerciseOutputs.shift_list`; the toolkit store's separate copy was removed |
