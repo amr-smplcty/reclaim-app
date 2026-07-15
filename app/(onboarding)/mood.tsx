@@ -9,6 +9,7 @@ import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getContentPack } from '@/lib/content';
 import { isMoodElevated, scoreGad2, scorePhq2 } from '@/features/assessment/scoring';
+import { hasCompleteScreenerResponses } from '@/features/assessment/assessmentValidity';
 import { Spacing } from '@/theme/tokens';
 
 const { phq2, gad2, mood_stem: moodStem } = getContentPack().assessments;
@@ -51,11 +52,18 @@ export default function MoodScreen() {
   const updateAnswers = useOnboardingStore((s) => s.updateAnswers);
 
   const allAnswered =
-    answers.phq2Responses.every((r) => r !== null) && answers.gad2Responses.every((r) => r !== null);
+    hasCompleteScreenerResponses(answers.phq2Responses) && hasCompleteScreenerResponses(answers.gad2Responses);
 
   function handleNext() {
-    const phq2Score = scorePhq2(answers.phq2Responses as number[]);
-    const gad2Score = scoreGad2(answers.gad2Responses as number[]);
+    // Guards the button's disabled state defensively — scoring must never
+    // run against incomplete/invalid responses, even if this is somehow
+    // reached with the button enabled.
+    if (!hasCompleteScreenerResponses(answers.phq2Responses) || !hasCompleteScreenerResponses(answers.gad2Responses)) {
+      return;
+    }
+
+    const phq2Score = scorePhq2(answers.phq2Responses);
+    const gad2Score = scoreGad2(answers.gad2Responses);
 
     if (isMoodElevated(phq2Score, gad2Score)) {
       router.push('/(onboarding)/mood-interstitial');

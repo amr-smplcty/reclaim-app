@@ -15,9 +15,15 @@ export default function PaywallScreen() {
   const resetOnboarding = useOnboardingStore((s) => s.reset);
 
   function handleContinue() {
+    // Order matters: navigate away from the onboarding stack *before*
+    // clearing its store. Every onboarding screen we've pushed through is
+    // still mounted (goNextFrom uses router.push, not replace), and each one
+    // reactively re-reads useOnboardingStore — resetting first, while a
+    // validation-heavy screen like results is still mounted (even off-screen),
+    // let its strict scoring guard throw during a background render.
     setHasOnboarded(true);
-    resetOnboarding();
     router.replace('/(tabs)/today');
+    resetOnboarding();
   }
 
   return (
