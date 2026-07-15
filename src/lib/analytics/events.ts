@@ -10,6 +10,10 @@ export function trackAssessmentCompleted(score: number, band: string) {
   getAnalyticsClient()?.capture('assessment_completed', { score, band });
 }
 
+export function trackReassessmentCompleted(score: number, delta: number | null) {
+  getAnalyticsClient()?.capture('reassessment_completed', { score, delta });
+}
+
 // Logged as event class only — no free text — per CLINICAL_SPEC §6.
 export function trackCrisisLanguageDetected() {
   getAnalyticsClient()?.capture('crisis_language_detected');

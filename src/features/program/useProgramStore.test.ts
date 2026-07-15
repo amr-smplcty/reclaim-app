@@ -59,11 +59,14 @@ describe('useProgramStore — completion-based progression', () => {
     useProgramStore.getState().completeExercise(1, 4);
     // Position never touched day 4 directly (it started at day 1), but the
     // record for day 4 is still tracked — completion isn't tied to "today."
-    expect(useProgramStore.getState().completions['1-4']).toEqual({
+    expect(useProgramStore.getState().completions['1-4']).toMatchObject({
       lessonComplete: true,
       exerciseComplete: true,
       checkinComplete: false,
     });
+    // Epic 7: stamped so weekly consistency / Commitment Goal credit can
+    // read real calendar dates off program-day completions.
+    expect(typeof useProgramStore.getState().completions['1-4'].lastActivityAt).toBe('string');
   });
 });
 
