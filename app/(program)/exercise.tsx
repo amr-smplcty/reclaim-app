@@ -9,7 +9,7 @@ import { ThemedView } from '@/components/themed-view';
 import { getProgramModules } from '@/lib/content/week';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { dayKey, findProgramDay } from '@/features/program/progression';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import { ChainBuilder } from '@/features/program/exercises/ChainBuilder';
 import { ChecklistCommit } from '@/features/program/exercises/ChecklistCommit';
 import { CommitmentBuilder } from '@/features/program/exercises/CommitmentBuilder';

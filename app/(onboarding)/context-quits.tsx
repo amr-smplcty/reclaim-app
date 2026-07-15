@@ -8,7 +8,7 @@ import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getIntakeContent } from '@/lib/content';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 const { prior_quit_attempts: options } = getIntakeContent();
 
@@ -25,7 +25,7 @@ export default function ContextQuitsScreen() {
   return (
     <OnboardingLayout step="context-quits">
       <ThemedText type="title" style={styles.title}>
-        How many times have you tried to stop before?
+        How many times have you tried to quit porn before?
       </ThemedText>
       <ScrollView showsVerticalScrollIndicator={false}>
         {options.map((option) => (

@@ -8,8 +8,8 @@ export default function ProgramLayout() {
   return (
     <Stack
       screenOptions={{
-        headerStyle: { backgroundColor: theme.background },
-        headerTintColor: theme.text,
+        headerStyle: { backgroundColor: theme.bg },
+        headerTintColor: theme.textPrimary,
         headerShadowVisible: false,
         headerBackButtonDisplayMode: 'minimal',
       }}

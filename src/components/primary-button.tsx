@@ -2,6 +2,7 @@ import { Pressable, StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { useTheme } from '@/hooks/use-theme';
+import { colors, radius } from '@/theme/tokens';
 
 interface Props {
   label: string;
@@ -22,7 +23,7 @@ export function PrimaryButton({ label, onPress, disabled, accessibilityLabel }: 
       accessibilityState={{ disabled: !!disabled }}
       style={({ pressed }) => [
         styles.button,
-        { backgroundColor: theme.accent, opacity: disabled ? 0.4 : pressed ? 0.85 : 1 },
+        { backgroundColor: pressed ? theme.accentPressed : theme.accent, opacity: disabled ? 0.4 : 1 },
       ]}
     >
       <ThemedText type="link" style={styles.label}>
@@ -33,6 +34,6 @@ export function PrimaryButton({ label, onPress, disabled, accessibilityLabel }: 
 }
 
 const styles = StyleSheet.create({
-  button: { paddingVertical: 16, borderRadius: 12, alignItems: 'center' },
-  label: { color: '#101113', fontWeight: '700' },
+  button: { paddingVertical: 16, borderRadius: radius.button, alignItems: 'center' },
+  label: { color: colors.bg, fontWeight: '700' },
 });

@@ -11,12 +11,12 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerRight: () => <SosButton />,
-        headerStyle: { backgroundColor: theme.background },
-        headerTintColor: theme.text,
+        headerStyle: { backgroundColor: theme.bg },
+        headerTintColor: theme.textPrimary,
         headerShadowVisible: false,
         tabBarActiveTintColor: theme.accent,
         tabBarInactiveTintColor: theme.textSecondary,
-        tabBarStyle: { backgroundColor: theme.background, borderTopColor: theme.border },
+        tabBarStyle: { backgroundColor: theme.bg, borderTopColor: theme.border },
       }}
     >
       <Tabs.Screen

@@ -82,6 +82,26 @@ export interface IntakeContent {
   prior_quit_attempts: string[];
 }
 
+// Insight interstitials (PRODUCT_SPEC §4 value arc) — copy is clinical/cited
+// content authored separately; the trigger is the only part the app evaluates.
+export interface OnboardingInsightTrigger {
+  field: 'escalation' | 'priorQuitAttempts' | 'frequencyNow' | 'yearsOfUse';
+  equals?: string;
+  in?: string[];
+}
+
+export interface OnboardingInsight {
+  id: string;
+  afterStep: string;
+  trigger: OnboardingInsightTrigger;
+  text: string;
+  citation: string;
+}
+
+export interface OnboardingInsightsContent {
+  insights: OnboardingInsight[];
+}
+
 export interface ContentPack {
   content_version: string;
   modules: ProgramModule[];

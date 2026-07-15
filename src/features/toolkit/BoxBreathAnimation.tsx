@@ -30,7 +30,7 @@ export function BoxBreathAnimation({ phase, phaseSeconds }: Props) {
     <Animated.View
       style={[
         styles.circle,
-        { backgroundColor: theme.backgroundElement, borderColor: theme.accent, transform: [{ scale }] },
+        { backgroundColor: theme.surface, borderColor: theme.accent, transform: [{ scale }] },
       ]}
     />
   );

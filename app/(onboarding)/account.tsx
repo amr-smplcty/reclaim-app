@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import * as AppleAuthentication from 'expo-apple-authentication';
@@ -9,16 +9,26 @@ import { ThemedText } from '@/components/themed-text';
 import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
-import { generateAnonymousDisplayName, signInWithApple, signInWithEmail } from '@/lib/supabase/auth';
+import {
+  continueWithoutAccountDev,
+  generateAnonymousDisplayName,
+  signInWithApple,
+  signInWithEmail,
+} from '@/lib/supabase/auth';
+import { shouldOfferAppleSignIn } from '@/lib/supabase/appleSignIn';
 import { recordLegalAcceptance } from '@/lib/legal/acceptance';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
+
+const CONNECTION_ERROR_MESSAGE = "Can't reach the server right now. Check your connection and try again.";
 
 // PRODUCT_SPEC §4 step 11 — Sign in with Apple (required option) + email
 // fallback, plus the required un-prechecked Terms/Privacy checkbox
 // (LEGAL_COMPLIANCE §9). Apple's native flow needs a real dev-client/EAS
 // build to actually complete (see CLAUDE.md risks) — email is the path
-// testable in Expo Go.
+// testable in Expo Go. The Apple button itself renders as a red
+// "Unimplemented component" box in Expo Go (its native view manager isn't
+// present there), so availability is detected before rendering it at all.
 export default function AccountScreen() {
   const theme = useTheme();
   const updateAnswers = useOnboardingStore((s) => s.updateAnswers);
@@ -27,6 +37,14 @@ export default function AccountScreen() {
   const [agreedToLegal, setAgreedToLegal] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [appleAvailable, setAppleAvailable] = useState(false);
+
+  useEffect(() => {
+    if (Platform.OS !== 'ios') return;
+    AppleAuthentication.isAvailableAsync()
+      .then(setAppleAvailable)
+      .catch(() => setAppleAvailable(false));
+  }, []);
 
   const canSubmit = agreedToLegal && !submitting;
 
@@ -50,7 +68,8 @@ export default function AccountScreen() {
       const data = await signInWithApple();
       await afterSignIn(data.user?.id);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Sign in with Apple failed. Try email instead.');
+      console.error('[account] Apple sign-in failed:', e);
+      setError(CONNECTION_ERROR_MESSAGE);
     } finally {
       setSubmitting(false);
     }
@@ -65,7 +84,22 @@ export default function AccountScreen() {
       await signInWithEmail(email, displayName);
       await afterSignIn(undefined);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Could not sign in. Check your connection and try again.');
+      console.error('[account] Email sign-in failed:', e);
+      setError(CONNECTION_ERROR_MESSAGE);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function handleDevBypass() {
+    setSubmitting(true);
+    setError(null);
+    try {
+      const data = continueWithoutAccountDev();
+      await afterSignIn(data.user.id);
+    } catch (e) {
+      console.error('[account] Dev bypass failed:', e);
+      setError(CONNECTION_ERROR_MESSAGE);
     } finally {
       setSubmitting(false);
     }
@@ -80,7 +114,7 @@ export default function AccountScreen() {
         You'll appear as "{displayName}" — no real names needed.
       </ThemedText>
 
-      {Platform.OS === 'ios' ? (
+      {shouldOfferAppleSignIn(Platform.OS, appleAvailable) ? (
         <AppleAuthentication.AppleAuthenticationButton
           buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}
           buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
@@ -88,7 +122,11 @@ export default function AccountScreen() {
           style={[styles.appleButton, !canSubmit && styles.disabled]}
           onPress={canSubmit ? handleApple : () => setError('Please agree to the Terms of Use and Privacy Policy first.')}
         />
-      ) : null}
+      ) : (
+        <ThemedText type="small" themeColor="textSecondary" style={styles.appleUnavailable}>
+          Sign in with Apple available in the full app.
+        </ThemedText>
+      )}
 
       <ThemedText type="small" themeColor="textSecondary" style={styles.or}>
         or continue with email
@@ -100,7 +138,7 @@ export default function AccountScreen() {
         placeholderTextColor={theme.textSecondary}
         keyboardType="email-address"
         autoCapitalize="none"
-        style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+        style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
         accessibilityLabel="Email address"
       />
 
@@ -116,7 +154,7 @@ export default function AccountScreen() {
             { borderColor: theme.border, backgroundColor: agreedToLegal ? theme.accent : 'transparent' },
           ]}
         >
-          {agreedToLegal ? <Ionicons name="checkmark" size={16} color="#101113" /> : null}
+          {agreedToLegal ? <Ionicons name="checkmark" size={16} color={theme.bg} /> : null}
         </Pressable>
         <ThemedText type="small" themeColor="textSecondary" style={styles.checkboxLabel}>
           I agree to the{' '}
@@ -140,6 +178,13 @@ export default function AccountScreen() {
         onPress={handleEmail}
         disabled={!canSubmit || !email.includes('@')}
       />
+      {__DEV__ ? (
+        <Pressable onPress={handleDevBypass} disabled={!canSubmit} hitSlop={8} style={styles.devBypass}>
+          <ThemedText type="small" themeColor="textSecondary" style={!canSubmit && styles.disabled}>
+            Continue without account (dev)
+          </ThemedText>
+        </Pressable>
+      ) : null}
     </OnboardingLayout>
   );
 }
@@ -149,6 +194,8 @@ const styles = StyleSheet.create({
   title: { marginBottom: Spacing.two },
   subtitle: { marginBottom: Spacing.five },
   appleButton: { height: 50, marginBottom: Spacing.four },
+  appleUnavailable: { textAlign: 'center', marginBottom: Spacing.four },
+  devBypass: { alignItems: 'center', marginTop: Spacing.three },
   disabled: { opacity: 0.4 },
   or: { textAlign: 'center', marginBottom: Spacing.three },
   input: { borderWidth: 1, borderRadius: 10, padding: 14, fontSize: 16, marginBottom: Spacing.three },

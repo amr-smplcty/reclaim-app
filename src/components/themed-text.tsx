@@ -1,6 +1,6 @@
 import { StyleSheet, Text, type TextProps } from 'react-native';
 
-import { ThemeColor } from '@/constants/theme';
+import { type ThemeColor, typography } from '@/theme/tokens';
 import { useTheme } from '@/hooks/use-theme';
 
 export type ThemedTextProps = TextProps & {
@@ -14,7 +14,7 @@ export function ThemedText({ style, type = 'default', themeColor, ...rest }: The
   return (
     <Text
       style={[
-        { color: theme[themeColor ?? 'text'] },
+        { color: theme[themeColor ?? 'textPrimary'] },
         type === 'default' && styles.default,
         type === 'title' && styles.title,
         type === 'subtitle' && styles.subtitle,
@@ -28,9 +28,9 @@ export function ThemedText({ style, type = 'default', themeColor, ...rest }: The
 }
 
 const styles = StyleSheet.create({
-  default: { fontSize: 16, lineHeight: 24, fontWeight: '400' },
-  title: { fontSize: 28, lineHeight: 34, fontWeight: '600' },
+  default: { ...typography.body },
+  title: { ...typography.title },
   subtitle: { fontSize: 20, lineHeight: 26, fontWeight: '600' },
-  small: { fontSize: 13, lineHeight: 18, fontWeight: '400' },
-  link: { fontSize: 16, lineHeight: 24, fontWeight: '500' },
+  small: { ...typography.caption },
+  link: { ...typography.body, fontWeight: '500' },
 });

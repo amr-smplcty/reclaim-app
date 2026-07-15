@@ -38,4 +38,32 @@ describe('useOnboardingStore', () => {
     expect(answers.motivationOther).toBe('');
     expect(answers.yearsOfUse).toBe('3');
   });
+
+  it('advances into the escalation insight when its trigger matches', () => {
+    useOnboardingStore.getState().updateAnswers({ escalation: 'yes' });
+    useOnboardingStore.getState().goToStep('context-escalation');
+    useOnboardingStore.getState().advance();
+    expect(useOnboardingStore.getState().currentStep).toBe('insight-escalation');
+  });
+
+  it('skips the escalation insight when its trigger does not match', () => {
+    useOnboardingStore.getState().updateAnswers({ escalation: 'no' });
+    useOnboardingStore.getState().goToStep('context-escalation');
+    useOnboardingStore.getState().advance();
+    expect(useOnboardingStore.getState().currentStep).toBe('context-quits');
+  });
+
+  it('advances into the repeated-quits insight when its trigger matches', () => {
+    useOnboardingStore.getState().updateAnswers({ priorQuitAttempts: '6+ times' });
+    useOnboardingStore.getState().goToStep('context-quits');
+    useOnboardingStore.getState().advance();
+    expect(useOnboardingStore.getState().currentStep).toBe('insight-quits');
+  });
+
+  it('skips the repeated-quits insight when its trigger does not match', () => {
+    useOnboardingStore.getState().updateAnswers({ priorQuitAttempts: 'None yet' });
+    useOnboardingStore.getState().goToStep('context-quits');
+    useOnboardingStore.getState().advance();
+    expect(useOnboardingStore.getState().currentStep).toBe('disclaimer');
+  });
 });

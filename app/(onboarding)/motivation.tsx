@@ -12,7 +12,7 @@ import { getIntakeContent, getCrisisPatterns } from '@/lib/content';
 import { detectSafetySignal } from '@/lib/safety/detect';
 import { trackCrisisLanguageDetected, trackIllegalContentDisclosed } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 const { motivations } = getIntakeContent();
 
@@ -54,7 +54,7 @@ export default function MotivationScreen() {
   return (
     <OnboardingLayout step="motivation">
       <ThemedText type="title" style={styles.title}>
-        What's driving you right now?
+        What's driving you to change your porn use right now?
       </ThemedText>
       <ThemedText type="default" themeColor="textSecondary" style={styles.subtitle}>
         Select all that apply.
@@ -75,7 +75,7 @@ export default function MotivationScreen() {
             placeholder="Tell us more"
             placeholderTextColor={theme.textSecondary}
             multiline
-            style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+            style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
             accessibilityLabel="Other motivation, free text"
           />
         ) : null}

@@ -11,7 +11,7 @@ import { useProgramStore } from '@/features/program/useProgramStore';
 import { useToolkitStore, type LapseFailureMode, type Trigger } from '@/features/toolkit/useToolkitStore';
 import { trackLapseLogged } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 const BEFORE_CHIPS: Array<{ id: Trigger; label: string }> = [
   { id: 'stress', label: 'Stress' },
@@ -117,7 +117,7 @@ export default function LapseDebriefScreen() {
         placeholder="Anything else about that hour?"
         placeholderTextColor={theme.textSecondary}
         multiline
-        style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+        style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
         accessibilityLabel="What was happening in the hour before"
       />
 
@@ -148,7 +148,7 @@ export default function LapseDebriefScreen() {
         placeholder="Your answer feeds your relapse-prevention plan"
         placeholderTextColor={theme.textSecondary}
         multiline
-        style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+        style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
         accessibilityLabel="What's one thing to change for next time"
       />
 

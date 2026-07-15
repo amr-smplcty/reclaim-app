@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedView } from '@/components/themed-view';
 import { ToolkitHome } from '@/features/toolkit/ToolkitHome';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 // SOS opens the exact same Toolkit as the tab (CLAUDE.md: reachable in ≤2
 // taps from every screen, must load instantly).
@@ -20,9 +20,9 @@ export default function SosScreen() {
           accessibilityRole="button"
           accessibilityLabel="Close"
           hitSlop={8}
-          style={[styles.closeButton, { backgroundColor: theme.backgroundElement }]}
+          style={[styles.closeButton, { backgroundColor: theme.surface }]}
         >
-          <Ionicons name="close" size={20} color={theme.text} />
+          <Ionicons name="close" size={20} color={theme.textPrimary} />
         </Pressable>
       </View>
       <ToolkitHome />

@@ -6,7 +6,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import { EditableList } from '@/features/program/exercises/EditableList';
 import type { ChecklistCommitOutput, ChecklistCommitPayload } from '@/types/program';
 

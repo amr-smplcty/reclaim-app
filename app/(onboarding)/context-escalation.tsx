@@ -7,7 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore, type EscalationAnswer } from '@/features/assessment/useOnboardingStore';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 // Escalation (yes/no/unsure) is named explicitly in CLINICAL_SPEC §2.4 — no
 // content JSON needed for these 3 fixed options.
@@ -30,7 +30,7 @@ export default function ContextEscalationScreen() {
   return (
     <OnboardingLayout step="context-escalation">
       <ThemedText type="title" style={styles.title}>
-        Has it taken more to get the same effect over time?
+        Has it taken more porn to get the same effect over time?
       </ThemedText>
       <View>
         {OPTIONS.map((option) => (

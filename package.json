@@ -66,6 +66,7 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "lint:banned-words": "node scripts/lint-banned-words.js",
+    "lint:tokens": "node scripts/lint-tokens.js",
     "typecheck": "tsc --noEmit",
     "test": "jest"
   },

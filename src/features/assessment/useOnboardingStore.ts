@@ -2,6 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import { shouldShowInsight } from '@/features/assessment/onboardingInsights';
+
 // Step order mirrors PRODUCT_SPEC §4 steps 1-12 (paywall placeholder until Epic 3).
 // "disclaimer" is the wellness-disclaimer interstitial added ahead of the
 // assessment per LEGAL_COMPLIANCE §3/§6.
@@ -12,7 +14,9 @@ export type OnboardingStepId =
   | 'context-years'
   | 'context-frequency'
   | 'context-escalation'
+  | 'insight-escalation'
   | 'context-quits'
+  | 'insight-quits'
   | 'disclaimer'
   | 'ppcs6'
   | 'mood'
@@ -22,6 +26,9 @@ export type OnboardingStepId =
   | 'account'
   | 'paywall';
 
+// "insight-escalation"/"insight-quits" are insight interstitials (PRODUCT_SPEC
+// §4 value arc) — present in the step order but skipped at advance()-time
+// when their content-JSON trigger doesn't match the user's answers.
 export const ONBOARDING_STEPS: OnboardingStepId[] = [
   'welcome',
   'age',
@@ -29,7 +36,9 @@ export const ONBOARDING_STEPS: OnboardingStepId[] = [
   'context-years',
   'context-frequency',
   'context-escalation',
+  'insight-escalation',
   'context-quits',
+  'insight-quits',
   'disclaimer',
   'ppcs6',
   'mood',
@@ -99,6 +108,8 @@ export function nextStepOf(current: OnboardingStepId): OnboardingStepId {
   return ONBOARDING_STEPS[Math.min(idx + 1, ONBOARDING_STEPS.length - 1)];
 }
 
+const INSIGHT_STEPS: OnboardingStepId[] = ['insight-escalation', 'insight-quits'];
+
 export const useOnboardingStore = create<OnboardingState>()(
   persist(
     (set) => ({
@@ -106,7 +117,14 @@ export const useOnboardingStore = create<OnboardingState>()(
       answers: defaultAnswers,
       isMinor: false,
       goToStep: (step) => set({ currentStep: step }),
-      advance: () => set((state) => ({ currentStep: nextStepOf(state.currentStep) })),
+      advance: () =>
+        set((state) => {
+          let next = nextStepOf(state.currentStep);
+          while (INSIGHT_STEPS.includes(next) && !shouldShowInsight(next, state.answers)) {
+            next = nextStepOf(next);
+          }
+          return { currentStep: next };
+        }),
       updateAnswers: (partial) => set((state) => ({ answers: { ...state.answers, ...partial } })),
       setIsMinor: (value) => set({ isMinor: value }),
       // Illegal-content/crisis disclosures are never persisted past the safety check (CLINICAL_SPEC §6).

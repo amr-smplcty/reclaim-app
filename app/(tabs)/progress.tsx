@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useProgramStore } from '@/features/program/useProgramStore';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import type { ProfileBuilderOutput } from '@/types/program';
 
 // Placeholder for Progress (PRODUCT_SPEC §5.5) — PPCS-6 score trend, urge

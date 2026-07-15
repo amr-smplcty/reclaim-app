@@ -7,7 +7,7 @@ import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getPpcs6Assessment } from '@/lib/content';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 const ppcs6 = getPpcs6Assessment();
 

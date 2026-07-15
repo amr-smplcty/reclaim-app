@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import type { JournalTimelineItem } from '@/features/journal/timeline';
 
 const ICONS: Record<JournalTimelineItem['type'], keyof typeof Ionicons.glyphMap> = {

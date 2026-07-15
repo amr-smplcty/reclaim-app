@@ -9,7 +9,7 @@ import { useProgramStore } from '@/features/program/useProgramStore';
 import { dayKey, findProgramDay, previousPosition } from '@/features/program/progression';
 import { DailyCard } from '@/features/program/DailyCard';
 import { CommitmentFollowupCard } from '@/features/program/CommitmentFollowupCard';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import type { ChecklistCommitOutput, ChecklistCommitPayload, CommitmentBuilderOutput } from '@/types/program';
 
 // Today (PRODUCT_SPEC §5.1) — daily card stack. Progression advances on

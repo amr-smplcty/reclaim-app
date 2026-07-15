@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ChoiceChip } from '@/components/choice-chip';
 import { ThemedText } from '@/components/themed-text';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 interface Props {
   items: string[];
@@ -49,7 +49,7 @@ export function EditableList({ items, onChange, suggestions = [], addPlaceholder
           onChangeText={setDraft}
           placeholder={addPlaceholder}
           placeholderTextColor={theme.textSecondary}
-          style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+          style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
           onSubmitEditing={() => addItem(draft)}
           accessibilityLabel={addPlaceholder}
         />
@@ -57,7 +57,7 @@ export function EditableList({ items, onChange, suggestions = [], addPlaceholder
           onPress={() => addItem(draft)}
           accessibilityRole="button"
           accessibilityLabel="Add item"
-          style={[styles.addButton, { backgroundColor: theme.backgroundElement }]}
+          style={[styles.addButton, { backgroundColor: theme.surface }]}
         >
           <Ionicons name="add" size={20} color={theme.accent} />
         </Pressable>

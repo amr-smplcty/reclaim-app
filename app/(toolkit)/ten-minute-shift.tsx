@@ -16,7 +16,7 @@ import { resolveShiftListSeed } from '@/features/program/shiftList';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { describeDelta, shouldOfferUrgeSurfEscalation } from '@/features/toolkit/suggestion';
 import { trackUrgeToolUsed } from '@/lib/analytics/events';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import type { GuidedListOutput } from '@/types/program';
 
 const TOTAL_SECONDS = 600;

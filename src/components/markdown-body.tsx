@@ -12,10 +12,10 @@ export function MarkdownBody({ children }: Props) {
   return (
     <Markdown
       style={{
-        body: { color: theme.text, fontSize: 16, lineHeight: 24 },
-        heading1: { color: theme.text, fontWeight: '700', fontSize: 22, marginBottom: 8 },
-        heading2: { color: theme.text, fontWeight: '700', fontSize: 19, marginBottom: 6 },
-        strong: { color: theme.text, fontWeight: '700' },
+        body: { color: theme.textPrimary, fontSize: 16, lineHeight: 24 },
+        heading1: { color: theme.textPrimary, fontWeight: '700', fontSize: 22, marginBottom: 8 },
+        heading2: { color: theme.textPrimary, fontWeight: '700', fontSize: 19, marginBottom: 6 },
+        strong: { color: theme.textPrimary, fontWeight: '700' },
         em: { fontStyle: 'italic' },
         paragraph: { marginTop: 0, marginBottom: 16 },
         bullet_list: { marginBottom: 12 },

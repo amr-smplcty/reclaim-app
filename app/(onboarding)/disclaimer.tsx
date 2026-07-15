@@ -4,7 +4,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 // Wellness disclaimer interstitial (PRODUCT_SPEC §4 step 5) — exact text from
 // LEGAL_COMPLIANCE §6, verbatim, pending attorney sign-off. Do not reword.

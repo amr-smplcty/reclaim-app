@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import type { DualSliderWriteOutput, DualSliderWritePayload } from '@/types/program';
 import { NumberScale } from '@/features/program/exercises/NumberScale';
 
@@ -59,7 +59,7 @@ export function DualSliderWrite({ payload, onSubmit }: Props) {
             placeholder="Write your answer"
             placeholderTextColor={theme.textSecondary}
             multiline
-            style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+            style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
             accessibilityLabel={prompt}
           />
         </View>

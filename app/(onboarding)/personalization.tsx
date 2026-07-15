@@ -6,7 +6,7 @@ import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getIntakeContent } from '@/lib/content';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 // PRODUCT_SPEC §4 step 8 — "Your plan: 6 weeks, ~10 min/day, focused on [top motivations]."
 export default function PersonalizationScreen() {
