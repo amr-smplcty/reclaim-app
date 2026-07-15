@@ -1,0 +1,287 @@
+{
+  "content_version": "1.3.0",
+  "notes_for_engineering": "Week 3 pack + onboarding insight copy. (1) The onboarding_insights key below contains the authored, cited copy for the two interstitials Epic 2c stubbed (insight-escalation, insight-quits) — merge these into content/onboarding_insights.json, replacing the TODO(content) placeholders; trigger conditions stay as implemented. Insights must never appear between the six PPCS-6 items. (2) New exercise payload kind this week: tool_practice — launches a named Toolkit tool in practice mode (practice sessions logged distinctly from live urge uses, e.g. {practice: true} on the log) and marks the exercise complete when the tool session completes. Fallback if not yet implemented: render steps as a worksheet with a button deep-linking to the tool. (3) Day 7 saves urge_script — surface it in the Toolkit's Urge Surf entry screen and on the Emergency Card. All copy clinician-review-pending; do not edit wording in code.",
+  "onboarding_insights": {
+    "insight-escalation": {
+      "title": "That's called tolerance — and it's on the map",
+      "body": "Needing more, or more intense, material over time has a name in the research: tolerance. It's one of the six markers the screening you're about to take was built to measure (Bőthe et al., 2020). Naming it is the first step to reversing it — your plan will target it directly.",
+      "citation_short": "Bőthe et al., 2020"
+    },
+    "insight-quits": {
+      "title": "Trying before isn't a bad sign",
+      "body": "Most people arrive here having tried to stop on their own — that pattern is so common the screening measures it directly (Bőthe et al., 2020). Here's the useful part: the approaches tested in published trials are structured and skills-based, not willpower-based. You're not starting over. You're starting differently.",
+      "citation_short": "Bőthe et al., 2020"
+    }
+  },
+  "modules": [
+    {
+      "week": 3,
+      "title": "Ride the Urge",
+      "days": [
+        {
+          "day": 1,
+          "lesson": {
+            "id": "w3d1_lesson",
+            "title": "The anatomy of an urge",
+            "body_md": "Two weeks of mapping have shown you where urges come from. This week you learn what to do when one is actually *here* — standing in your chest, making its case. And the first step is understanding what an urge actually is, because almost everyone has it wrong.\n\nAn urge is not a command. It's not a verdict about what's going to happen. It is a **wave of physical sensation and mental noise** that your nervous system produces when a trained cue fires. And like every wave, it has a fixed anatomy:\n\n**It rises.** Triggered by a cue — often one from your map — it builds. This part can feel alarming, like it will keep climbing forever.\n\n**It crests.** It won't keep climbing. Urges peak and then lose power, typically within minutes to half an hour — *if you don't feed them*. That last clause is everything. What feeds an urge? Acting on it, obviously. But also: fantasizing into it, negotiating with it (\"maybe just for a minute\"), and — this surprises people — *fighting it in a panic*, which keeps your attention locked on it. Attention is food.\n\n**It passes.** Every single time. You have personally survived hundreds of urges — every urge you've ever had, in fact, including the ones you acted on. Acting didn't end the urge; the urge was always going to end. Acting just decided what you paid for it.\n\nThe skill of this week — riding the wave instead of being knocked over by it — is called **urge surfing**, and it comes with one non-negotiable training rule: **you practice while calm.** A skill rehearsed only in emergencies is not a skill; it's a hope. Firefighters drill on quiet days. So will you: once a day this week, three minutes, starting today.\n\nToday's practice is your first calm run of the Urge Surf tool. No urge required — you're learning the moves in flat water.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "When an urge hits, what's your usual instinct?",
+              "options": [
+                "Fight it hard and white-knuckle",
+                "Negotiate with it ('just a little')",
+                "Distract myself and hope",
+                "Give in quickly to make it stop",
+                "Honestly — I've never had a plan"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w3d1_ex",
+            "type": "worksheet",
+            "title": "First calm run — Urge Surf",
+            "steps": [
+              "Open the Urge Surf tool and complete one full 3-minute session, right now, calm.",
+              "You're learning the sequence: locate the feeling, describe it, breathe into it, watch it as a wave, reconnect to your reason, choose your next move.",
+              "Afterwards, note one thing: which step felt most natural, and which felt strangest? Strange is fine — strange means new."
+            ],
+            "payload": {
+              "kind": "tool_practice",
+              "tool": "urge_surf",
+              "practice_mode": true,
+              "post_prompt": "Which step felt most natural — and which felt strangest?",
+              "save_to": "surf_practice_notes"
+            }
+          }
+        },
+        {
+          "day": 2,
+          "lesson": {
+            "id": "w3d2_lesson",
+            "title": "Why fighting feeds it",
+            "body_md": "Yesterday you learned that attention is food for an urge. Today, the counterintuitive heart of this whole week: **the observing stance** — how *watching* an urge starves it, while *wrestling* it makes it stronger.\n\nHere's the trap built into fighting. The moment you declare war on a feeling — *\"I must not feel this, make it stop\"* — you've done two things. You've locked your attention onto it (food). And you've added a second layer of distress *about* the first: now you're anxious about being anxious, upset about craving. Psychologists sometimes call this the second arrow — the pain you add on top of the pain. The urge itself is arrow one. The panic about the urge is arrow two, and you're the one holding that bow.\n\nThe observing stance drops the second arrow. Instead of *\"make it stop,\"* the move is: *\"there it is.\"* You place your attention on the raw sensation — tight chest, restless energy, the pull — the way a scientist watches weather. Curious, unhurried, taking notes. Not because the sensation is pleasant, but because **observed sensations behave differently from fought ones.** They stop escalating. They become just… weather.\n\nThis is precisely what the middle of your Urge Surf practice trains: *find it in the body, describe it like a scientist.* That's not filler — it's the active ingredient. Each calm practice run is teaching your nervous system a radical new association: this feeling can be *had* without being *obeyed* — and without being feared.\n\nOne honest expectation: the observing stance feels unnatural at first, like leaning into a skid. Your instincts scream to fight or flee. That's why we drill in flat water. Today: practice run two. This time, when you reach the describe step, try to find three genuinely accurate words for the sensation. Precision is the skill.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "Think of your last real urge. What did the second arrow look like — what did you add on top of it?"
+            }
+          },
+          "exercise": {
+            "id": "w3d2_ex",
+            "type": "worksheet",
+            "title": "Practice run two — three true words",
+            "steps": [
+              "Complete today's calm Urge Surf session.",
+              "At the 'describe it like a scientist' step, find three genuinely accurate words for what you notice in your body — even in calm, there's always something: heaviness, buzzing, warmth, restlessness.",
+              "Log your three words afterwards. You're building a vocabulary for sensations you used to only run from."
+            ],
+            "payload": {
+              "kind": "tool_practice",
+              "tool": "urge_surf",
+              "practice_mode": true,
+              "post_prompt": "My three words for what I noticed:",
+              "save_to": "sensation_vocabulary"
+            }
+          }
+        },
+        {
+          "day": 3,
+          "lesson": {
+            "id": "w3d3_lesson",
+            "title": "Your breath is a lever",
+            "body_md": "Before the week's two big mental skills (defusion tomorrow, willingness the day after), today is about the fastest physical lever you own: **your breath** — and the 90-second tool built on it.\n\nHere's the mechanism, plainly. Urges recruit your body's arousal system: heart rate up, muscles ready, attention narrowed to the craving. That state has a feature you can exploit — **it's steerable from the outside.** You can't order your heart to slow down, but you can slow your exhale, and your heart follows. A long, slow out-breath activates the body's braking system (the parasympathetic response), and everything downstream — the urgency, the tunnel vision, the *right-now-ness* of the urge — loses a few degrees of heat with it.\n\nThat's what the 90-second breather in your Toolkit does: box breathing — in, hold, out, hold, in equal counts — which is less about the pattern's magic and more about giving your attention a simple, rhythmic job while your exhales do the mechanical work.\n\nBe clear about what this tool is for. It doesn't delete urges — 90 seconds of breathing rarely ends one. What it does is **buy back your decision-making** in the exact window where the urge wants you impulsive. Remember Week 2: urges are impatient; they win in the fog of *right now*. The breather clears just enough fog to reach your next tool — the Shift, the Surf, your if-then plan. It's the airlock, not the destination.\n\nThat's why your Toolkit suggests it for lower-intensity urges and as the on-ramp when you're too rattled to do anything else. Hands shaking? You can still breathe. That's the point — it has no minimum requirement.\n\nToday's practice: two breather sessions, once now, once tonight. And a small planning step: decide where the breather slots into your if-then plans from Week 2.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Where does the breather most belong in your plan?",
+              "options": [
+                "First response to any urge — my airlock",
+                "For the low-grade urges that don't need the full Surf",
+                "Before bed, to defuse the risky window",
+                "When stress spikes, before it becomes an urge"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w3d3_ex",
+            "type": "worksheet",
+            "title": "Two breathers and a slot",
+            "steps": [
+              "Complete one 90-second breather session now.",
+              "Write where the breather slots into your if-then plans (example: 'If I notice stress building at work, then breather before I open anything.').",
+              "Do your second session tonight — ideally inside your risky window, as a preemptive strike."
+            ],
+            "payload": {
+              "kind": "tool_practice",
+              "tool": "breather",
+              "practice_mode": true,
+              "post_prompt": "My breather slot: If ___, then breather.",
+              "save_to": "breather_slot"
+            }
+          }
+        },
+        {
+          "day": 4,
+          "lesson": {
+            "id": "w3d4_lesson",
+            "title": "Thoughts are not commands",
+            "body_md": "Every urge arrives with a sales team: thoughts. *\"Just this once.\" \"You've had a hard day, you deserve it.\" \"You already slipped this month, so what's the difference.\" \"You'll start fresh Monday.\"* They sound like *you* — that's their trick. Today's skill, borrowed from Acceptance and Commitment Therapy, is learning to see them as what they are: **words your mind produces**, not orders you must carry out. The skill is called **defusion**.\n\nHere's the core insight. When a thought shows up, you're usually *fused* with it — looking *through* it like a lens, so its claim feels like plain reality. \"I deserve this\" doesn't feel like a sentence; it feels like the truth of the evening. Defusion steps back and looks *at* the thought instead of through it. And the technique is almost comically simple — you re-wrap the thought in its packaging:\n\nInstead of *\"I deserve this,\"* you say: ***\"I'm having the thought that I deserve this.\"***\nThen one step further: ***\"I notice I'm having the thought that I deserve this.\"***\n\nSay those three versions in a row and feel what happens. The claim doesn't disappear — but it moves from *fact about the world* to *event in your mind*. And events in your mind don't require obedience. You can hold a thought the way you'd hold a leaflet someone handed you on the street: read it, note it, keep walking.\n\nTwo upgrades that make defusion stick: **name the salesman** — most people's urge-thoughts are a small recurring cast (\"ah, the You-Deserve-It pitch again\"), and familiarity kills persuasion. And **thank the mind** — a light *\"thanks, mind, got it\"* works better than arguing, because arguing is attention, and attention is food.\n\nToday you'll write down your own recurring sales pitches and defuse each one on paper. Naming them in calm daylight is what lets you recognize them at 11pm.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "Which sales pitch does your mind run most often — and does it have a favorite time to call?"
+            }
+          },
+          "exercise": {
+            "id": "w3d4_ex",
+            "type": "worksheet",
+            "title": "Name the sales team",
+            "steps": [
+              "Write your mind's three most common urge-thoughts, word for word, as they actually sound in your head.",
+              "Re-wrap each one: 'I'm having the thought that…' — then give each pitch a short nickname ('The Reward Pitch', 'The Monday Reset').",
+              "Run one live drill: open the Defusion tool in your Toolkit and feed it your strongest pitch. Your sales team is now on file — and a salesman you've named has already lost most of his commission."
+            ],
+            "payload": {
+              "kind": "guided_list",
+              "prompt": "My mind's recurring pitches (word for word), each with a nickname:",
+              "suggestions": [
+                "\"Just this once\" — The One-Timer",
+                "\"You deserve it after today\" — The Reward Pitch",
+                "\"You already slipped, so what's the difference\" — The Write-Off",
+                "\"You'll start fresh Monday\" — The Monday Reset",
+                "\"No one would ever know\" — The Secret-Keeper"
+              ],
+              "min_items": 3,
+              "save_to": "urge_thoughts",
+              "companion_tool": "defusion"
+            }
+          }
+        },
+        {
+          "day": 5,
+          "lesson": {
+            "id": "w3d5_lesson",
+            "title": "Drop the rope",
+            "body_md": "Picture the classic ACT image: you're in a tug-of-war with a monster — the urge — and between you is a pit. You pull, it pulls, your hands burn, and every ounce of you is consumed by not losing. Now the question that changes everything: **what happens if you just… drop the rope?**\n\nThe monster doesn't vanish. It's still there, still ugly, maybe still shouting. But it can no longer pull you anywhere — and your hands are suddenly free for something else.\n\nDropping the rope is called **willingness**, and it is the most misunderstood idea in this entire program, so let's be precise. Willingness is NOT wanting the urge, approving of it, or giving in to it. It is the decision to **let the feeling be present without organizing your whole evening around defeating it.** The fight itself was a form of obedience — the urge said *\"deal with ME,\"* and fighting is dealing with it. Willingness says: *\"you can stay; I have somewhere to be.\"*\n\nNotice how this completes the week's toolkit. The observing stance (Day 2) taught you to watch the wave. Defusion (Day 4) unhooked you from the sales pitch. Willingness is the posture that holds it all: urge present, hands free, life continuing. In the ACT research on exactly this problem, this combination — making room for the urge while redirecting effort toward what matters — is the mechanism being trained.\n\nAnd what do free hands do? They reach for your values — the Week 1 *why*, which becomes the entire subject of Week 4. Willingness without direction is just standing next to a monster; willingness *plus* values is walking away toward your actual life while it yells behind you, quieter every step.\n\nToday's exercise makes this concrete: an honest accounting of what holding the rope has cost you, and one deliberate rehearsal of dropping it.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Be honest — what has the tug-of-war itself been costing you?",
+              "options": [
+                "Hours of mental energy, even on 'clean' days",
+                "Sleep — the fight happens at night",
+                "Presence — I'm half-elsewhere with people I love",
+                "Peace — constant vigilance is exhausting",
+                "All of the above, honestly"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w3d5_ex",
+            "type": "worksheet",
+            "title": "The cost of the rope",
+            "steps": [
+              "Write three or four sentences: what has fighting — not the porn itself, the FIGHT — cost you? The vigilance, the white-knuckling, the mental bandwidth.",
+              "Now rehearse the drop, in words: 'The urge can be present. I don't have to make it leave. My hands are free for ___' — finish the sentence with something real from your values.",
+              "Tonight, if any uncomfortable feeling shows up (urge or otherwise), practice the posture once: notice it, allow it, and carry on with what you were doing. Report nothing. Just try it."
+            ],
+            "payload": {
+              "kind": "letter_write",
+              "prompt": "What the fight has cost me, and what my free hands are for:",
+              "min_chars": 120,
+              "save_to": "willingness_statement"
+            }
+          }
+        },
+        {
+          "day": 6,
+          "lesson": {
+            "id": "w3d6_lesson",
+            "title": "The ten-minute truth",
+            "body_md": "You now hold every tool in the box. Today we make sure you can grab the right one at speed — because in the real moment, you won't rise to the occasion; you'll fall to your level of practice.\n\nFirst, the principle the whole Toolkit orbits: **the ten-minute truth.** An urge's power is concentrated in a short window. Get through that window — occupied, moving, breathing, anywhere but feeding it — and you're usually dealing with an echo rather than a wave. This is why the 10-Minute Shift exists, why your Shift List demands things startable in under two minutes, and why every tool ends by pointing you at your *next ten minutes*. You're never asked to win a night. Only a window.\n\nNow, the fit — which tool, when:\n\n**Breather (90 sec):** the airlock. Low-grade urges, spiking stress, or when you're too rattled for anything else.\n\n**Urge Surf (3 min):** the main event for strong urges — ride the wave with the observing stance you've drilled all week.\n\n**Defusion (1 min):** when the *sales pitch* is the loudest part — the thoughts, the bargaining, the Monday Reset.\n\n**10-Minute Shift:** when you need somewhere to *go* — it burns the danger window with your own pre-built list.\n\n**Shift Environment:** when the room itself is the trigger — change the physics first.\n\nAnd threaded through all of it: **log the urge** (30 seconds, sharpens your map) and, if a slip happens, **the debrief, not the spiral** — your Week 1 letter is waiting there, in your own handwriting, for exactly that moment.\n\nToday is Toolkit mastery day: one honest pass through any tool you haven't yet used for real, plus the full 10-Minute Shift, end to end. Tomorrow, you write the script that ties the whole week into one page: yours.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Which tool do you trust most right now?",
+              "options": [
+                "The breather — simple and always available",
+                "Urge Surf — the wave makes sense to me",
+                "Defusion — my problem was always the thoughts",
+                "The 10-Minute Shift — I need somewhere to go",
+                "Still deciding — that's what today is for"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w3d6_ex",
+            "type": "worksheet",
+            "title": "Toolkit mastery day",
+            "steps": [
+              "Complete one full 10-Minute Shift, end to end — yes, the whole ten minutes. Pick something from your Shift List and let the timer run. Feel how long ten minutes actually is; that's the length of the window you're learning to win.",
+              "Then open any tool you haven't yet genuinely used and give it one honest run.",
+              "Afterwards: rank your tools from most to least 'mine'. There's no correct order — there's only your order, and knowing it before you need it."
+            ],
+            "payload": {
+              "kind": "tool_practice",
+              "tool": "ten_minute_shift",
+              "practice_mode": true,
+              "post_prompt": "My tools, ranked most-mine to least:",
+              "save_to": "tool_ranking"
+            }
+          }
+        },
+        {
+          "day": 7,
+          "lesson": {
+            "id": "w3d7_lesson",
+            "title": "Write your urge script",
+            "body_md": "A week ago, an urge was a chaotic emergency. Look at what it is now: a wave with a known anatomy, arriving with a sales team you've named, on a chain you've mapped, against tools you've drilled. One thing remains — compressing all of it into something usable at 11:40pm with zero thinking required: **your urge script.**\n\nAn urge script is a short, second-person set of instructions from calm-you to triggered-you. It works because of an asymmetry you've felt all your life: the moment of the urge is the *worst* possible time to devise a plan and the *best* possible time to follow one. Pilots don't compose checklists mid-emergency. They wrote them on the ground — then they just read.\n\nYours will follow the wave's own anatomy:\n\n**When it rises:** your opening move, from your own ranking yesterday. (*\"Breathe first. Airlock. You don't have to solve this, just slow it.\"*)\n\n**When the pitch starts:** your defusion line, naming your actual salesmen. (*\"That's the Reward Pitch. I'm having the thought that I've earned it. Thanks, mind.\"*)\n\n**At the crest:** your surf reminder and the ten-minute truth. (*\"This is the top. It cannot stay here. Win the window, not the night.\"*)\n\n**Your turn away:** the shift, and the reason. (*\"Hands free. Shower, then the playlist. This is for the Tuesday-morning version of me.\"*)\n\nWrite it in your own voice — the app will draft a skeleton from everything you've saved this week, but the words must sound like you, because you're the one who'll be reading them under fire. Keep it under a hundred words. Put one true, warm line at the end; triggered-you deserves a friend, not a drill sergeant.\n\nYour script will live at the front of your Urge Surf tool and on your Emergency Card. Next week, we aim everything at what the free hands are *for*: your values, and the life this whole effort is in service of.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "After this week, an urge feels like…",
+              "options": [
+                "A wave I know how to ride",
+                "Still scary, but no longer a mystery",
+                "Something I can watch instead of obey",
+                "Ask me at 11pm — but I have a script now"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w3d7_ex",
+            "type": "worksheet",
+            "title": "Your urge script",
+            "steps": [
+              "Review the draft script — assembled from your week: your opening tool, your named pitches, your surf line, your shift list, and your why.",
+              "Rewrite it in your own voice, under 100 words. It should read like the steadiest version of you talking a friend through a hard moment.",
+              "End with one warm line to yourself. Save it — it now lives at the front of your Urge Surf tool and on your Emergency Card, exactly where triggered-you will find it."
+            ],
+            "payload": {
+              "kind": "commitment_builder",
+              "template": "When it rises: {breather_slot_summary}\nWhen the pitch starts: remember — {urge_thoughts_top}. I'm having a thought, not taking an order.\nAt the crest: this is the top. It cannot stay here. Win the window, not the night.\nMy turn away: {shift_list_top}. My hands are free, and they're for {anchor_why_summary}.\nOne more thing: you've ridden every wave you've ever had. This one too.",
+              "inputs": ["breather_slot", "urge_thoughts", "shift_list", "anchor_why", "tool_ranking"],
+              "signature_required": false,
+              "max_words": 100,
+              "save_to": "urge_script",
+              "surface_in": ["urge_surf_entry", "emergency_card"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "checkin_prompts_additions": [
+    "Did you do today's calm practice run? What did you notice in your body?",
+    "Did any sales pitch show up today? Which one — and did you name it?",
+    "If an urge came today: did you fight it, obey it, or ride it?"
+  ]
+}
