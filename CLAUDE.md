@@ -74,5 +74,7 @@ EAS build profiles: `development`, `preview` (TestFlight), `production`.
 
 ## Definition of done (per epic)
 
-Typecheck clean · tests green · works in Expo Go on iPhone · analytics events fire ·
+Typecheck clean · tests green · `lint:banned-words`, `lint:tokens`, `lint:bundle-purity` clean ·
+`verify:bundle` passes (real dev-mode Metro export — the authoritative "app actually builds" check) ·
+works in Expo Go on iPhone · analytics events fire ·
 no clinical copy invented · accessibility labels present · matches spec section cited in PR.
