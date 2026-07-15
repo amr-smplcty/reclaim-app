@@ -4,7 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 // Full-screen safety interrupt (CLINICAL_SPEC §6) — never gated behind
 // subscription, shown immediately wherever crisis/illegal-content language is typed.

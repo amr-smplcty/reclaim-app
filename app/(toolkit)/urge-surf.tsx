@@ -13,7 +13,7 @@ import { PostToolRating } from '@/features/toolkit/PostToolRating';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { describeDelta } from '@/features/toolkit/suggestion';
 import { trackUrgeToolUsed } from '@/lib/analytics/events';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import type { UrgeSurfBeat } from '@/types/program';
 
 // Week 2's authored script (content/program.json's earlier interim text

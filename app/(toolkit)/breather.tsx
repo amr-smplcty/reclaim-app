@@ -12,7 +12,7 @@ import { PostToolRating } from '@/features/toolkit/PostToolRating';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { describeDelta } from '@/features/toolkit/suggestion';
 import { trackUrgeToolUsed } from '@/lib/analytics/events';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 const { total_seconds: totalSeconds, cycle_seconds: cycleSeconds } = getContentPack().toolkit.breather;
 const CYCLE_LENGTH = cycleSeconds.inhale + cycleSeconds.hold_in + cycleSeconds.exhale + cycleSeconds.hold_out;

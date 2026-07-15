@@ -6,7 +6,7 @@ import { ThemedText } from '@/components/themed-text';
 import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 // PRODUCT_SPEC §4 step 9 — permission primer, then the OS prompt. Actual
 // reminder scheduling (daily/risky-window/re-assessment, PRODUCT_SPEC §7) is Epic 9.

@@ -12,7 +12,7 @@ import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { describeDelta } from '@/features/toolkit/suggestion';
 import { trackUrgeToolUsed } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 type Step = 'input' | 'reframe1' | 'reframe2' | 'closing' | 'rate';
 
@@ -69,7 +69,7 @@ export default function DefusionScreen() {
           placeholder="Type the thought as it came to you"
           placeholderTextColor={theme.textSecondary}
           multiline
-          style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+          style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
           accessibilityLabel="The thought"
         />
         <PrimaryButton label="Next" onPress={handleThoughtSubmit} disabled={thought.trim().length === 0} />

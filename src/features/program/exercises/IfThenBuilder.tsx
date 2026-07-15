@@ -7,7 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import type { IfThenBuilderOutput, IfThenBuilderPayload, IfThenPlan } from '@/types/program';
 
 interface Props {
@@ -63,7 +63,7 @@ export function IfThenBuilder({ payload, referenceSummaries, onSubmit }: Props) 
             onChangeText={(text) => updatePlan(index, { if_text: text })}
             placeholder="If I notice..."
             placeholderTextColor={theme.textSecondary}
-            style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+            style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
             accessibilityLabel={`Plan ${index + 1} trigger`}
           />
           <ThemedText type="small" themeColor="textSecondary" style={styles.label}>
@@ -84,7 +84,7 @@ export function IfThenBuilder({ payload, referenceSummaries, onSubmit }: Props) 
             onChangeText={(text) => updatePlan(index, { then_text: text })}
             placeholder="Or write your own"
             placeholderTextColor={theme.textSecondary}
-            style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+            style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
             accessibilityLabel={`Plan ${index + 1} action, custom`}
           />
         </View>

@@ -11,7 +11,7 @@ import { NumberScale } from '@/features/program/exercises/NumberScale';
 import { useToolkitStore, type Trigger } from '@/features/toolkit/useToolkitStore';
 import { trackUrgeLogged } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 const TRIGGERS: Array<{ id: Trigger; label: string }> = [
   { id: 'stress', label: 'Stress' },
@@ -82,7 +82,7 @@ export default function LogUrgeScreen() {
         onChangeText={setLocation}
         placeholder="e.g. bedroom, at work"
         placeholderTextColor={theme.textSecondary}
-        style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+        style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
         accessibilityLabel="Location"
       />
 
@@ -95,7 +95,7 @@ export default function LogUrgeScreen() {
         placeholder="What did you do?"
         placeholderTextColor={theme.textSecondary}
         multiline
-        style={[styles.input, styles.multiline, { color: theme.text, borderColor: theme.border }]}
+        style={[styles.input, styles.multiline, { color: theme.textPrimary, borderColor: theme.border }]}
         accessibilityLabel="What happened next"
       />
 

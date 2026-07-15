@@ -8,7 +8,7 @@ import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getIntakeContent } from '@/lib/content';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 const { years_of_use: options } = getIntakeContent();
 
@@ -25,7 +25,7 @@ export default function ContextYearsScreen() {
   return (
     <OnboardingLayout step="context-years">
       <ThemedText type="title" style={styles.title}>
-        How long has this been going on?
+        How long has your porn use been going on?
       </ThemedText>
       <ScrollView showsVerticalScrollIndicator={false}>
         {options.map((option) => (

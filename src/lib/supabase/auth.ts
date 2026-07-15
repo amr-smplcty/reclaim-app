@@ -37,3 +37,16 @@ export async function signInWithEmail(email: string, displayName: string) {
   if (error) throw error;
   return data;
 }
+
+// Dev-only escape hatch (BACKLOG — remove or re-verify before TestFlight):
+// lets a developer clear both Apple sign-in (needs a real dev-client/EAS
+// build) and a configured Supabase project to keep testing the rest of
+// onboarding. Never touches Supabase, so there is no real account or
+// server-side session behind it — purely a local, device-only stand-in.
+export function continueWithoutAccountDev(): { user: { id: undefined } } {
+  if (!__DEV__) {
+    throw new Error('continueWithoutAccountDev is not available outside development builds');
+  }
+  console.warn('[DEV] Continuing without a real account — this session is local-only, not backed by Supabase.');
+  return { user: { id: undefined } };
+}

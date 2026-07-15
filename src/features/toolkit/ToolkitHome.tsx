@@ -10,7 +10,7 @@ import { suggestToolForIntensity } from '@/features/toolkit/suggestion';
 import { canUseTool, type ToolId } from '@/features/toolkit/entitlement';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { colors, radius, Spacing } from '@/theme/tokens';
 
 // TODO(Epic 3, blocked on Apple Developer enrollment): replace with a real
 // RevenueCat entitlement check once the paywall lands. Urge Surf and Breather
@@ -82,7 +82,7 @@ export function ToolkitHome() {
               style={({ pressed }) => [
                 styles.toolCard,
                 {
-                  backgroundColor: isSuggested ? theme.accent : theme.backgroundElement,
+                  backgroundColor: isSuggested ? theme.accent : theme.surface,
                   borderColor: theme.border,
                   opacity: enabled ? (pressed ? 0.85 : 1) : 0.4,
                 },
@@ -135,12 +135,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: radius.card,
     padding: Spacing.three,
     marginBottom: Spacing.three,
   },
   toolText: { flex: 1, gap: 2 },
-  onAccent: { color: '#101113' },
+  onAccent: { color: colors.bg },
   footer: { gap: Spacing.three, alignItems: 'stretch' },
   lapseButton: { alignItems: 'center', paddingVertical: Spacing.two },
 });

@@ -13,7 +13,7 @@ import { guardFreeText } from '@/lib/safety/guard';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { dayKey, findProgramDay } from '@/features/program/progression';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 // Lesson player (PRODUCT_SPEC §5.2) — markdown body, read time, end-of-lesson
 // reflection, calm "Mark complete" state (no confetti).
@@ -96,7 +96,7 @@ export default function LessonScreen() {
           placeholder="Type your reflection"
           placeholderTextColor={theme.textSecondary}
           multiline
-          style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+          style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
           accessibilityLabel="Reflection"
         />
       )}

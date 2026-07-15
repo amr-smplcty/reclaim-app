@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { ChoiceChip } from '@/components/choice-chip';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import type { CommitmentFollowupAnswer } from '@/types/program';
 
 interface Props {

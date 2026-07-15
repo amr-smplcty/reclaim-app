@@ -8,7 +8,7 @@ import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getIntakeContent } from '@/lib/content';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 const { frequency_now: options } = getIntakeContent();
 
@@ -25,7 +25,7 @@ export default function ContextFrequencyScreen() {
   return (
     <OnboardingLayout step="context-frequency">
       <ThemedText type="title" style={styles.title}>
-        How often is this happening now?
+        How often are you using porn now?
       </ThemedText>
       <ScrollView showsVerticalScrollIndicator={false}>
         {options.map((option) => (

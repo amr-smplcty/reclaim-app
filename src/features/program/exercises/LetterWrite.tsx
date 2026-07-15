@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import type { LetterWriteOutput, LetterWritePayload } from '@/types/program';
 
 interface Props {
@@ -35,7 +35,7 @@ export function LetterWrite({ payload, onSubmit }: Props) {
         placeholder="Write your letter"
         placeholderTextColor={theme.textSecondary}
         multiline
-        style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+        style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
         accessibilityLabel={payload.prompt}
       />
       <ThemedText type="small" themeColor="textSecondary" style={styles.counter}>

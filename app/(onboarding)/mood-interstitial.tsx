@@ -4,7 +4,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { goNextFrom } from '@/features/assessment/navigation';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 // Non-blocking supportive interstitial when PHQ-2/GAD-2 ≥3 (CLINICAL_SPEC §3).
 // Copy is verbatim from the spec.

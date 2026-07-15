@@ -15,7 +15,7 @@ import { useProgramStore } from '@/features/program/useProgramStore';
 import { dayKey } from '@/features/program/progression';
 import { trackCheckinCompleted } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 // Full evening check-in (PRODUCT_SPEC §5.4): mood (5-point), urges today
 // (y/n + count), one rotating free-text prompt. Replaces the Epic 4
@@ -114,7 +114,7 @@ export default function CheckinScreen() {
         placeholder="Write as much or as little as you want"
         placeholderTextColor={theme.textSecondary}
         multiline
-        style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+        style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
         accessibilityLabel={prompt}
       />
 

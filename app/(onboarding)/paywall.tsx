@@ -6,7 +6,7 @@ import { ThemedText } from '@/components/themed-text';
 import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { useAppStore } from '@/stores/useAppStore';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 // Placeholder for step 11 (PRODUCT_SPEC §4 / §6) — real RevenueCat paywall,
 // pricing, and trial wiring land in Epic 3.

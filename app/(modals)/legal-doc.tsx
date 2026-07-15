@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { LEGAL_DOCS } from '@/lib/legal/content';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 export default function LegalDocScreen() {
   const { type } = useLocalSearchParams<{ type: 'tou' | 'privacy' }>();

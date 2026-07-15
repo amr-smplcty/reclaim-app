@@ -5,7 +5,7 @@ import { ChoiceChip } from '@/components/choice-chip';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardAllFreeText } from '@/lib/safety/guard';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import { collectComparisonLines } from '@/features/program/exerciseHelpers';
 import { EditableList } from '@/features/program/exercises/EditableList';
 import type {

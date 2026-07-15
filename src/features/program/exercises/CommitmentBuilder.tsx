@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import { buildAnchorWhySummary } from '@/features/program/exerciseHelpers';
 import type { CommitmentBuilderOutput, CommitmentBuilderPayload, MultiSelectWriteOutput } from '@/types/program';
 
@@ -43,7 +43,7 @@ export function CommitmentBuilder({ payload, anchorWhy, emergencyCardLine, lapse
         value={statement}
         onChangeText={setStatement}
         multiline
-        style={[styles.statementInput, { color: theme.text, borderColor: theme.border }]}
+        style={[styles.statementInput, { color: theme.textPrimary, borderColor: theme.border }]}
         accessibilityLabel="Your commitment statement"
       />
 
@@ -68,7 +68,7 @@ export function CommitmentBuilder({ payload, anchorWhy, emergencyCardLine, lapse
             onChangeText={setSignature}
             placeholder="Your name"
             placeholderTextColor={theme.textSecondary}
-            style={[styles.signatureInput, { color: theme.text, borderColor: theme.border }]}
+            style={[styles.signatureInput, { color: theme.textPrimary, borderColor: theme.border }]}
             accessibilityLabel="Signature"
           />
         </>

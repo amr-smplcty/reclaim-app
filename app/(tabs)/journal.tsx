@@ -8,7 +8,7 @@ import { useProgramStore } from '@/features/program/useProgramStore';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { assembleJournalTimeline, groupTimelineByDay } from '@/features/journal/timeline';
 import { JournalEntryCard } from '@/features/journal/JournalEntryCard';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 function formatDateLabel(dateKey: string): string {
   const date = new Date(`${dateKey}T00:00:00`);

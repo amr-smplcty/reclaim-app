@@ -9,7 +9,7 @@ import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getContentPack } from '@/lib/content';
 import { isMoodElevated, scoreGad2, scorePhq2 } from '@/features/assessment/scoring';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 const { phq2, gad2, mood_stem: moodStem } = getContentPack().assessments;
 

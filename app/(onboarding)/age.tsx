@@ -9,7 +9,7 @@ import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { calculateAge, isMinor } from '@/features/assessment/scoring';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 // Age gate (PRODUCT_SPEC §4 step 2 / CLINICAL_SPEC §6 minor detection) — under-18
 // exits to resources and never enters the program in v1.
@@ -62,7 +62,7 @@ export default function AgeScreen() {
           placeholderTextColor={theme.textSecondary}
           keyboardType="number-pad"
           maxLength={2}
-          style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+          style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
           accessibilityLabel="Day of birth"
         />
         <TextInput
@@ -72,7 +72,7 @@ export default function AgeScreen() {
           placeholderTextColor={theme.textSecondary}
           keyboardType="number-pad"
           maxLength={2}
-          style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+          style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
           accessibilityLabel="Month of birth"
         />
         <TextInput
@@ -82,7 +82,7 @@ export default function AgeScreen() {
           placeholderTextColor={theme.textSecondary}
           keyboardType="number-pad"
           maxLength={4}
-          style={[styles.input, styles.yearInput, { color: theme.text, borderColor: theme.border }]}
+          style={[styles.input, styles.yearInput, { color: theme.textPrimary, borderColor: theme.border }]}
           accessibilityLabel="Year of birth"
         />
       </View>

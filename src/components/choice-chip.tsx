@@ -2,6 +2,7 @@ import { Pressable, StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { useTheme } from '@/hooks/use-theme';
+import { colors, radius } from '@/theme/tokens';
 
 interface Props {
   label: string;
@@ -21,7 +22,7 @@ export function ChoiceChip({ label, selected, onPress }: Props) {
       style={({ pressed }) => [
         styles.chip,
         {
-          backgroundColor: selected ? theme.accent : theme.backgroundElement,
+          backgroundColor: selected ? theme.accent : theme.surface,
           borderColor: selected ? theme.accent : theme.border,
           opacity: pressed ? 0.85 : 1,
         },
@@ -35,6 +36,6 @@ export function ChoiceChip({ label, selected, onPress }: Props) {
 }
 
 const styles = StyleSheet.create({
-  chip: { paddingVertical: 12, paddingHorizontal: 16, borderRadius: 10, borderWidth: 1, marginBottom: 10 },
-  selectedLabel: { color: '#101113', fontWeight: '700' },
+  chip: { paddingVertical: 12, paddingHorizontal: 16, borderRadius: radius.chip, borderWidth: 1, marginBottom: 10 },
+  selectedLabel: { color: colors.bg, fontWeight: '700' },
 });

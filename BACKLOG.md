@@ -11,6 +11,7 @@
 | 2 | Attorney review of legal/tou.md + legal/privacy.md (both marked DRAFT); tailor arbitration + state notices; confirm DBA/trade-name need for "Reclaim"/"Smplcty Analytics" under Simplifico LLC | Epic 2b / LEGAL_COMPLIANCE §4–8 | L |
 | 3 | Clinician review batch (CLINICAL_SPEC §8): Weeks 1–6 lesson/exercise copy, Urge Surf script, lapse-debrief emotion chips, urge trigger chips, onboarding intake options, crisis_patterns.json expansion | Epics 2/4/5 reports | L |
 | 4 | Record (or TTS-generate) the Urge Surf guided audio from the authored narration script (content/week2.json `toolkit_scripts.urge_surf.narration_script`); wire into toolkit.urge_surf.audio_url | Epic 5 TODO(content) / Week 2 pack | L |
+| 30 | content/onboarding_insights.json's two entries (`escalation-tolerance`, `repeated-quit-attempts`) are TODO(content) placeholders — need real, cited facts sourced per LEGAL_COMPLIANCE §2.3 before the insight interstitials ship to real users | Epic 2c report | L |
 | 5 | Bundle ID + app icon are placeholders — confirm com.smplctyanalytics.reclaim (or change) and add real icon/splash before any EAS build | Epic 1 report | TF |
 | 6 | Apple Developer organization enrollment as Simplifico LLC (pending D-U-N-S) → unblocks Epic 3, TestFlight | Business track | E3 |
 
@@ -30,6 +31,7 @@
 | 27 | Emergency Card UI doesn't exist yet — pattern_profile (and future emergency_card_line-style data) is persisted and surface_in-tagged, ready to feed it, but there's no dedicated screen. CLINICAL_SPEC introduces the Emergency Card properly in Week 6 ("auto-compiled from their own data") | Epic 5b report | Week 6 content epic |
 | 28 | Journal encryption-at-rest (AES via crypto-js, key in expo-secure-store) covers only the new check-in store (useJournalStore). Urge logs and lapse debriefs (toolkit store) and lesson reflections (program store) — all of which the Journal timeline displays — remain on plain unencrypted AsyncStorage. Consider extending the same encrypted-storage adapter to those stores in a hardening pass | Epic 6 report | TF |
 | 29 | Legacy check-in migration (useJournalStore.migrateLegacyCheckins) runs on Journal tab mount, not on app launch — if a user never opens Journal, any pre-Epic-6 check-in data sits unmigrated (harmless, just not yet visible in the timeline). Fine given no real users exist yet; revisit if that's no longer true | Epic 6 report | TF |
+| 31 | Account screen's "Continue without account (dev)" bypass (`__DEV__`-gated, throws outside dev builds, never calls Supabase) exists purely so QA can get past Apple/email sign-in in Expo Go — re-verify it's actually unreachable in a real EAS build before TestFlight | Epic 2c report | TF |
 
 ## 🟢 UX polish (works, but rough)
 

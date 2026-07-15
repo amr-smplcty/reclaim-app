@@ -1,23 +1,29 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
-import { getPpcs6Band, scorePpcs6 } from '@/features/assessment/scoring';
+import { getPpcs6Band, PPCS6_SCORE_MAX, scorePpcs6 } from '@/features/assessment/scoring';
+import { bandColorToken, scoreScaleFraction } from '@/features/assessment/resultsVisual';
 import { trackAssessmentCompleted } from '@/lib/analytics/events';
 import { getPpcs6Assessment } from '@/lib/content';
-import { Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
+import { Spacing } from '@/theme/tokens';
 
 const { citation_short: citationShort } = getPpcs6Assessment();
 
 // Results screen (PRODUCT_SPEC §4 step 7) — band table + framing from
-// CLINICAL_SPEC §2.3, "the moment of clarity."
+// CLINICAL_SPEC §2.3, "the moment of clarity." Reworked per PRODUCT_SPEC §4's
+// "payoff scene" framing: score plotted on a visual scale, band-colored from
+// the token system. All legally-required copy below is unchanged.
 export default function ResultsScreen() {
+  const theme = useTheme();
   const answers = useOnboardingStore((s) => s.answers);
   const score = scorePpcs6(answers.ppcs6Responses as number[]);
   const bandInfo = getPpcs6Band(score);
+  const bandColor = theme[bandColorToken(bandInfo.band)];
 
   function handleNext() {
     trackAssessmentCompleted(score, bandInfo.band);
@@ -30,8 +36,11 @@ export default function ResultsScreen() {
         Your score
       </ThemedText>
       <ThemedText type="title" style={styles.score}>
-        {score} · {bandInfo.label}
+        {score} / {PPCS6_SCORE_MAX} · {bandInfo.label}
       </ThemedText>
+      <View style={[styles.scaleTrack, { backgroundColor: theme.surface }]}>
+        <View style={[styles.scaleFill, { backgroundColor: bandColor, width: `${scoreScaleFraction(score) * 100}%` }]} />
+      </View>
       <ThemedText type="default" style={styles.framing}>
         {bandInfo.framing}
       </ThemedText>
@@ -56,7 +65,9 @@ export default function ResultsScreen() {
 
 const styles = StyleSheet.create({
   content: { justifyContent: 'center', gap: Spacing.two },
-  score: { marginBottom: Spacing.three },
+  score: { marginBottom: Spacing.two },
+  scaleTrack: { height: 8, borderRadius: 4, overflow: 'hidden', marginBottom: Spacing.four },
+  scaleFill: { height: 8, borderRadius: 4 },
   framing: { marginBottom: Spacing.four },
   chartPlaceholder: { marginBottom: Spacing.five, fontStyle: 'italic' },
   resourcesLink: { marginBottom: Spacing.four },

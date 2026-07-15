@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import { assembleProfileSections } from '@/features/program/exerciseHelpers';
 import type { ProfileBuilderOutput, ProfileBuilderPayload } from '@/types/program';
 
@@ -45,7 +45,7 @@ export function ProfileBuilder({ payload, sourceOutputs, onSubmit }: Props) {
             value={section.content}
             onChangeText={(text) => updateSection(index, text)}
             multiline
-            style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+            style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
             accessibilityLabel={section.title}
           />
         </View>

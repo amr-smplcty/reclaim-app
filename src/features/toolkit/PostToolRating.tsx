@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { NumberScale } from '@/features/program/exercises/NumberScale';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 interface Props {
   onSubmit: (postIntensity: number) => void;

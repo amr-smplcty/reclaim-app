@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 
 interface Props {
   steps: string[];
@@ -37,7 +37,7 @@ export function WorksheetFallback({ steps, onSubmit }: Props) {
         placeholder="Your response"
         placeholderTextColor={theme.textSecondary}
         multiline
-        style={[styles.input, { color: theme.text, borderColor: theme.border }]}
+        style={[styles.input, { color: theme.textPrimary, borderColor: theme.border }]}
         accessibilityLabel="Your response"
       />
       <PrimaryButton label="Save" onPress={handleSubmit} disabled={response.trim().length === 0} />

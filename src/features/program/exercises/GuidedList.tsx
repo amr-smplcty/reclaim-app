@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardAllFreeText } from '@/lib/safety/guard';
-import { Spacing } from '@/constants/theme';
+import { Spacing } from '@/theme/tokens';
 import type { GuidedListOutput, GuidedListPayload } from '@/types/program';
 import { EditableList } from '@/features/program/exercises/EditableList';
 
