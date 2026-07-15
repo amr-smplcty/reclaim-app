@@ -63,6 +63,9 @@ e2e/            # maestro flows
 7. **Never hardcode content:** all lesson/exercise/assessment text loads from `content/*.json`.
 8. **Commits:** conventional commits, one feature branch per epic, PR description = what/why/test evidence.
 9. End every session with: summary of done, TODO(content) list, open risks, suggested next epic.
+10. **Incident log:** when you diagnose and fix any real bug, append an entry to INCIDENTS.md
+    (symptom → root cause → fix → prevention rule) and honor its Standing Prevention Rules in
+    all work — they are requirements, not suggestions.
 
 ## Environment / secrets
 
