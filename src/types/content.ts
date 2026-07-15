@@ -48,6 +48,11 @@ export interface Ppcs6Assessment {
   citation_short: string;
   definition: string;
   timeframe_instruction: string;
+  // CLINICAL_SPEC §2.2 — re-assessments (every 14 days) use a "past 2 weeks"
+  // framing, clearly labelled as a trend snapshot rather than the validated
+  // 6-month administration.
+  timeframe_instruction_reassessment: string;
+  reassessment_note: string;
   scale_labels: string[];
   cutoff: number;
   timeframe_default: string;

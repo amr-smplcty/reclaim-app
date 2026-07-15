@@ -10,6 +10,11 @@ export interface DayCompletion {
   lessonComplete: boolean;
   exerciseComplete: boolean;
   checkinComplete: boolean;
+  // Last-touched timestamp for this program day (any of the three flags
+  // flipping true stamps it) — Epic 7 needs real calendar dates for weekly
+  // consistency and Commitment Goal credit; program days themselves are
+  // calendar-agnostic (position advances on completion, not date).
+  lastActivityAt?: string;
 }
 
 export function isDayComplete(completion: DayCompletion): boolean {

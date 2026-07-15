@@ -9,6 +9,7 @@ import { ThemedView } from '@/components/themed-view';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { useToolkitStore, type LapseFailureMode, type Trigger } from '@/features/toolkit/useToolkitStore';
+import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsStore';
 import { trackLapseLogged } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/theme/tokens';
@@ -66,6 +67,10 @@ export default function LapseDebriefScreen() {
       changeNextTime,
     });
     trackLapseLogged();
+    // CLINICAL_SPEC §9 rule 3: a lapse (with its debrief completed, right
+    // here) delays the Commitment Goal unlock — it never zeroes the jar or
+    // the ladder tier. No-op if the user hasn't opted into the module.
+    useCommitmentGoalsStore.getState().applyLapseToGoal();
     setDone(true);
   }
 

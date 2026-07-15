@@ -3,6 +3,8 @@
   "citation_short": "Bőthe et al., 2020",
   "definition": "Pornography is defined as material (text, picture, video, etc.) that (1) creates or elicits sexual feelings or thoughts and (2) contains explicit exposure or descriptions of sexual acts involving the genitals, such as vaginal or anal intercourse, oral sex, or masturbation.",
   "timeframe_instruction": "Thinking about the past 6 months...",
+  "timeframe_instruction_reassessment": "Thinking about the past 2 weeks...",
+  "reassessment_note": "This quick trend check uses a 2-week window. The validated 6-month version is what you took at the start — this shorter one just tracks how your score is moving between full assessments.",
   "scale_labels": ["Never", "Rarely", "Occasionally", "Sometimes", "Often", "Very often", "All the time"],
   "cutoff": 20,
   "timeframe_default": "past_6_months",

@@ -36,7 +36,7 @@ function updateCompletion(
 ) {
   const key = dayKey(position);
   const current = completions[key] ?? emptyCompletion;
-  return { ...completions, [key]: { ...current, ...patch } };
+  return { ...completions, [key]: { ...current, ...patch, lastActivityAt: new Date().toISOString() } };
 }
 
 export const useProgramStore = create<ProgramState>()(

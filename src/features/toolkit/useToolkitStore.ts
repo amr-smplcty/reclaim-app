@@ -22,6 +22,12 @@ export interface ToolUseEntry {
   preIntensity: number;
   postIntensity: number;
   delta: number;
+  // Week 3 integration rule (CLINICAL_SPEC §4 Week 3 "toolkit mastery" /
+  // "practice while calm" audio practice): a scheduled practice session, not
+  // a real urge. Pattern insights (Epic 7) exclude these from time-cluster
+  // analysis so a fixed daily practice slot can't masquerade as a real
+  // pattern. Defaults to false — undefined/false both mean "real."
+  practice?: boolean;
 }
 
 export type LapseFailureMode = 'tool_not_used' | 'used_but_overwhelmed' | 'didnt_want_to_stop';
@@ -58,7 +64,7 @@ interface ToolkitState {
   startSession: (preIntensity: number) => void;
   clearSession: () => void;
   logUrge: (entry: Omit<UrgeLogEntry, 'id' | 'timestamp'>) => void;
-  logToolUse: (tool: ToolId, preIntensity: number, postIntensity: number) => ToolUseEntry;
+  logToolUse: (tool: ToolId, preIntensity: number, postIntensity: number, practice?: boolean) => ToolUseEntry;
   logLapseDebrief: (answers: LapseDebriefAnswers) => void;
   reset: () => void;
 }
@@ -80,7 +86,7 @@ export const useToolkitStore = create<ToolkitState>()(
         set((state) => ({ urgeLogs: [...state.urgeLogs, newEntry] }));
       },
 
-      logToolUse: (tool, preIntensity, postIntensity) => {
+      logToolUse: (tool, preIntensity, postIntensity, practice = false) => {
         const newEntry: ToolUseEntry = {
           id: generateId(),
           timestamp: new Date().toISOString(),
@@ -88,6 +94,7 @@ export const useToolkitStore = create<ToolkitState>()(
           preIntensity,
           postIntensity,
           delta: postIntensity - preIntensity,
+          practice,
         };
         set((state) => ({ toolUses: [...state.toolUses, newEntry] }));
         return newEntry;

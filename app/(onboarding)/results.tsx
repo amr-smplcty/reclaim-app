@@ -9,6 +9,7 @@ import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getPpcs6Band, PPCS6_SCORE_MAX, scorePpcs6 } from '@/features/assessment/scoring';
 import { bandColorToken, scoreScaleFraction } from '@/features/assessment/resultsVisual';
 import { hasCompletePpcs6Responses } from '@/features/assessment/assessmentValidity';
+import { useAssessmentHistoryStore } from '@/features/assessment/useAssessmentHistoryStore';
 import { trackAssessmentCompleted } from '@/lib/analytics/events';
 import { getPpcs6Assessment } from '@/lib/content';
 import { useTheme } from '@/hooks/use-theme';
@@ -53,11 +54,18 @@ export default function ResultsScreen() {
     return <ResultsRecovery />;
   }
 
-  const score = scorePpcs6(answers.ppcs6Responses);
+  const responses: number[] = answers.ppcs6Responses;
+  const score = scorePpcs6(responses);
   const bandInfo = getPpcs6Band(score);
   const bandColor = theme[bandColorToken(bandInfo.band)];
 
   function handleNext() {
+    // First entry in the permanent assessment history (Epic 7) — this is the
+    // fix for the gap INC-8 exposed: the score used to live only in
+    // useOnboardingStore.answers, which paywall completion later resets to
+    // null. Recorded here (on explicit continue), not in the render body, so
+    // re-renders of this screen never append duplicates.
+    useAssessmentHistoryStore.getState().recordAssessment(responses, 'past_6_months');
     trackAssessmentCompleted(score, bandInfo.band);
     goNextFrom('results');
   }
