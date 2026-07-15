@@ -56,9 +56,10 @@
 
 ### INC-9 · Test library leaked into runtime bundle
 - **Symptom:** App won't boot in Expo Go: "Unable to resolve module console from @testing-library/react-native/.../logger.js".
-- **Root cause:** (pending Claude Code's trace — app-side import chain reached a test-only, Node-built dependency)
-- **Fix:** (pending) Restore app/test import boundary; CI guard against test-module imports in the app graph.
-- **Prevention rules:** **(a) Test utilities live outside the app import graph — only *.test.* files and jest config may import them. (b) Definition of done must include a dev-mode bundle/boot check, not only `expo export` — export passed while the dev bundle was broken.**
+- **Root cause:** expo-router's `require.context` (`node_modules/expo-router/_ctx.js`) bundles every `.ts/.tsx/.js/.jsx` file under `app/` except `+api`/`+html` routes — in dev *and* production alike. INC-8's fix added `app/(onboarding)/results.test.tsx` and `paywall.test.tsx` (importing `@testing-library/react-native`) directly inside `app/(onboarding)/`, the routes directory, so Metro's require.context pulled the whole test-library dependency tree — down to its use of Node's `console` module, which Metro can't resolve — straight into the runtime bundle. Confirmed via the actual import stack from `expo export --platform ios`: `app/(onboarding)/paywall.test.tsx` → `"@testing-library/react-native"` → `app (require.context)`.
+- **Fix:** Moved both test files to `__tests__/onboarding/` (outside `app/`, picked up by Jest's default `__tests__` convention, no config changes needed), importing the screens via relative path back into `app/(onboarding)/`.
+- **Investigation note (corrects this entry's original hypothesis):** it was *not* a dev-only import path — `expo export --platform ios` (plain, no `--dev`) failed with the identical error before the fix and passed identically after. The real reason the "expo export --platform ios" verification didn't catch this is simpler: it was never actually run as part of the previous session's verification (only typecheck/jest/lint were) — this class of bug only shows up once you actually invoke Metro.
+- **Prevention rules:** **(a) Test utilities live outside the app import graph — only `*.test.*` files and jest config may import them; enforced by `scripts/lint-bundle-purity.js` (`npm run lint:bundle-purity`), which mirrors expo-router's own require.context ignore pattern. (b) Verification must include an actual Metro bundle, not just typecheck/tests/lint — `scripts/verify-bundle.js` (`npm run verify:bundle`) runs a real `expo export --platform ios --dev --no-minify --no-bytecode` (Expo Go's actual conditions) and fails on any bundling error.**
 
 ## Standing prevention rules (the distilled list for prompt-writing)
 
