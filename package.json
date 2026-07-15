@@ -67,6 +67,8 @@
     "lint": "expo lint",
     "lint:banned-words": "node scripts/lint-banned-words.js",
     "lint:tokens": "node scripts/lint-tokens.js",
+    "lint:bundle-purity": "node scripts/lint-bundle-purity.js",
+    "verify:bundle": "node scripts/verify-bundle.js",
     "typecheck": "tsc --noEmit",
     "test": "jest"
   },

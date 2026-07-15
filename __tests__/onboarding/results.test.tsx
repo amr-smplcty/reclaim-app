@@ -1,7 +1,7 @@
 import { cleanup, render } from '@testing-library/react-native';
 
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
-import ResultsScreen from './results';
+import ResultsScreen from '../../app/(onboarding)/results';
 
 jest.mock('expo-router', () => ({
   router: { canGoBack: () => false, push: jest.fn(), replace: jest.fn(), back: jest.fn() },
