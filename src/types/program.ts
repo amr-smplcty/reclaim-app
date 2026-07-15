@@ -2,6 +2,7 @@
 // CLINICAL_SPEC §7. Unknown kinds fall back to a sequential worksheet render.
 
 import type { ProgramModule } from '@/types/content';
+import type { ToolId } from '@/features/toolkit/entitlement';
 
 export interface MultiSelectWritePayload {
   kind: 'multi_select_write';
@@ -56,7 +57,22 @@ export interface CommitmentBuilderPayload {
   inputs: string[];
   signature_required: boolean;
   save_to: string;
-  pin_to_today: boolean;
+  // Week 1 Day 7 pins its statement to Today; Week 3 Day 7 (urge_script)
+  // omits this and surfaces itself elsewhere instead (surface_in).
+  pin_to_today?: boolean;
+  max_words?: number;
+  surface_in?: string[];
+}
+
+// Week 3 (CLINICAL_SPEC §4) — launches a named Toolkit tool in practice mode
+// (a rehearsal, not a real urge) and asks a short reflection once the
+// session ends.
+export interface ToolPracticePayload {
+  kind: 'tool_practice';
+  tool: ToolId;
+  practice_mode: boolean;
+  post_prompt: string;
+  save_to: string;
 }
 
 export interface ChainBuilderPayload {
@@ -108,7 +124,8 @@ export type ExercisePayload =
   | ChainBuilderPayload
   | ChecklistCommitPayload
   | IfThenBuilderPayload
-  | ProfileBuilderPayload;
+  | ProfileBuilderPayload
+  | ToolPracticePayload;
 
 export const KNOWN_PAYLOAD_KINDS = [
   'multi_select_write',
@@ -122,6 +139,7 @@ export const KNOWN_PAYLOAD_KINDS = [
   'checklist_commit',
   'if_then_builder',
   'profile_builder',
+  'tool_practice',
 ] as const;
 
 // -- Saved output shapes, keyed by each payload's save_to name --
@@ -151,6 +169,9 @@ export interface DualSliderWriteOutput {
 }
 
 export type LetterWriteOutput = string;
+
+// The post-practice reflection text (tool_practice's post_prompt answer).
+export type ToolPracticeOutput = string;
 
 export interface CommitmentBuilderOutput {
   statement: string;

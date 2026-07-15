@@ -38,6 +38,14 @@ export async function signInWithEmail(email: string, displayName: string) {
   return data;
 }
 
+// Current session's user id, if any — used by post-onboarding flows (e.g.
+// re-assessment) that want to opportunistically sync to Supabase only when
+// a session already exists, without forcing a sign-in of their own.
+export async function getCurrentUserId(): Promise<string | undefined> {
+  const { data } = await supabase.auth.getSession();
+  return data.session?.user.id;
+}
+
 // Dev-only escape hatch (BACKLOG — remove or re-verify before TestFlight):
 // lets a developer clear both Apple sign-in (needs a real dev-client/EAS
 // build) and a configured Supabase project to keep testing the rest of

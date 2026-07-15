@@ -6,28 +6,34 @@ import { ThemedText } from '@/components/themed-text';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/theme/tokens';
-import { buildAnchorWhySummary } from '@/features/program/exerciseHelpers';
-import type { CommitmentBuilderOutput, CommitmentBuilderPayload, MultiSelectWriteOutput } from '@/types/program';
+import { resolveCommitmentTemplate } from '@/features/program/exerciseHelpers';
+import type { CommitmentBuilderOutput, CommitmentBuilderPayload } from '@/types/program';
 
 interface Props {
   payload: CommitmentBuilderPayload;
-  anchorWhy: MultiSelectWriteOutput | undefined;
-  emergencyCardLine: string | undefined;
+  outputs: Record<string, unknown>;
   lapseLetter: string | undefined;
   onSubmit: (output: CommitmentBuilderOutput) => void;
 }
 
-export function CommitmentBuilder({ payload, anchorWhy, emergencyCardLine, lapseLetter, onSubmit }: Props) {
+function wordCount(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+// Renders any commitment_builder payload — Week 1 Day 7's signed commitment
+// and Week 3 Day 7's unsigned, word-capped urge_script both go through the
+// same generic template resolution (exerciseHelpers.resolveCommitmentTemplate).
+export function CommitmentBuilder({ payload, outputs, lapseLetter, onSubmit }: Props) {
   const theme = useTheme();
-  const assembled = payload.template
-    .replace('{anchor_why_summary}', buildAnchorWhySummary(anchorWhy))
-    .replace('{emergency_card_line}', emergencyCardLine || 'what this program can give me back');
+  const assembled = resolveCommitmentTemplate(payload, outputs);
 
   const [statement, setStatement] = useState(assembled);
   const [signature, setSignature] = useState('');
 
   const needsSignature = payload.signature_required;
-  const canSubmit = statement.trim().length > 0 && (!needsSignature || signature.trim().length > 0);
+  const words = wordCount(statement);
+  const overWordLimit = payload.max_words !== undefined && words > payload.max_words;
+  const canSubmit = statement.trim().length > 0 && (!needsSignature || signature.trim().length > 0) && !overWordLimit;
 
   function handleSubmit() {
     if (!guardFreeText(statement)) return;
@@ -46,6 +52,15 @@ export function CommitmentBuilder({ payload, anchorWhy, emergencyCardLine, lapse
         style={[styles.statementInput, { color: theme.textPrimary, borderColor: theme.border }]}
         accessibilityLabel="Your commitment statement"
       />
+      {payload.max_words !== undefined ? (
+        <ThemedText
+          type="small"
+          themeColor={overWordLimit ? 'danger' : 'textSecondary'}
+          style={styles.wordCount}
+        >
+          {words} / {payload.max_words} words
+        </ThemedText>
+      ) : null}
 
       {lapseLetter ? (
         <View style={[styles.referenceBlock, { borderColor: theme.border }]}>
@@ -74,7 +89,7 @@ export function CommitmentBuilder({ payload, anchorWhy, emergencyCardLine, lapse
         </>
       ) : null}
 
-      <PrimaryButton label="Sign & save" onPress={handleSubmit} disabled={!canSubmit} />
+      <PrimaryButton label={needsSignature ? 'Sign & save' : 'Save'} onPress={handleSubmit} disabled={!canSubmit} />
     </ScrollView>
   );
 }
@@ -90,8 +105,9 @@ const styles = StyleSheet.create({
     minHeight: 160,
     fontSize: 16,
     textAlignVertical: 'top',
-    marginBottom: Spacing.four,
+    marginBottom: Spacing.two,
   },
+  wordCount: { marginBottom: Spacing.four, textAlign: 'right' },
   referenceBlock: { borderWidth: 1, borderRadius: 10, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.one },
   referenceLabel: { fontWeight: '600' },
   signaturePrompt: { marginBottom: Spacing.two },

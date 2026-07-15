@@ -1,5 +1,6 @@
 import week1Raw from '../../../content/week1.json';
 import week2Raw from '../../../content/week2.json';
+import week3Raw from '../../../content/week3.json';
 
 import type { ProgramModule } from '@/types/content';
 import type { UrgeSurfScript, WeekContentPack } from '@/types/program';
@@ -118,7 +119,7 @@ let cachedPacks: WeekContentPack[] | null = null;
 // not yet built). Validation runs once per pack and is memoized.
 export function getAllWeekPacks(): WeekContentPack[] {
   if (!cachedPacks) {
-    cachedPacks = [validateWeekContentPack(week1Raw), validateWeekContentPack(week2Raw)];
+    cachedPacks = [validateWeekContentPack(week1Raw), validateWeekContentPack(week2Raw), validateWeekContentPack(week3Raw)];
   }
   return cachedPacks;
 }

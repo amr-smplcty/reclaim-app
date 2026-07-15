@@ -1,12 +1,14 @@
 import { useMemo } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { useTheme } from '@/hooks/use-theme';
 import { getProgramModules } from '@/lib/content/week';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { dayKey, findProgramDay, previousPosition } from '@/features/program/progression';
+import { computeSessionArcProgress } from '@/features/program/sessionArc';
 import { DailyCard } from '@/features/program/DailyCard';
 import { CommitmentFollowupCard } from '@/features/program/CommitmentFollowupCard';
 import { Spacing } from '@/theme/tokens';
@@ -16,6 +18,7 @@ import type { ChecklistCommitOutput, ChecklistCommitPayload, CommitmentBuilderOu
 // completion, not calendar: whatever day the store says is current, that's
 // what shows here, with no "you're behind" framing for missed days.
 export default function TodayScreen() {
+  const theme = useTheme();
   const position = useProgramStore((s) => s.position);
   const completions = useProgramStore((s) => s.completions);
   const exerciseOutputs = useProgramStore((s) => s.exerciseOutputs);
@@ -42,6 +45,7 @@ export default function TodayScreen() {
     ? (exerciseOutputs[previousPayload.save_to] as ChecklistCommitOutput | undefined)
     : undefined;
   const showFollowup = !!previousPayload?.followup_next_day && !!followupOutput && !alreadyAnsweredFollowup;
+  const sessionProgress = computeSessionArcProgress(completion);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -82,6 +86,19 @@ export default function TodayScreen() {
         </ThemedView>
       ) : (
         <>
+          <View style={styles.sessionArc}>
+            <ThemedText type="small" themeColor="textSecondary" style={styles.sessionArcLabel}>
+              Today's session · ~10 min · {sessionProgress.completedCount} of {sessionProgress.totalCount} done
+            </ThemedText>
+            <View style={[styles.sessionArcTrack, { backgroundColor: theme.surface }]}>
+              <View
+                style={[
+                  styles.sessionArcFill,
+                  { backgroundColor: theme.accent, width: `${(sessionProgress.completedCount / sessionProgress.totalCount) * 100}%` },
+                ]}
+              />
+            </View>
+          </View>
           <DailyCard
             title={day.lesson.title}
             subtitle={`${day.lesson.read_minutes} min lesson`}
@@ -114,4 +131,8 @@ const styles = StyleSheet.create({
   pinnedCard: { borderRadius: 12, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.one },
   pinnedLabel: { fontWeight: '700' },
   emptyState: { gap: Spacing.two, paddingVertical: Spacing.five },
+  sessionArc: { marginBottom: Spacing.three, gap: Spacing.one },
+  sessionArcLabel: {},
+  sessionArcTrack: { height: 4, borderRadius: 2, overflow: 'hidden' },
+  sessionArcFill: { height: 4, borderRadius: 2 },
 });

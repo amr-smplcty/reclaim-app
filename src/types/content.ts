@@ -44,6 +44,10 @@ export interface Ppcs6Item {
 }
 
 export interface Ppcs6Assessment {
+  // Instrument-wording version, not the app's build version — stamped onto
+  // every assessment history record so a future content update can never
+  // silently make an old score ambiguous about which wording produced it.
+  content_version: string;
   citation: string;
   citation_short: string;
   definition: string;
@@ -99,8 +103,9 @@ export interface OnboardingInsight {
   id: string;
   afterStep: string;
   trigger: OnboardingInsightTrigger;
-  text: string;
-  citation: string;
+  title: string;
+  body: string;
+  citation_short: string;
 }
 
 export interface OnboardingInsightsContent {
