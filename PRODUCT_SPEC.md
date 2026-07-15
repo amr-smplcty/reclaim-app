@@ -71,10 +71,11 @@ Edge cases:
 - Completion states persist; missed days roll forward — the program advances on completion, not calendar (no guilt for missed days; gentle nudge copy).
 - Small progress module: days engaged (not "days clean"), next re-assessment date.
 
-### 5.2 Lesson player
-- Markdown-rendered content from JSON, estimated read time, optional TTS audio.
-- Ends with 1-question reflection or quiz (stored to journal).
-- "Mark complete" → returns to Today with subtle positive animation (no confetti-shame dynamics; calm design language).
+### 5.2 Lesson player — card-based sessions
+- Lessons render as **swipeable cards** (one thought per card, split from body_md at paragraph breaks; a paragraph over ~55 words splits at sentence boundaries), with a thin progress bar across the top. Tap or swipe advances. The reflection is the final card. Rationale: interactive chunked delivery over passive article-reading (market-proven microlearning pattern).
+- **Listen mode:** every lesson has a play button when its audio_url exists (TTS-narrated; generation is a content-pipeline task). Audio plays through the cards with auto-advance; listening and reading are equivalent completions. Audio files bundled/cached for offline.
+- **Session framing:** Today presents lesson + exercise + evening check-in as one "Today's session · ~10 min" arc with a single session progress indicator; components remain individually completable (check-in naturally happens later in the day).
+- Ends with the 1-question reflection (stored to journal). "Mark complete" → calm completion state (no confetti).
 
 ### 5.3 Toolkit (urge management) — the most important screen in the app
 Opened via tab or SOS. Must load instantly (all assets bundled offline).
@@ -96,6 +97,13 @@ Opened via tab or SOS. Must load instantly (all assets bundled offline).
 - **Primary chart:** PPCS-6 score over time (re-administered every 2 weeks, push-prompted).
 - Secondary: urge frequency/intensity trend (from logs), engagement calendar, pattern insights (rule-based v1: e.g., "70% of your urges logged between 10pm–1am" → suggests toolkit + wind-down routine).
 - Milestones framed on behavior and score, not abstinence purity: "First re-assessment: −6 points," "10 urges surfed."
+- **Calm gamification layer** (evidence-based mechanics only; every element is engagement-based and lapse-proof — nothing ever resets or shrinks on a lapse):
+  1. **Day-one milestone:** completing Day 1 earns the first achievement immediately (early-achievable milestones measurably lift retention).
+  2. **Growth visual:** a minimal, slowly evolving landscape/tree that grows from practice — sessions completed, urges surfed, debriefs done, check-ins — and can only grow. Progress tied strictly to behaviors the user controls (process), never to outcomes (clean days).
+  3. **Skill milestones:** "10 urges surfed," "first re-assessment," "pattern profile complete," "urge script written" — competence badges, not purity badges. Calm visual treatment.
+  4. **Weekly consistency** instead of daily streaks: "X of 7 days this week" framing; a missed day costs one seventh, never everything. No daily-streak counters anywhere in the app.
+  5. **Commitment Goals ladder** (above) is the challenge mechanic.
+  6. **No leaderboards or user-vs-user competition in v1** — competition is with your past self only (falling score, growing landscape).
 - **Commitment Goals (opt-in module):** graduated goal ladder (7-day goal ×3 completions → 14 → 30 → 90) with a self-funded **Reward Jar**: user names a personal reward, pledges a daily amount, app tracks committed savings toward it (no real money custody — it's a tracked pledge the user honors themselves). Goal completion = "unlock" celebration + prompt to claim the reward. Goals are **process-weighted** (daily lesson + check-in + clean day; a lapse with a completed debrief still counts partial credit). A lapse **delays** the unlock date and triggers the lapse debrief — it never zeroes the jar or the ladder tier. Design rules in CLINICAL_SPEC §9.
 
 ### 5.6 Settings
