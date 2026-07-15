@@ -2,8 +2,8 @@ import { cleanup, fireEvent, render, waitFor } from '@testing-library/react-nati
 
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { useAppStore } from '@/stores/useAppStore';
-import ResultsScreen from './results';
-import PaywallScreen from './paywall';
+import ResultsScreen from '../../app/(onboarding)/results';
+import PaywallScreen from '../../app/(onboarding)/paywall';
 
 jest.mock('expo-router', () => ({
   router: { canGoBack: () => false, push: jest.fn(), replace: jest.fn(), back: jest.fn() },
