@@ -1,0 +1,290 @@
+{
+  "content_version": "1.4.0",
+  "notes_for_engineering": "Week 4 pack. New exercise payload kinds: value_card_sort (deck of value cards, user selects keep/discard, then ranks top 5 — fallback: multi-select from the deck list), committed_action_planner (one small action per core value with day-of-week assignment — fallback: sequential worksheet), urge_value_map (shows the user's recent urge logs from the toolkit store, minimum 3, each gets tagged with one of the user's values_core or 'rest/relief' — fallback: worksheet with free-text if fewer than 3 logs exist). Day 2's exercise reads values_top5 (saved Day 1) as its select_options source. Day 7's letter surfaces in Progress alongside pattern_profile and joins Emergency Card data. All copy clinician-review-pending; do not edit wording in code.",
+  "modules": [
+    {
+      "week": 4,
+      "title": "Live Your Values",
+      "days": [
+        {
+          "day": 1,
+          "lesson": {
+            "id": "w4d1_lesson",
+            "title": "What the free hands are for",
+            "body_md": "Last week ended with an image: dropping the rope, the monster still shouting, your hands suddenly free. This week answers the question that image raises — **free for what?**\n\nBecause here's an uncomfortable truth about quitting anything: an empty space where a habit used to be is not freedom. It's a vacuum. And vacuums refill themselves — usually with the old tenant, because it knows the address. The people who stay free aren't the ones who fought hardest against something. They're the ones who found something they were *for*.\n\nThat something is what psychologists call **values**, and it pays to be precise about the word, because values are not goals:\n\n**A goal is a destination.** Finish the program. Reach a re-assessment score under 14. Goals can be completed, checked off, achieved — and then they're over.\n\n**A value is a direction.** Being a present partner. Living with integrity. Growing. Being someone whose word means something — to others and to yourself. You never *complete* \"being honest\" — you travel toward it, every day, in small moves. A value is a compass heading, not a finish line.\n\nWhy does this distinction matter so much for you, right now? Two reasons. First, goals can be crushed by a bad week; a direction survives any single day — you can turn back toward a compass heading from *anywhere*, including from a lapse. Second, and deeper: urges are loudest when life is unmoored from what matters. A day spent moving toward your values is a day with less vacuum in it.\n\nThis week you'll identify your values precisely, translate them into small daily actions, and — in this program's signature move — learn to read your urges as *information about* your values. Today starts with the deck: a sort through what could matter, hunting for what actually does. Be honest, not impressive. Nobody grades this. But everything after it is built on it.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Which feels truer about your life right now?",
+              "options": [
+                "I know what matters to me — I've just drifted from it",
+                "I honestly haven't asked myself this in years",
+                "I know, but it feels out of reach",
+                "I'm not sure I've ever chosen my own values"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w4d1_ex",
+            "type": "worksheet",
+            "title": "The values sort",
+            "steps": [
+              "Go through the deck. For each value, one honest question: does this actually matter to ME — not to my parents, my culture, or my image? Keep or set aside.",
+              "From your keepers, choose the five that matter most right now, in this season of your life.",
+              "No wrong answers, and nothing is permanent — you can re-sort anytime. Saved as your top five."
+            ],
+            "payload": {
+              "kind": "value_card_sort",
+              "deck": [
+                {"id": "connection", "label": "Connection", "hint": "Real closeness with people who matter"},
+                {"id": "partnership", "label": "Love & partnership", "hint": "Being a present, trustworthy partner"},
+                {"id": "family", "label": "Family", "hint": "Showing up for the people who count on me"},
+                {"id": "integrity", "label": "Integrity", "hint": "My actions match my word — including to myself"},
+                {"id": "growth", "label": "Growth", "hint": "Becoming more capable, wiser, stronger"},
+                {"id": "health", "label": "Health & vitality", "hint": "Energy, strength, a body I take care of"},
+                {"id": "mastery", "label": "Mastery & discipline", "hint": "Getting genuinely good at hard things"},
+                {"id": "courage", "label": "Courage", "hint": "Doing what's right even when it's uncomfortable"},
+                {"id": "presence", "label": "Presence", "hint": "Actually being where I am, with who I'm with"},
+                {"id": "honesty", "label": "Honesty", "hint": "Living without hiding"},
+                {"id": "contribution", "label": "Contribution", "hint": "My work and effort making something better"},
+                {"id": "creativity", "label": "Creativity", "hint": "Making things; expressing what's in me"},
+                {"id": "adventure", "label": "Adventure", "hint": "A life with real experiences in it"},
+                {"id": "independence", "label": "Independence", "hint": "Standing on my own; self-respect"},
+                {"id": "peace", "label": "Peace of mind", "hint": "A quiet conscience; rest that's actually restful"},
+                {"id": "purpose", "label": "Purpose", "hint": "My days adding up to something"}
+              ],
+              "keep_count": 5,
+              "save_to": "values_top5"
+            }
+          }
+        },
+        {
+          "day": 2,
+          "lesson": {
+            "id": "w4d2_lesson",
+            "title": "From five to two",
+            "body_md": "Yesterday you found five. Today you choose **two** — and before you protest that all five matter, let me make the case for the cut.\n\nFive values is a philosophy. Two values is a *practice*. When everything is a priority, nothing is; the person trying to honor five directions at once honors none of them daily. But two — two you can carry into an ordinary Tuesday. Two fit inside a single decision at 11pm. The other three don't disappear; they're still yours. You're choosing which two get your deliberate, daily attention *in this season*.\n\nHow to choose? Not by which sounds noblest. Use these two tests instead:\n\n**The wince test.** Read each of your five and notice which one *stings* — the one where the gap between how you're living and what you value is widest. That sting isn't your enemy; it's a signal of importance. We're often most avoidant around what matters most.\n\n**The engine test.** Which value, if you moved toward it for ninety days, would pull the others along behind it? For many people here, something like *integrity* or *presence* turns out to be an engine: live that one fully and connection, self-respect, and peace of mind come along for the ride.\n\nAnd now the part that ties this week to everything before it. Look at your Week 1 cost inventory and your \"why.\" Almost every cost you wrote down was a value being violated — time (purpose), relationship (connection, presence), self-respect (integrity). **The pain of this habit was never random. It has always been the exact shape of your values.** You hurt where you care. That's not a poetic flourish; it's the diagnostic key you'll use for the rest of the program: pain points at value, and so — as you'll see on Day 4 — do urges.\n\nChoose your two. Then write, in your own words, why each one is worth organizing a season of your life around.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "Which of your five made you wince — and what's the gap it's pointing at?"
+            }
+          },
+          "exercise": {
+            "id": "w4d2_ex",
+            "type": "worksheet",
+            "title": "Your two",
+            "steps": [
+              "From your five, choose the two that pass the wince test and the engine test.",
+              "For each, write two or three sentences in your own words: what does living this value actually look like in your week — and why is it worth a season of deliberate attention?",
+              "These two become the spine of your daily actions (tomorrow) and your urge map (Day 4)."
+            ],
+            "payload": {
+              "kind": "multi_select_write",
+              "select_options_source": "values_top5",
+              "select_count": 2,
+              "write_prompt": "What living each of these looks like, and why it's worth it:",
+              "save_to": "values_core"
+            }
+          }
+        },
+        {
+          "day": 3,
+          "lesson": {
+            "id": "w4d3_lesson",
+            "title": "Values are a verb",
+            "body_md": "A value that never becomes an action is a decoration — something you'd say in an interview, not something that shapes a Tuesday. Today we make your two values operational, using the ACT skill called **committed action**, and one rule governs everything: **shrink the step until it's unmissable.**\n\nHere's why small wins. The graveyard of self-improvement is full of magnificent plans — the daily 6am workout, the weekly date night, the total life overhaul — that lasted four days. Grand plans fail not because people are weak but because grand plans require ideal conditions, and ideal conditions are rare. A committed action should be small enough to survive your *worst* realistic day: a two-minute check-in text to someone you love. Ten pushups. Putting the phone away for one dinner. Writing three sentences. Reading one page.\n\nToo small to matter? That intuition is exactly backwards, for two reasons. First, **direction beats distance** — remember, values are a compass, and a two-minute action still counts as travel. A day with one small values-move in it is categorically different from a day with none: it has no vacuum in it, and vacuums are where your loop lives. Second, small actions are **votes for an identity**. Every time you act like a present partner, a disciplined person, an honest man — even for two minutes — you accumulate evidence about who you are. The evidence compounds. Week 7 of small votes beats week 1 of a grand collapse, every time.\n\nYou already know the delivery mechanism: the same if-then structure from Week 2, pointed now at approach instead of avoidance. *If I sit down for dinner, then phone goes in the other room* (presence). *If it's 9pm, then two-minute check-in with her about her actual day* (connection).\n\nToday you'll set one small daily action per core value for the coming week. Unmissable. Scheduled. Yours.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "What's your honest history with grand plans?",
+              "options": [
+                "Start strong, gone by Friday",
+                "I plan them and never start",
+                "They work until the first bad day",
+                "I've never really tried the small-step version"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w4d3_ex",
+            "type": "worksheet",
+            "title": "Two small actions, scheduled",
+            "steps": [
+              "For each of your two core values, define one action small enough to survive your worst realistic day — two to ten minutes, startable anywhere.",
+              "Give each an if-then anchor (when and where it happens) and pick the days it runs this week — daily is great, but 5 of 7 beats a broken 7 of 7.",
+              "The app will check in on these in your evening check-in this week. Votes get counted."
+            ],
+            "payload": {
+              "kind": "committed_action_planner",
+              "actions_per_value": 1,
+              "values_source": "values_core",
+              "action_fields": ["action", "if_then_anchor", "days_of_week"],
+              "size_note": "2-10 minutes, survivable on your worst day",
+              "save_to": "committed_actions",
+              "checkin_integration": true
+            }
+          }
+        },
+        {
+          "day": 4,
+          "lesson": {
+            "id": "w4d4_lesson",
+            "title": "The urge is a compass",
+            "body_md": "Time to complete an idea that's been building since Week 1. Back then you learned that an urge is *a need, knocking*. In Week 2 you mapped which feelings do the knocking. Today, the final piece: **every urge points at a value.** Read correctly, the thing that's been tormenting you is a compass.\n\nFollow the logic. Urges arrive on feelings — loneliness, stress, boredom, flatness, rejection. And every one of those feelings is the *ache of a value going unmet*:\n\n**Loneliness** is the ache of *connection*. It doesn't want pixels; it wants a person.\n**Stress** is often the ache of *peace* — or of *integrity*, when you're stressed because you're avoiding something you know you should face.\n**Boredom** is the ache of *purpose, growth, adventure* — a mind built for meaning, idling.\n**Flatness after failure** is the ache of *mastery* and *self-respect*, asking to be rebuilt, not numbed.\n**Even plain tiredness** points at a value: rest. Real rest — which the habit famously promises and never delivers.\n\nSo when the urge knocks, it's not just asking for relief. It's telling you, with surprising precision, **which value is hungriest right now.** The habit was never the desire — it was the wrong *address* for the desire. All those years, you weren't craving porn. You were craving connection, relief, aliveness, rest — and porn was the fast-food restaurant that answered every order with the same thing.\n\nThis reframe has a practical payoff you'll use tonight: when an urge hits and you ask your Week 1 question — *\"what is this actually asking for?\"* — you can now answer with a value, and then reach for a shift that actually *feeds* it. Lonely? The connecting item on your shift list, not the phone. Bored? The mastery item. The urge stops being an enemy at the gate and becomes a slightly annoying but weirdly accurate advisor.\n\nToday's exercise makes this concrete with your own data: your actual urge logs, mapped to your actual values.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "Think of your most recent strong urge. Which value was it pointing at — and what would have actually fed it?"
+            }
+          },
+          "exercise": {
+            "id": "w4d4_ex",
+            "type": "worksheet",
+            "title": "Map your urges to your values",
+            "steps": [
+              "Below are your recent urge logs. For each, ask: what was this one actually asking for? Tag it with one of your values — or with 'rest/relief' if that's the honest answer.",
+              "Notice the pattern: most people find one or two values doing most of the asking. That's your hungriest value — the one your daily actions should feed first.",
+              "From now on, your urge logs will offer this tag too, so your compass keeps calibrating itself."
+            ],
+            "payload": {
+              "kind": "urge_value_map",
+              "logs_source": "urge_logs",
+              "min_logs": 3,
+              "tag_options_source": "values_core",
+              "extra_tags": ["rest / relief", "connection", "purpose / growth"],
+              "save_to": "urge_value_map",
+              "enable_ongoing_tagging": true
+            }
+          }
+        },
+        {
+          "day": 5,
+          "lesson": {
+            "id": "w4d5_lesson",
+            "title": "Doing it with the discomfort",
+            "body_md": "Now for the skill this entire program has been assembling, piece by piece. ACT researchers call it **psychological flexibility**, and the definition is worth memorizing: *the ability to do what matters, with whatever shows up.*\n\nRead that again, because the last four words are the revolution. Not \"once the urge passes.\" Not \"after I feel motivated.\" Not \"when the anxiety is handled.\" **With** whatever shows up. The urge in the passenger seat, the flat mood along for the ride — and you, driving toward your values anyway.\n\nSee how everything you've built snaps together into this one move:\n\nThe **observing stance** (Week 3) lets you notice what showed up without panicking. **Defusion** unhooks you from its sales pitch. **Willingness** drops the rope so your hands are free. And your **values and committed actions** (this week) tell those free hands exactly what to do. That whole sequence, run in real time, *is* psychological flexibility. It's not a fifth skill — it's the other four, played as a chord.\n\nHere's what it looks like on an ordinary evening: it's 9pm, the committed action says *two-minute check-in with her*, and you feel flat, irritable, faintly pulled toward the phone. The inflexible move: wait to feel better first (you won't), or obey the pull. The flexible move: *\"Noticing flatness. Having the thought that it's pointless. Thanks, mind. Doing it anyway.\"* Two minutes later, the action is done, the vote is cast — and, oddly often, the flatness lifted somewhere in the middle. Action leads; feelings follow. Almost never the other way around.\n\nBe clear: this is a *practice*, not a trait. Nobody is flexible every time — including after six weeks, including ever. The rep counts even when it's ugly. **Especially** when it's ugly.\n\nToday: one deliberate rep. Pick a values action you'd normally postpone until you \"felt like it,\" notice exactly what shows up, and do it with the discomfort in the passenger seat.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "What most often shows up between you and a values action?",
+              "options": [
+                "Flatness — 'what's the point'",
+                "Anxiety or awkwardness",
+                "Tiredness that's really avoidance",
+                "The pull of the easier thing",
+                "The thought that I'll do it tomorrow"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w4d5_ex",
+            "type": "worksheet",
+            "title": "One flexible rep",
+            "steps": [
+              "Choose one values-based action for today that you'd normally postpone until you felt like it.",
+              "Before you start, predict what will show up (flatness? the 'pointless' thought? the pull?). Write it down.",
+              "Do the action WITH whatever shows up — using your Week 3 skills if needed. Then report: what showed up, and did it match the prediction? Did the action happen anyway? That's the only score that counts."
+            ],
+            "payload": {
+              "kind": "multi_select_write",
+              "select_options": [
+                "Did it — and what showed up matched my prediction",
+                "Did it — different discomfort showed up than expected",
+                "Did it — surprisingly, almost nothing showed up",
+                "Didn't manage it today — noting what stopped me"
+              ],
+              "select_count": 1,
+              "write_prompt": "What showed up, and how the rep actually went:",
+              "save_to": "flexibility_rep"
+            }
+          }
+        },
+        {
+          "day": 6,
+          "lesson": {
+            "id": "w4d6_lesson",
+            "title": "Fire the critic, hire the coach",
+            "body_md": "There's a voice in your head that believes it's been helping all these years. It calls you weak after a slip. It replays your failures at 2am. It says *pathetic, again, you'll never change* — and it genuinely believes that if it just gets harsh enough, you'll finally shape up.\n\nToday we look at that voice's actual performance record. It's terrible.\n\nYou already know the mechanism from Week 1: shame is fuel for this habit. The critic's attacks produce exactly the emotional states — worthlessness, hopelessness, the desire to escape yourself — that your loop feeds on. The voice that screams at you after a slip is, functionally, working *for* the slip. Every \"you're pathetic\" is a coupon for the very escape it's condemning.\n\nAnd the research agrees, consistently: people who respond to their own failures with **self-compassion** — steadiness, warmth, accountability without contempt — recover from setbacks faster, persist longer, and relapse less than self-punishers. Not because they let themselves off the hook. Because they stay *functional* at the exact moment the critic makes people spiral.\n\nSo let's be precise about what self-compassion is, since the word makes some people flinch. It is **not** lowering the bar, excusing the behavior, or lying to yourself. Think of the difference between two coaches after a lost game. The bad one screams that you're garbage — players tune out, confidence dies, next game goes worse. The good one is *honest and steady*: \"That wasn't our standard. Here's what broke. Here's Tuesday's practice plan.\" Same high standard. Radically different results. Self-compassion is simply being the second coach *to yourself* — the one whose players actually improve.\n\nYou've already hired this coach once: your Week 1 lapse letter was written in exactly this voice. Today you expand the roster. You'll take the critic's three favorite lines — the actual sentences it uses on you — and rewrite each one the way the good coach would say it. Same truth. Same standard. Zero contempt.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "What does your critic's voice actually say, word for word — and whose voice does it sound like, honestly?"
+            }
+          },
+          "exercise": {
+            "id": "w4d6_ex",
+            "type": "worksheet",
+            "title": "The rewrite",
+            "steps": [
+              "Write the critic's three most-used lines against you, word for word. Yes, actually write them — dragged into daylight, they're smaller.",
+              "Rewrite each as the good coach: honest about the standard, clear about the next step, zero contempt. ('You're pathetic, again' → 'That's not who we're becoming. What broke tonight, and what's the adjustment?')",
+              "Your coach lines get saved — and if you ever log a lapse, they'll be there alongside your Week 1 letter."
+            ],
+            "payload": {
+              "kind": "guided_list",
+              "prompt": "Critic line → Coach rewrite (three pairs):",
+              "suggestions": [
+                "\"You're weak\" → \"You're mid-rep on something hard. Finish the rep.\"",
+                "\"You'll never change\" → \"The score is trending, not finished. Next action.\"",
+                "\"Again? Pathetic.\" → \"A data point, not a verdict. What broke, what's the adjustment?\""
+              ],
+              "min_items": 3,
+              "save_to": "inner_coach_lines",
+              "surface_in": ["lapse_debrief"]
+            }
+          }
+        },
+        {
+          "day": 7,
+          "lesson": {
+            "id": "w4d7_lesson",
+            "title": "The person you're becoming",
+            "body_md": "Four weeks in, something has quietly shifted, and today we name it. You started this program trying to *stop doing something*. Somewhere along the way — probably without noticing the exact moment — the project changed. You're not quitting a habit anymore. **You're becoming a particular person.**\n\nThis is more than a nice reframe; it's the sturdiest architecture for change we know of. Habit-quitting is a war of attrition — every clean day costs willpower, and the identity underneath (*\"I'm an addict fighting urges\"*) stays intact, waiting to reassert itself. Identity-based change works in the opposite direction: every action is a **vote for a type of person**, the votes accumulate into evidence, and eventually the evidence becomes simply *who you are*. A person doesn't white-knuckle their way past behavior that isn't theirs. It just… isn't theirs.\n\nLook at your own evidence file from just this month: a signed commitment. A mapped pattern and a re-engineered bedroom. Urges surfed, logged, and — as of this week — read like a compass. Two values chosen and acted on daily. A critic demoted, a coach hired. That's not a person *trying to quit porn*. That's a person building a life with no vacancy for it.\n\nToday you write to him. **A letter from you-now to you-in-six-months** — the version of you these votes are electing. Tell him what you're doing for him this season and what you expect he's doing with it. Describe his ordinary Tuesday: how he sleeps, how present he is at dinner, what his hands and mind reach for in an empty moment, what it's like to have his own word mean something. Be specific — vague futures inspire nobody. And be warm; he's the closest ally you'll ever have.\n\nNext week we widen the lens from moments to lifestyle — sleep, movement, connection, and the weekly architecture that makes all of this durable. The person you're becoming needs a world to live in. We start building it Monday.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Which vote from this month are you most quietly proud of?",
+              "options": [
+                "Signing the commitment and meaning it",
+                "The first urge I rode instead of obeyed",
+                "The environment changes I actually made",
+                "Choosing my two values and acting on them",
+                "Rewriting the critic"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w4d7_ex",
+            "type": "worksheet",
+            "title": "Letter to the person you're becoming",
+            "steps": [
+              "Write to yourself six months from now — the person these weeks of votes are electing.",
+              "Cover three things: what you're doing for him this season, his ordinary Tuesday (specific — sleep, presence, what his hands reach for in empty moments), and what his self-respect feels like.",
+              "Warm, specific, yours. It joins your Emergency Card and your Progress page — the compass heading, written down."
+            ],
+            "payload": {
+              "kind": "letter_write",
+              "prompt": "To the person I'm becoming — six months from now:",
+              "min_chars": 200,
+              "save_to": "becoming_letter",
+              "surface_in": ["progress_tab", "emergency_card"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "checkin_prompts_additions": [
+    "Did your committed actions happen today? Which votes got cast?",
+    "Did any urge today point at a value? Which one was hungriest?",
+    "Coach or critic — who did the talking today?"
+  ]
+}
