@@ -35,6 +35,14 @@ Settings accessible from Today header (account, notifications, privacy, subscrip
 
 Design intent: build investment and personalization before the paywall (proven category pattern), but keep it honest — no fake "calculating…" theatrics, no fear-mongering pseudoscience.
 
+**Language principle:** direct and matter-of-fact about porn inside the app ("your porn use," not "this issue") — coyness reads as judgment and clashes with the verbatim PPCS-6 items. Softness is allowed only on the welcome screen; discretion is reserved for external surfaces (notifications, lock screen, app icon).
+
+**Value arc (anti-survey-fatigue):** the assessment must give value in both directions:
+- Step 1 sets the contract explicitly: "3 minutes. 14 questions — 6 from a validated screening instrument. You get your score, what it means, and a plan built on your answers."
+- Progress is framed as three named sections ("About you → The screening → Your results"), each with its own mini progress indicator.
+- 2–3 **insight interstitials** react briefly to answers with real, cited facts (e.g., after late-night trigger selection: "Late night is the most commonly reported risk window in the research — your plan will target it."). All interstitial copy must be true, sourced per LEGAL_COMPLIANCE §2.3, and stored in content JSON — never invented by the coding agent.
+- The results screen is the payoff scene: score on a visual scale, band explanation, and the forward frame ("we re-measure every 2 weeks"). No confetti or gamification anywhere in the assessment — credibility is the differentiator.
+
 Steps (one screen each, progress bar on top, all answers persisted locally then synced after account creation):
 
 1. **Welcome** — one-line value prop: "A science-based program to take back control." CTA: "Start assessment."
@@ -127,7 +135,7 @@ No PII in event payloads. Journal free-text is never sent to analytics.
 ## 10. Roadmap (post-v1, in order)
 
 1. AI companion (Claude API) — check-in coach grounded in program content, strict guardrails (CLINICAL_SPEC §6 escalation rules).
-2. Content blocker via iOS Screen Time / DNS profile.
+2. Content blocker via iOS Screen Time (FamilyControls + ManagedSettings + DeviceActivity): web-content filtering + user-selected app/site shields. Requires Apple's privileged `com.apple.developer.family-controls` (distribution) entitlement — **submit the request (main app + every extension bundle ID) as soon as the Apple Developer account exists; approval has lead time.** Differentiator: the custom shield screen shows the user's own Emergency Card line + a button into the 10-Minute Shift — intervention at the exact moment of urge, in their own words. True real-time detection of porn inside arbitrary apps is not possible on iOS; shields + web filter + DNS-level filtering are the honest capability set.
 3. Android release (same codebase).
 4. Accountability-partner lite (share progress chart with one trusted person).
 4b. Real-money deposit contracts (opt-in): stake via external web payment flow, forfeiture to charity on failed **process** goals (never self-reported abstinence). Requires legal + App Store compliance review first; evidence supports ~2x effectiveness among opt-ins but expect low uptake (~10–14%).
