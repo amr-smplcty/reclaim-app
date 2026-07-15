@@ -1,4 +1,5 @@
 import { useAssessmentHistoryStore } from '@/features/assessment/useAssessmentHistoryStore';
+import { getPpcs6Assessment } from '@/lib/content';
 
 describe('useAssessmentHistoryStore', () => {
   afterEach(() => {
@@ -36,5 +37,24 @@ describe('useAssessmentHistoryStore', () => {
 
     expect(a.id).not.toBe(b.id);
     expect(typeof a.timestamp).toBe('string');
+  });
+
+  it('stamps the PPCS-6 content-pack version onto every record — a future wording change can never make an old score ambiguous', () => {
+    const entry = useAssessmentHistoryStore.getState().recordAssessment([4, 4, 4, 4, 4, 4], 'past_6_months');
+    expect(entry.instrumentVersion).toBe(getPpcs6Assessment().content_version);
+    expect(typeof entry.instrumentVersion).toBe('string');
+    expect(entry.instrumentVersion.length).toBeGreaterThan(0);
+  });
+
+  it('records every required persistence field: score, band, per-item responses, instrument version, timestamp', () => {
+    const responses = [1, 2, 3, 4, 5, 6];
+    const entry = useAssessmentHistoryStore.getState().recordAssessment(responses, 'past_6_months');
+    expect(entry).toMatchObject({
+      score: 21,
+      band: 'C',
+      responses,
+      instrumentVersion: expect.any(String),
+      timestamp: expect.any(String),
+    });
   });
 });

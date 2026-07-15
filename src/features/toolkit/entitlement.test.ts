@@ -1,4 +1,6 @@
-import { canUseTool, isFreeForeverTool } from '@/features/toolkit/entitlement';
+import { canUseTool, isFreeForeverTool, TOOL_LABELS, TOOL_ROUTES, type ToolId } from '@/features/toolkit/entitlement';
+
+const ALL_TOOLS: ToolId[] = ['urge_surf', 'breather', 'defusion', 'shift_environment', 'ten_minute_shift'];
 
 describe('isFreeForeverTool — PRODUCT_SPEC §6 ethical floor', () => {
   it('is true for Urge Surf and Breather', () => {
@@ -25,5 +27,15 @@ describe('canUseTool', () => {
     expect(canUseTool('defusion', true)).toBe(true);
     expect(canUseTool('ten_minute_shift', false)).toBe(false);
     expect(canUseTool('ten_minute_shift', true)).toBe(true);
+  });
+});
+
+describe('TOOL_ROUTES / TOOL_LABELS', () => {
+  it('has a route and a label for every tool (tool_practice needs to launch any of them)', () => {
+    for (const tool of ALL_TOOLS) {
+      expect(typeof TOOL_ROUTES[tool]).toBe('string');
+      expect(typeof TOOL_LABELS[tool]).toBe('string');
+      expect(TOOL_LABELS[tool].length).toBeGreaterThan(0);
+    }
   });
 });

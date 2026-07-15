@@ -8,7 +8,15 @@ import {
 import type { AssessmentEntry } from '@/features/assessment/useAssessmentHistoryStore';
 
 function entryAt(timestamp: string, score: number): AssessmentEntry {
-  return { id: timestamp, timestamp, score, band: 'C', timeframe: 'past_6_months', responses: [4, 4, 4, 4, 4, 4] };
+  return {
+    id: timestamp,
+    timestamp,
+    score,
+    band: 'C',
+    timeframe: 'past_6_months',
+    responses: [4, 4, 4, 4, 4, 4],
+    instrumentVersion: '1.0.0',
+  };
 }
 
 describe('isReassessmentDue', () => {

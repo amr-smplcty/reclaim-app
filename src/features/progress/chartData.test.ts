@@ -2,7 +2,15 @@ import { buildTrendPoints, buildWeeklyBars } from '@/features/progress/chartData
 import type { AssessmentEntry } from '@/features/assessment/useAssessmentHistoryStore';
 
 function entry(timestamp: string, score: number): AssessmentEntry {
-  return { id: timestamp, timestamp, score, band: 'C', timeframe: 'past_6_months', responses: [] };
+  return {
+    id: timestamp,
+    timestamp,
+    score,
+    band: 'C',
+    timeframe: 'past_6_months',
+    responses: [],
+    instrumentVersion: '1.0.0',
+  };
 }
 
 describe('buildTrendPoints', () => {

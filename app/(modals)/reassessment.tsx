@@ -14,6 +14,8 @@ import { useAssessmentHistoryStore } from '@/features/assessment/useAssessmentHi
 import { formatScoreDelta, scoreDelta } from '@/features/assessment/reassessment';
 import { bandColorToken, scoreScaleFraction } from '@/features/assessment/resultsVisual';
 import { trackReassessmentCompleted } from '@/lib/analytics/events';
+import { getCurrentUserId } from '@/lib/supabase/auth';
+import { recordAssessmentRemotely } from '@/lib/assessment/sync';
 import { Spacing } from '@/theme/tokens';
 
 const ppcs6 = getPpcs6Assessment();
@@ -37,12 +39,18 @@ export default function ReassessmentScreen() {
     });
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!hasCompletePpcs6Responses(responses)) return;
     const entry = useAssessmentHistoryStore.getState().recordAssessment(responses, 'past_2_weeks');
     const delta = scoreDelta(useAssessmentHistoryStore.getState().entries);
     trackReassessmentCompleted(entry.score, delta);
     setResult({ score: entry.score, delta });
+
+    // Best-effort sync, same pattern as legal acceptance — only if a
+    // session already exists; the local encrypted store is the record of
+    // truth either way.
+    const userId = await getCurrentUserId();
+    if (userId) await recordAssessmentRemotely(userId, entry);
   }
 
   if (result) {

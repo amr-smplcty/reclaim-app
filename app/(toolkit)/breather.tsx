@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 import { CompletionBadge } from '@/components/completion-badge';
 import { PrimaryButton } from '@/components/primary-button';
@@ -34,6 +34,9 @@ function currentPhase(elapsed: number): { phase: BreathPhase } {
 
 // 90-second box-breathing (PRODUCT_SPEC §5.3, free forever per §6).
 export default function BreatherScreen() {
+  const { practice } = useLocalSearchParams<{ practice?: string }>();
+  const isPractice = practice === 'true';
+
   const activeSession = useToolkitStore((s) => s.activeSession);
   const logToolUse = useToolkitStore((s) => s.logToolUse);
   const clearSession = useToolkitStore((s) => s.clearSession);
@@ -51,7 +54,7 @@ export default function BreatherScreen() {
 
   function handleRate(postIntensity: number) {
     const preIntensity = activeSession?.preIntensity ?? postIntensity;
-    logToolUse('breather', preIntensity, postIntensity);
+    logToolUse('breather', preIntensity, postIntensity, isPractice);
     trackUrgeToolUsed('breather', preIntensity, postIntensity - preIntensity);
     clearSession();
     setResult({ pre: preIntensity, post: postIntensity });

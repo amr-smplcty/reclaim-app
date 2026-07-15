@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 import { ChoiceChip } from '@/components/choice-chip';
 import { CompletionBadge } from '@/components/completion-badge';
@@ -29,6 +29,9 @@ type Step = 'build_list' | 'pick_activity' | 'counting' | 'rate' | 'done';
 // List" exercise reads/writes (BACKLOG #14), so building it here first and
 // reaching W2D6 later (or vice versa) merges instead of overwriting.
 export default function TenMinuteShiftScreen() {
+  const { practice } = useLocalSearchParams<{ practice?: string }>();
+  const isPractice = practice === 'true';
+
   const activeSession = useToolkitStore((s) => s.activeSession);
   const shiftListOutput = useProgramStore((s) => s.getExerciseOutput<GuidedListOutput>('shift_list'));
   const saveExerciseOutput = useProgramStore((s) => s.saveExerciseOutput);
@@ -61,7 +64,7 @@ export default function TenMinuteShiftScreen() {
 
   function handleRate(postIntensity: number) {
     const preIntensity = activeSession?.preIntensity ?? postIntensity;
-    logToolUse('ten_minute_shift', preIntensity, postIntensity);
+    logToolUse('ten_minute_shift', preIntensity, postIntensity, isPractice);
     trackUrgeToolUsed('ten_minute_shift', preIntensity, postIntensity - preIntensity);
     clearSession();
     setResult({ pre: preIntensity, post: postIntensity });

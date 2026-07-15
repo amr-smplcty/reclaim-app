@@ -17,6 +17,8 @@ import {
 } from '@/lib/supabase/auth';
 import { shouldOfferAppleSignIn } from '@/lib/supabase/appleSignIn';
 import { recordLegalAcceptance } from '@/lib/legal/acceptance';
+import { recordAssessmentRemotely } from '@/lib/assessment/sync';
+import { useAssessmentHistoryStore } from '@/features/assessment/useAssessmentHistoryStore';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/theme/tokens';
 
@@ -57,6 +59,12 @@ export default function AccountScreen() {
     updateAnswers({ legalAcceptedAt: acceptedAt });
     if (userId) {
       await recordLegalAcceptance(userId, acceptedAt);
+      // Onboarding's PPCS-6 score was recorded before a session existed —
+      // sync the baseline entry now that one does (same best-effort pattern
+      // as legal acceptance; the local, encrypted store is the record of
+      // truth either way).
+      const latestAssessment = useAssessmentHistoryStore.getState().entries.at(-1);
+      if (latestAssessment) await recordAssessmentRemotely(userId, latestAssessment);
     }
     goNextFrom('account');
   }

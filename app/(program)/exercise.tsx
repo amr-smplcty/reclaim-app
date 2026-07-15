@@ -21,6 +21,7 @@ import { LetterWrite } from '@/features/program/exercises/LetterWrite';
 import { MultiSelectWrite } from '@/features/program/exercises/MultiSelectWrite';
 import { ProfileBuilder } from '@/features/program/exercises/ProfileBuilder';
 import { RatedInventory } from '@/features/program/exercises/RatedInventory';
+import { ToolPractice } from '@/features/program/exercises/ToolPractice';
 import { WorksheetFallback } from '@/features/program/exercises/WorksheetFallback';
 import { resolveShiftListSeed } from '@/features/program/shiftList';
 import { summarizeExerciseOutput } from '@/features/program/exerciseHelpers';
@@ -33,11 +34,11 @@ import type {
   GuidedListOutput,
   GuidedListPayload,
   IfThenBuilderPayload,
-  MultiSelectWriteOutput,
   MultiSelectWritePayload,
   ProfileBuilderPayload,
   RatedInventoryOutput,
   RatedInventoryPayload,
+  ToolPracticePayload,
 } from '@/types/program';
 
 // Exercise renderer (PRODUCT_SPEC §5.3 program tie-in) — switches on
@@ -139,8 +140,7 @@ export default function ExerciseScreen() {
       body = (
         <CommitmentBuilder
           payload={p}
-          anchorWhy={exerciseOutputs.anchor_why as MultiSelectWriteOutput | undefined}
-          emergencyCardLine={exerciseOutputs.emergency_card_line as string | undefined}
+          outputs={exerciseOutputs}
           lapseLetter={exerciseOutputs.lapse_letter as string | undefined}
           onSubmit={(o) => handleSubmit(p.save_to, o)}
         />
@@ -170,6 +170,11 @@ export default function ExerciseScreen() {
     case 'profile_builder': {
       const p = payload as unknown as ProfileBuilderPayload;
       body = <ProfileBuilder payload={p} sourceOutputs={exerciseOutputs} onSubmit={(o) => handleSubmit(p.save_to, o)} />;
+      break;
+    }
+    case 'tool_practice': {
+      const p = payload as unknown as ToolPracticePayload;
+      body = <ToolPractice payload={p} onSubmit={(o) => handleSubmit(p.save_to, o)} />;
       break;
     }
     default:

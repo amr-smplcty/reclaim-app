@@ -24,10 +24,13 @@ export function InsightScreen({ step }: Props) {
   return (
     <OnboardingLayout step={step} contentStyle={styles.content}>
       <ThemedText type="title" style={styles.title}>
-        {insight.text}
+        {insight.title}
+      </ThemedText>
+      <ThemedText type="default" themeColor="textSecondary" style={styles.body}>
+        {insight.body}
       </ThemedText>
       <ThemedText type="small" themeColor="textSecondary" style={styles.citation}>
-        {insight.citation}
+        {insight.citation_short}
       </ThemedText>
       <PrimaryButton label="Continue" onPress={() => goNextFrom(step)} />
     </OnboardingLayout>
@@ -37,5 +40,6 @@ export function InsightScreen({ step }: Props) {
 const styles = StyleSheet.create({
   content: { justifyContent: 'center', gap: Spacing.four },
   title: { marginBottom: Spacing.two },
+  body: { marginBottom: Spacing.three },
   citation: { marginBottom: Spacing.four },
 });

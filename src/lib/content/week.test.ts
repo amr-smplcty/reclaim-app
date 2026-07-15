@@ -114,17 +114,18 @@ describe('validateWeekContentPack — schema errors', () => {
   });
 });
 
-describe('multi-week loading — real content/week1.json + content/week2.json', () => {
-  it('loads both packs', () => {
+describe('multi-week loading — real content/week1.json + week2.json + week3.json', () => {
+  it('loads all three packs', () => {
     const packs = getAllWeekPacks();
-    expect(packs).toHaveLength(2);
+    expect(packs).toHaveLength(3);
     expect(packs[0].modules[0].week).toBe(1);
     expect(packs[1].modules[0].week).toBe(2);
+    expect(packs[2].modules[0].week).toBe(3);
   });
 
   it('merges modules across weeks so W2D1 is reachable right after W1D7', () => {
     const modules = getProgramModules();
-    expect(modules.map((m) => m.week)).toEqual([1, 2]);
+    expect(modules.map((m) => m.week)).toEqual([1, 2, 3]);
 
     const w1d7 = findProgramDay(modules, { week: 1, day: 7 });
     const w2d1 = findProgramDay(modules, { week: 2, day: 1 });
@@ -132,10 +133,20 @@ describe('multi-week loading — real content/week1.json + content/week2.json', 
     expect(w2d1?.lesson.id).toBe('w2d1_lesson');
   });
 
-  it('combines week 1 checkin_prompts with week 2 additions', () => {
+  it('merges Week 3 in so W3D1 is reachable right after W2D7', () => {
+    const modules = getProgramModules();
+    const w2d7 = findProgramDay(modules, { week: 2, day: 7 });
+    const w3d1 = findProgramDay(modules, { week: 3, day: 1 });
+    expect(w2d7?.exercise.payload).toMatchObject({ kind: 'profile_builder' });
+    expect(w3d1?.lesson.id).toBe('w3d1_lesson');
+    expect(w3d1?.exercise.payload).toMatchObject({ kind: 'tool_practice', tool: 'urge_surf' });
+  });
+
+  it('combines week 1 checkin_prompts with week 2 and week 3 additions', () => {
     const prompts = getAllCheckinPrompts();
     expect(prompts).toContain('What was the strongest feeling you had today, and what did you do with it?');
     expect(prompts).toContain('Did any of your if-then plans fire today? What happened?');
+    expect(prompts).toContain("Did you do today's calm practice run? What did you notice in your body?");
   });
 
   it('returns week 2s authored Urge Surf script, replacing the interim beats', () => {

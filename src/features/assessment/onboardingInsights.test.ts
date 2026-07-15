@@ -1,5 +1,5 @@
 import { insightForStep, shouldShowInsight } from '@/features/assessment/onboardingInsights';
-import type { OnboardingAnswers } from '@/features/assessment/useOnboardingStore';
+import { ONBOARDING_STEPS, type OnboardingAnswers } from '@/features/assessment/useOnboardingStore';
 
 const baseAnswers: OnboardingAnswers = {
   dobIso: null,
@@ -44,5 +44,18 @@ describe('shouldShowInsight', () => {
 
   it('is false for steps with no insight at all', () => {
     expect(shouldShowInsight('context-quits', baseAnswers)).toBe(false);
+  });
+});
+
+describe('insight step ordering', () => {
+  it('never lets an insight step fall inside or after the ppcs6 step — insights must never render between the six PPCS-6 items', () => {
+    const ppcs6Index = ONBOARDING_STEPS.indexOf('ppcs6');
+    const escalationIndex = ONBOARDING_STEPS.indexOf('insight-escalation');
+    const quitsIndex = ONBOARDING_STEPS.indexOf('insight-quits');
+
+    expect(escalationIndex).toBeGreaterThan(-1);
+    expect(quitsIndex).toBeGreaterThan(-1);
+    expect(escalationIndex).toBeLessThan(ppcs6Index);
+    expect(quitsIndex).toBeLessThan(ppcs6Index);
   });
 });

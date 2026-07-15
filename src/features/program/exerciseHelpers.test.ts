@@ -2,8 +2,10 @@ import {
   assembleProfileSections,
   buildAnchorWhySummary,
   collectComparisonLines,
+  resolveCommitmentTemplate,
   summarizeExerciseOutput,
 } from '@/features/program/exerciseHelpers';
+import type { CommitmentBuilderPayload } from '@/types/program';
 
 describe('buildAnchorWhySummary', () => {
   it('falls back gracefully when nothing was saved yet', () => {
@@ -82,6 +84,77 @@ describe('summarizeExerciseOutput', () => {
 
   it('falls back to a friendly placeholder when nothing was saved', () => {
     expect(summarizeExerciseOutput(undefined)).toBe('Not yet completed.');
+  });
+});
+
+describe('resolveCommitmentTemplate', () => {
+  const week1Payload: CommitmentBuilderPayload = {
+    kind: 'commitment_builder',
+    template:
+      "Because {anchor_why_summary}, I'm committing to this program: daily practice, honest check-ins, reaching for my tools when urges come — and if I slip, a debrief instead of a spiral. I'm not promising perfection. I'm promising to stay in the process.\n\nWhat's at stake for me: {emergency_card_line}",
+    inputs: ['anchor_why', 'emergency_card_line', 'lapse_letter'],
+    signature_required: true,
+    save_to: 'commitment_statement',
+    pin_to_today: true,
+  };
+
+  it('resolves Week 1s template exactly as the original hardcoded logic did', () => {
+    const outputs = {
+      anchor_why: { selected: ['My time', 'My self-respect'], write: '' },
+      emergency_card_line: 'the version of me that keeps his word',
+    };
+    const result = resolveCommitmentTemplate(week1Payload, outputs);
+    expect(result).toBe(
+      "Because my time and my self-respect, I'm committing to this program: daily practice, honest check-ins, reaching for my tools when urges come — and if I slip, a debrief instead of a spiral. I'm not promising perfection. I'm promising to stay in the process.\n\nWhat's at stake for me: the version of me that keeps his word"
+    );
+  });
+
+  it('falls back gracefully when Week 1s inputs are missing', () => {
+    const result = resolveCommitmentTemplate(week1Payload, {});
+    expect(result).toContain('what this is costing me');
+    expect(result).toContain('what this program can give me back');
+  });
+
+  const week3Payload: CommitmentBuilderPayload = {
+    kind: 'commitment_builder',
+    template:
+      "When it rises: {breather_slot_summary}\nWhen the pitch starts: remember — {urge_thoughts_top}. I'm having a thought, not taking an order.\nMy turn away: {shift_list_top}. My hands are free, and they're for {anchor_why_summary}.",
+    inputs: ['breather_slot', 'urge_thoughts', 'shift_list', 'anchor_why', 'tool_ranking'],
+    signature_required: false,
+    save_to: 'urge_script',
+    max_words: 100,
+    surface_in: ['urge_surf_entry', 'emergency_card'],
+  };
+
+  it('resolves Week 3 Day 7s different placeholders — a plain-string output via _summary', () => {
+    const outputs = { breather_slot: "it's 11pm and I'm scrolling" };
+    const result = resolveCommitmentTemplate(week3Payload, outputs);
+    expect(result).toContain("When it rises: it's 11pm and I'm scrolling");
+  });
+
+  it('resolves a _top placeholder to the first item of a list-shaped output', () => {
+    const outputs = {
+      urge_thoughts: { items: ['"Just this once"', '"You deserve it"'] },
+      shift_list: { items: ['Walk around the block', 'Call a friend'] },
+    };
+    const result = resolveCommitmentTemplate(week3Payload, outputs);
+    expect(result).toContain('remember — "Just this once".');
+    expect(result).toContain('My turn away: Walk around the block.');
+  });
+
+  it('still resolves {anchor_why_summary} the same special way inside a different template', () => {
+    const outputs = { anchor_why: { selected: ['My time'], write: '' } };
+    const result = resolveCommitmentTemplate(week3Payload, outputs);
+    expect(result).toContain("they're for my time.");
+  });
+
+  it('tolerates an input with no matching placeholder in the template (tool_ranking)', () => {
+    const outputs = { tool_ranking: 'Breather first, then Urge Surf' };
+    expect(() => resolveCommitmentTemplate(week3Payload, outputs)).not.toThrow();
+  });
+
+  it('never throws on completely empty outputs', () => {
+    expect(() => resolveCommitmentTemplate(week3Payload, {})).not.toThrow();
   });
 });
 

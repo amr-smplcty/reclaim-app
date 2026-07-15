@@ -61,6 +61,12 @@
 - **Investigation note (corrects this entry's original hypothesis):** it was *not* a dev-only import path — `expo export --platform ios` (plain, no `--dev`) failed with the identical error before the fix and passed identically after. The real reason the "expo export --platform ios" verification didn't catch this is simpler: it was never actually run as part of the previous session's verification (only typecheck/jest/lint were) — this class of bug only shows up once you actually invoke Metro.
 - **Prevention rules:** **(a) Test utilities live outside the app import graph — only `*.test.*` files and jest config may import them; enforced by `scripts/lint-bundle-purity.js` (`npm run lint:bundle-purity`), which mirrors expo-router's own require.context ignore pattern. (b) Verification must include an actual Metro bundle, not just typecheck/tests/lint — `scripts/verify-bundle.js` (`npm run verify:bundle`) runs a real `expo export --platform ios --dev --no-minify --no-bytecode` (Expo Go's actual conditions) and fails on any bundling error.**
 
+### INC-10 · `urge_script` exercise output typed as string, actually an object (caught pre-ship)
+- **Symptom:** none in production — found during Epic 8 reconciliation's "confirm wired end to end" verification of Week 3 Day 7's `urge_script` commitment-builder output, before any user reached it. Would have been "Objects are not valid as a React child" the first time a real user hit Week 3 Day 7.
+- **Root cause:** `CommitmentBuilder`'s `onSubmit` always saves `{statement, signature, signed_at}` regardless of whether the `signature_required` variant is active, but both `app/(tabs)/progress.tsx` and `app/(toolkit)/urge-surf.tsx` called `getExerciseOutput<string>('urge_script')` and (in urge-surf.tsx) rendered the result directly as text.
+- **Fix:** Both consumers retyped to `getExerciseOutput<CommitmentBuilderOutput>('urge_script')`; urge-surf.tsx renders `.statement` specifically; progress.tsx only used the value as a boolean presence check, so it was inert either way but corrected for type accuracy.
+- **Prevention rule:** **A payload's declared output type (`XOutput` in `src/types/program.ts`) is the only source of truth for what `getExerciseOutput<T>` should be typed as at each call site — grep every consumer of an exercise's `save_to` key when that exercise's output shape changes or is reused by a new payload kind, don't assume the old call sites still match.**
+
 ## Standing prevention rules (the distilled list for prompt-writing)
 
 1. Native-module UI: availability-check + graceful fallback, always (INC-2).
@@ -71,3 +77,4 @@
 6. Test code never enters the app import graph; verify dev bundle boots, not just export (INC-9).
 7. Language lints encode spec exceptions; never edit content to satisfy a lint (INC-5).
 8. `.env`/config changes → cache-cleared restart before debugging "mystery" errors (INC-3).
+9. When an exercise output's shape changes or is reused by a new payload kind, grep every `getExerciseOutput<T>` call site for that `save_to` key — don't assume old consumers still match (INC-10).

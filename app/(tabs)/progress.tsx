@@ -21,7 +21,7 @@ import { CommitmentGoalsSection } from '@/features/progress/CommitmentGoalsSecti
 import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsStore';
 import { computeDayCreditInputForDate, dateKeyOf } from '@/features/progress/dailyCreditReconciliation';
 import { Spacing } from '@/theme/tokens';
-import type { ProfileBuilderOutput } from '@/types/program';
+import type { CommitmentBuilderOutput, ProfileBuilderOutput } from '@/types/program';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -36,7 +36,10 @@ export default function ProgressScreen() {
   const completions = useProgramStore((s) => s.completions);
   const getExerciseOutput = useProgramStore((s) => s.getExerciseOutput);
   const patternProfile = getExerciseOutput<ProfileBuilderOutput>('pattern_profile');
-  const urgeScript = getExerciseOutput<string>('urge_script');
+  // Week 3 Day 7's urge_script is a commitment_builder output ({statement,
+  // signature, signed_at}), same shape Week 1 Day 7 saves — never a bare
+  // string, even though only .statement ever gets displayed.
+  const urgeScript = getExerciseOutput<CommitmentBuilderOutput>('urge_script');
 
   const checkins = useJournalStore((s) => s.checkins);
   const urgeLogs = useToolkitStore((s) => s.urgeLogs);

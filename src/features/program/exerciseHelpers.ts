@@ -1,4 +1,10 @@
-import type { GuidedListOutput, MultiSelectWriteOutput, ProfileSection, RatedInventoryOutput } from '@/types/program';
+import type {
+  CommitmentBuilderPayload,
+  GuidedListOutput,
+  MultiSelectWriteOutput,
+  ProfileSection,
+  RatedInventoryOutput,
+} from '@/types/program';
 
 // Fills the {anchor_why_summary} placeholder in the Day 7 commitment template
 // (content/week1.json) from the Day 1 multi_select_write output. The result is
@@ -72,4 +78,60 @@ export function assembleProfileSections(
     title: section.title,
     content: summarizeExerciseOutput(outputs[section.source]),
   }));
+}
+
+// A couple of commitment_builder templates need "the first item of a list"
+// rather than the full summary (Week 3 Day 7's {..._top} placeholders) —
+// summarizeExerciseOutput joins everything, this picks just the lead item.
+function firstItemOf(value: unknown): string | undefined {
+  if (typeof value !== 'object' || value === null) return undefined;
+  const v = value as Record<string, unknown>;
+  if (Array.isArray(v.items) && typeof v.items[0] === 'string') return v.items[0];
+  if (Array.isArray(v.selected) && typeof v.selected[0] === 'string') return v.selected[0];
+  return undefined;
+}
+
+// Week 1 Day 7's two placeholders predate the generic "{input}_summary" /
+// "{input}_top" convention below and keep their own bespoke resolution
+// (buildAnchorWhySummary's natural-language join; emergency_card_line's own
+// fallback line) — reused as-is by any later week's template that
+// references the same placeholder name (Week 3 Day 7 reuses
+// {anchor_why_summary} verbatim).
+const SPECIAL_PLACEHOLDER_RESOLVERS: Record<string, (outputs: Record<string, unknown>) => string> = {
+  anchor_why_summary: (outputs) => buildAnchorWhySummary(outputs.anchor_why as MultiSelectWriteOutput | undefined),
+  emergency_card_line: (outputs) =>
+    (typeof outputs.emergency_card_line === 'string' && outputs.emergency_card_line) ||
+    'what this program can give me back',
+};
+
+// Fills every {placeholder} in a commitment_builder template from the
+// exercise outputs it lists as `inputs`. An input with no matching
+// placeholder in the template (e.g. Week 3 Day 7's tool_ranking, kept only
+// for provenance) is simply never touched — no error either way.
+export function resolveCommitmentTemplate(payload: CommitmentBuilderPayload, outputs: Record<string, unknown>): string {
+  const placeholderNames = new Set(
+    [...payload.template.matchAll(/\{([a-z0-9_]+)\}/g)].map((match) => match[1])
+  );
+
+  let result = payload.template;
+  for (const placeholder of placeholderNames) {
+    const token = `{${placeholder}}`;
+
+    if (SPECIAL_PLACEHOLDER_RESOLVERS[placeholder]) {
+      result = result.split(token).join(SPECIAL_PLACEHOLDER_RESOLVERS[placeholder](outputs));
+      continue;
+    }
+
+    const summaryMatch = placeholder.match(/^(.+)_summary$/);
+    const topMatch = placeholder.match(/^(.+)_top$/);
+
+    if (summaryMatch) {
+      const summary = summarizeExerciseOutput(outputs[summaryMatch[1]]);
+      result = result.split(token).join(summary === 'Not yet completed.' ? 'what I noted' : summary);
+    } else if (topMatch) {
+      result = result.split(token).join(firstItemOf(outputs[topMatch[1]]) ?? 'what I noted');
+    }
+  }
+
+  return result;
 }

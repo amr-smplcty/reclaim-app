@@ -4,15 +4,17 @@
       "id": "escalation-tolerance",
       "afterStep": "context-escalation",
       "trigger": { "field": "escalation", "equals": "yes" },
-      "text": "TODO(content): cited fact about tolerance/escalation as a recognized indicator of problematic use, framed to show the plan targets it directly. Must be true and sourced per LEGAL_COMPLIANCE §2.3 — do not invent.",
-      "citation": "TODO(content)"
+      "title": "That's called tolerance — and it's on the map",
+      "body": "Needing more, or more intense, material over time has a name in the research: tolerance. It's one of the six markers the screening you're about to take was built to measure (Bőthe et al., 2020). Naming it is the first step to reversing it — your plan will target it directly.",
+      "citation_short": "Bőthe et al., 2020"
     },
     {
       "id": "repeated-quit-attempts",
       "afterStep": "context-quits",
       "trigger": { "field": "priorQuitAttempts", "in": ["3-5 times", "6+ times"] },
-      "text": "TODO(content): cited fact about repeated quit attempts being common, and what structured support changes about the odds of success. Must be true and sourced per LEGAL_COMPLIANCE §2.3 — do not invent.",
-      "citation": "TODO(content)"
+      "title": "Trying before isn't a bad sign",
+      "body": "Most people arrive here having tried to stop on their own — that pattern is so common the screening measures it directly (Bőthe et al., 2020). Here's the useful part: the approaches tested in published trials are structured and skills-based, not willpower-based. You're not starting over. You're starting differently.",
+      "citation_short": "Bőthe et al., 2020"
     }
   ]
 }
