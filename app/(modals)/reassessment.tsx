@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { router, type Href } from 'expo-router';
 
 import { ChoiceChip } from '@/components/choice-chip';
 import { PrimaryButton } from '@/components/primary-button';
@@ -13,6 +13,8 @@ import { hasCompletePpcs6Responses } from '@/features/assessment/assessmentValid
 import { useAssessmentHistoryStore } from '@/features/assessment/useAssessmentHistoryStore';
 import { formatScoreDelta, scoreDelta } from '@/features/assessment/reassessment';
 import { bandColorToken, scoreScaleFraction } from '@/features/assessment/resultsVisual';
+import { shouldOfferRefresherWeek } from '@/features/program/refresher';
+import { useRefresherStore } from '@/features/program/useRefresherStore';
 import { trackReassessmentCompleted } from '@/lib/analytics/events';
 import { getCurrentUserId } from '@/lib/supabase/auth';
 import { recordAssessmentRemotely } from '@/lib/assessment/sync';
@@ -27,7 +29,9 @@ const ppcs6 = getPpcs6Assessment();
 export default function ReassessmentScreen() {
   const theme = useTheme();
   const [responses, setResponses] = useState<Array<number | null>>(Array(ppcs6.items.length).fill(null));
-  const [result, setResult] = useState<{ score: number; delta: number | null } | null>(null);
+  const [result, setResult] = useState<{ score: number; delta: number | null; entryId: string } | null>(null);
+  const offerDecisions = useRefresherStore((s) => s.offerDecisions);
+  const recordOfferDecision = useRefresherStore((s) => s.recordOfferDecision);
 
   const canSubmit = responses.every((r) => r !== null);
 
@@ -44,7 +48,7 @@ export default function ReassessmentScreen() {
     const entry = useAssessmentHistoryStore.getState().recordAssessment(responses, 'past_2_weeks');
     const delta = scoreDelta(useAssessmentHistoryStore.getState().entries);
     trackReassessmentCompleted(entry.score, delta);
-    setResult({ score: entry.score, delta });
+    setResult({ score: entry.score, delta, entryId: entry.id });
 
     // Best-effort sync, same pattern as legal acceptance — only if a
     // session already exists; the local encrypted store is the record of
@@ -56,6 +60,13 @@ export default function ReassessmentScreen() {
   if (result) {
     const bandInfo = getPpcs6Band(result.score);
     const bandColor = theme[bandColorToken(bandInfo.band)];
+
+    // Refresher-week offer (CLINICAL_SPEC §4): only when this specific
+    // re-assessment's >=6-point rise hasn't already been decided — a
+    // decline is permanent for THIS trigger ("respected without nagging"),
+    // but a later, separate qualifying rise (a new entry id) can offer again.
+    const offerRefresher =
+      shouldOfferRefresherWeek(useAssessmentHistoryStore.getState().entries) && !offerDecisions[result.entryId];
 
     return (
       <ThemedView style={styles.resultContainer}>
@@ -75,6 +86,37 @@ export default function ReassessmentScreen() {
             {formatScoreDelta(result.delta)} since your last check.
           </ThemedText>
         ) : null}
+
+        {offerRefresher ? (
+          <ThemedView style={[styles.refresherOffer, { borderColor: theme.accent, backgroundColor: theme.accentTint }]}>
+            <ThemedText type="default" themeColor="accent" style={styles.refresherTitle}>
+              Want a refresher week?
+            </ThemedText>
+            <ThemedText type="small" themeColor="textSecondary" style={styles.refresherBody}>
+              The greatest hits of your pattern and urge skills — one week, tune-up done.
+            </ThemedText>
+            <View style={styles.refresherActions}>
+              <PrimaryButton
+                label="Start the refresher"
+                onPress={() => {
+                  recordOfferDecision(result.entryId, 'accepted');
+                  router.push('/(modals)/refresher-week' as Href);
+                }}
+              />
+              <Pressable
+                onPress={() => recordOfferDecision(result.entryId, 'declined')}
+                accessibilityRole="button"
+                accessibilityLabel="Not now"
+                style={styles.declineButton}
+              >
+                <ThemedText type="link" themeColor="textSecondary">
+                  Not now
+                </ThemedText>
+              </Pressable>
+            </View>
+          </ThemedView>
+        ) : null}
+
         <PrimaryButton label="Done" onPress={() => router.back()} />
       </ThemedView>
     );
@@ -129,4 +171,9 @@ const styles = StyleSheet.create({
   scaleTrack: { height: 8, borderRadius: 4, overflow: 'hidden', marginBottom: Spacing.three },
   scaleFill: { height: 8, borderRadius: 4 },
   delta: { marginBottom: Spacing.four },
+  refresherOffer: { borderWidth: 1, borderRadius: 12, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.two },
+  refresherTitle: { fontWeight: '700' },
+  refresherBody: {},
+  refresherActions: { gap: Spacing.two, alignItems: 'stretch' },
+  declineButton: { alignItems: 'center', paddingVertical: Spacing.two },
 });

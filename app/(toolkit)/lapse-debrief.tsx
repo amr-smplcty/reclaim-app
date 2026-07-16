@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
-import { router } from 'expo-router';
+import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { router, type Href } from 'expo-router';
 
 import { ChoiceChip } from '@/components/choice-chip';
 import { PrimaryButton } from '@/components/primary-button';
@@ -8,6 +8,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useProgramStore } from '@/features/program/useProgramStore';
+import type { EmergencyCardOutput } from '@/types/program';
 import { useToolkitStore, type LapseFailureMode, type Trigger } from '@/features/toolkit/useToolkitStore';
 import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsStore';
 import { trackLapseLogged } from '@/lib/analytics/events';
@@ -41,6 +42,9 @@ export default function LapseDebriefScreen() {
   // Week 4 Day 6's guided_list surface_in: ["lapse_debrief"] — the user's own
   // critic-to-coach rewrites, shown alongside the Week 1 letter.
   const innerCoachLines = useProgramStore((s) => s.getExerciseOutput<GuidedListOutput>('inner_coach_lines'));
+  // Week 6 Day 5's Emergency Card (surface_in: ["lapse_debrief"], BACKLOG #27)
+  // — only once it's actually been built.
+  const emergencyCard = useProgramStore((s) => s.getExerciseOutput<EmergencyCardOutput>('emergency_card'));
   const logLapseDebrief = useToolkitStore((s) => s.logLapseDebrief);
 
   const [beforeChips, setBeforeChips] = useState<Trigger[]>([]);
@@ -100,6 +104,19 @@ export default function LapseDebriefScreen() {
       <ThemedText type="default" themeColor="textSecondary" style={styles.intro}>
         No judgment here — just a quick debrief so your plan gets smarter.
       </ThemedText>
+
+      {emergencyCard ? (
+        <Pressable
+          onPress={() => router.push('/(modals)/emergency-card' as Href)}
+          accessibilityRole="button"
+          accessibilityLabel="Open your Emergency Card"
+          style={[styles.emergencyCardLink, { borderColor: theme.accent, backgroundColor: theme.accentTint }]}
+        >
+          <ThemedText type="default" themeColor="accent" style={styles.letterLabel}>
+            Open your Emergency Card
+          </ThemedText>
+        </Pressable>
+      ) : null}
 
       {lapseLetter ? (
         <ThemedView style={[styles.letterBlock, { borderColor: theme.border }]}>
@@ -185,6 +202,7 @@ const styles = StyleSheet.create({
   title: { marginBottom: Spacing.two },
   intro: { marginBottom: Spacing.four },
   letterBlock: { borderWidth: 1, borderRadius: 10, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.one },
+  emergencyCardLink: { borderWidth: 1, borderRadius: 10, padding: Spacing.three, marginBottom: Spacing.four, alignItems: 'center' },
   letterLabel: { fontWeight: '700' },
   prompt: { marginTop: Spacing.three, marginBottom: Spacing.two },
   input: {

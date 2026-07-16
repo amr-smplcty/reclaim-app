@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 import { CompletionBadge } from '@/components/completion-badge';
 import { PrimaryButton } from '@/components/primary-button';
@@ -8,7 +8,8 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { getProgramModules } from '@/lib/content/week';
 import { useProgramStore } from '@/features/program/useProgramStore';
-import { dayKey, findProgramDay } from '@/features/program/progression';
+import { useRefresherStore } from '@/features/program/useRefresherStore';
+import { dayKey, findProgramDay, type ProgramPosition } from '@/features/program/progression';
 import { Spacing } from '@/theme/tokens';
 import { ChainBuilder } from '@/features/program/exercises/ChainBuilder';
 import { ChecklistCommit } from '@/features/program/exercises/ChecklistCommit';
@@ -26,7 +27,11 @@ import { ValueCardSort } from '@/features/program/exercises/ValueCardSort';
 import { CommittedActionPlanner } from '@/features/program/exercises/CommittedActionPlanner';
 import { UrgeValueMap } from '@/features/program/exercises/UrgeValueMap';
 import { RiskWindowPlanner } from '@/features/program/exercises/RiskWindowPlanner';
+import { EmergencyCardBuilder } from '@/features/program/exercises/EmergencyCardBuilder';
+import { MaintenanceSetup } from '@/features/program/exercises/MaintenanceSetup';
 import { WorksheetFallback } from '@/features/program/exercises/WorksheetFallback';
+import { GraduationMoment } from '@/features/program/GraduationMoment';
+import { useSettingsStore } from '@/features/settings/useSettingsStore';
 import { resolveShiftListSeed } from '@/features/program/shiftList';
 import { resolveSelectOptions, summarizeExerciseOutput } from '@/features/program/exerciseHelpers';
 import { resolveCommittedActionValues } from '@/features/program/committedActionPlanner';
@@ -40,9 +45,11 @@ import type {
   CommittedActionPlannerPayload,
   DecisionalBalanceComparePayload,
   DualSliderWritePayload,
+  EmergencyCardBuilderPayload,
   GuidedListOutput,
   GuidedListPayload,
   IfThenBuilderPayload,
+  MaintenanceSetupPayload,
   MultiSelectWriteOutput,
   MultiSelectWritePayload,
   ProfileBuilderPayload,
@@ -66,11 +73,29 @@ export default function ExerciseScreen() {
   // cross-referencing exercises (decisional_balance_compare, commitment_builder)
   // reactive to outputs saved by earlier days in the same session.
   const exerciseOutputs = useProgramStore((s) => s.exerciseOutputs);
+  const completeProgram = useProgramStore((s) => s.completeProgram);
+  const refresherCompletedLessonIds = useRefresherStore((s) => s.completedLessonIds);
+  const markRefresherDayReviewed = useRefresherStore((s) => s.markDayReviewed);
   const urgeLogs = useToolkitStore((s) => s.urgeLogs);
 
-  const [justCompleted, setJustCompleted] = useState(false);
+  // A refresher redo (maintenance mode, CLINICAL_SPEC §4) deep-links here
+  // with explicit week/day params instead of reading the frozen post-
+  // graduation position — see refresher-week.tsx. Must stay hook-order-safe:
+  // useRefresherStore above is always called, regardless of this branch.
+  const params = useLocalSearchParams<{ refresherWeek?: string; refresherDay?: string }>();
+  const refresherPosition: ProgramPosition | null =
+    params.refresherWeek && params.refresherDay
+      ? { week: Number(params.refresherWeek), day: Number(params.refresherDay) }
+      : null;
+  const isRefresher = !!refresherPosition;
 
-  const day = useMemo(() => findProgramDay(getProgramModules(), position), [position]);
+  const [justCompleted, setJustCompleted] = useState(false);
+  const [justGraduated, setJustGraduated] = useState(false);
+
+  const day = useMemo(
+    () => findProgramDay(getProgramModules(), refresherPosition ?? position),
+    [position, refresherPosition]
+  );
 
   if (!day) {
     return (
@@ -84,19 +109,46 @@ export default function ExerciseScreen() {
   }
 
   const { exercise } = day;
-  const alreadyComplete = completions[dayKey(position)]?.exerciseComplete ?? false;
+  const lessonId = day.lesson.id;
+  const alreadyComplete = isRefresher
+    ? !!refresherCompletedLessonIds[lessonId]
+    : completions[dayKey(position)]?.exerciseComplete ?? false;
 
-  function handleSubmit(saveTo: string | undefined, output: unknown) {
+  function handleSubmit(saveTo: string | undefined, output: unknown, completesProgram?: boolean) {
+    // A refresher redo updates the same real save_to key — this is a
+    // deliberate "tune-up" semantics (the whole point is refreshing your
+    // actual plan with practiced-again answers), same philosophy as Week 6
+    // Day 1's letter_write prefill_from revision. It marks ITS OWN
+    // completion in useRefresherStore and never touches the main program's
+    // position/completions — a refresher can never advance or re-complete
+    // the sacred 6-week record.
     if (saveTo) saveExerciseOutput(saveTo, output);
+    if (isRefresher) {
+      markRefresherDayReviewed(lessonId);
+      setJustCompleted(true);
+      return;
+    }
     completeExercise(position.week, position.day);
-    setJustCompleted(true);
+    if (completesProgram) {
+      completeProgram();
+      setJustGraduated(true);
+    } else {
+      setJustCompleted(true);
+    }
+  }
+
+  if (justGraduated) {
+    // Always the exercise's own last authored step (content/week6.json Day
+    // 7's steps[2]), never new copy — see GraduationMoment.tsx.
+    const closingLine = exercise.steps[exercise.steps.length - 1];
+    return <GraduationMoment closingLine={closingLine} onContinue={() => router.replace('/(tabs)/today')} />;
   }
 
   if (justCompleted || alreadyComplete) {
     return (
       <ThemedView style={styles.completeContainer}>
         <CompletionBadge label="Exercise saved." />
-        <PrimaryButton label="Back to Today" onPress={() => router.back()} />
+        <PrimaryButton label={isRefresher ? 'Back to refresher week' : 'Back to Today'} onPress={() => router.back()} />
       </ThemedView>
     );
   }
@@ -152,7 +204,14 @@ export default function ExerciseScreen() {
     }
     case 'letter_write': {
       const p = payload as unknown as import('@/types/program').LetterWritePayload;
-      body = <LetterWrite payload={p} onSubmit={(o) => handleSubmit(p.save_to, o)} />;
+      const prefillValue = p.prefill_from ? (exerciseOutputs[p.prefill_from] as string | undefined) : undefined;
+      body = (
+        <LetterWrite
+          payload={p}
+          prefillValue={prefillValue}
+          onSubmit={(o) => handleSubmit(p.save_to, o, p.completes_program)}
+        />
+      );
       break;
     }
     case 'commitment_builder': {
@@ -241,6 +300,30 @@ export default function ExerciseScreen() {
           windows={windows}
           plantOptions={resolvePlantOptions(p.plant_options_sources, exerciseOutputs)}
           onSubmit={(o) => handleSubmit(p.save_to, o)}
+        />
+      );
+      break;
+    }
+    case 'emergency_card_builder': {
+      const p = payload as unknown as EmergencyCardBuilderPayload;
+      body = (
+        <EmergencyCardBuilder payload={p} sourceOutputs={exerciseOutputs} onSubmit={(o) => handleSubmit(p.save_to, o)} />
+      );
+      break;
+    }
+    case 'maintenance_setup': {
+      const p = payload as unknown as MaintenanceSetupPayload;
+      body = (
+        <MaintenanceSetup
+          payload={p}
+          onSubmit={(o) => {
+            // Mirrors into useSettingsStore alongside the Epic 9 notification
+            // preferences (BACKLOG #35's future notifications epic reads
+            // both from one place) — the program store keeps the canonical
+            // exercise-output copy like every other exercise.
+            useSettingsStore.getState().setMaintenancePlan(o);
+            handleSubmit(p.save_to, o);
+          }}
         />
       );
       break;

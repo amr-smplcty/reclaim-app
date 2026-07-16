@@ -14,10 +14,13 @@ import { actionsForToday, dayOfWeekKeyFor } from '@/features/journal/committedAc
 import { useJournalStore } from '@/features/journal/useJournalStore';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { dayKey } from '@/features/program/progression';
+import { dateKeyOf } from '@/features/progress/dailyCreditReconciliation';
 import { trackCheckinCompleted } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/theme/tokens';
 import type { CommittedActionPlannerOutput } from '@/types/program';
+
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 // Full evening check-in (PRODUCT_SPEC §5.4): mood (5-point), urges today
 // (y/n + count), one rotating free-text prompt. Replaces the Epic 4
@@ -28,7 +31,18 @@ export default function CheckinScreen() {
   const completions = useProgramStore((s) => s.completions);
   const completeCheckin = useProgramStore((s) => s.completeCheckin);
   const exerciseOutputs = useProgramStore((s) => s.exerciseOutputs);
+  const programCompletedAt = useProgramStore((s) => s.programCompletedAt);
+  const checkins = useJournalStore((s) => s.checkins);
   const addCheckin = useJournalStore((s) => s.addCheckin);
+
+  // Post-graduation (CLINICAL_SPEC §4 maintenance mode), `position` is
+  // frozen at whatever day followed Week 6 Day 7 — it never advances again,
+  // since there's no more lesson/exercise to complete. Gating "already
+  // checked in" by dayKey(position) would then only ever allow ONE check-in
+  // for the rest of the user's life. Maintenance check-ins gate by calendar
+  // date instead, same as the rest of maintenance mode's clock.
+  const isMaintenance = !!programCompletedAt;
+  const todayKey = dateKeyOf(new Date().toISOString());
 
   const [mood, setMood] = useState<number | null>(null);
   const [urgesToday, setUrgesToday] = useState<boolean | null>(null);
@@ -48,11 +62,18 @@ export default function CheckinScreen() {
 
   const prompt = useMemo(() => {
     const prompts = getAllCheckinPrompts();
-    const globalDayIndex = (position.week - 1) * 7 + (position.day - 1);
-    return prompts[globalDayIndex % prompts.length];
-  }, [position]);
+    // In maintenance mode `position` is frozen, so the week/day rotation
+    // below would repeat the same prompt forever — rotate by calendar day
+    // instead, which keeps changing.
+    const dayIndex = isMaintenance
+      ? Math.floor(Date.now() / MS_PER_DAY)
+      : (position.week - 1) * 7 + (position.day - 1);
+    return prompts[((dayIndex % prompts.length) + prompts.length) % prompts.length];
+  }, [position, isMaintenance]);
 
-  const alreadyComplete = completions[dayKey(position)]?.checkinComplete ?? false;
+  const alreadyComplete = isMaintenance
+    ? checkins.some((c) => dateKeyOf(c.timestamp) === todayKey)
+    : completions[dayKey(position)]?.checkinComplete ?? false;
 
   const canSubmit =
     mood !== null && urgesToday !== null && (!urgesToday || urgeCount !== null) && promptResponse.trim().length > 0;

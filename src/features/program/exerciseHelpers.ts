@@ -102,6 +102,22 @@ export function summarizeExerciseOutput(value: unknown): string {
       if (plants.length > 0) return plants.map((p) => `${p.window} → ${p.plant}`).join('; ');
       return typeof v.worksheetText === 'string' && v.worksheetText ? v.worksheetText : '';
     }
+    // profile_builder output (e.g. pattern_profile) nested as another
+    // profile_builder's section source (Week 6 Day 4's relapse_prevention_plan
+    // pulls pattern_profile in this way) — BACKLOG #47.
+    if (Array.isArray(v.sections)) {
+      return (v.sections as Array<{ title: string; content: string }>)
+        .map((s) => `${s.title}: ${s.content}`)
+        .join('; ');
+    }
+    // commitment_builder output (e.g. urge_script) — always {statement,
+    // signature, signed_at} (BACKLOG #37), never a bare string. Read
+    // directly by progress.tsx/lapse-debrief.tsx today; this branch covers
+    // any *nested* reference through the generic summarizer, e.g. Week 6
+    // Day 5's Emergency Card sourcing urge_script — BACKLOG #47.
+    if (typeof v.statement === 'string' && typeof v.signed_at === 'string') {
+      return v.statement;
+    }
   }
 
   return '';

@@ -97,6 +97,34 @@ describe('useProgramStore — exercise outputs and reflections', () => {
   });
 });
 
+describe('useProgramStore — program completion (Week 6 Day 7, CLINICAL_SPEC §4)', () => {
+  afterEach(() => {
+    useProgramStore.getState().reset();
+  });
+
+  it('starts with no completion date', () => {
+    expect(useProgramStore.getState().programCompletedAt).toBeNull();
+  });
+
+  it('stamps a completion timestamp the first time completeProgram is called', () => {
+    useProgramStore.getState().completeProgram();
+    expect(typeof useProgramStore.getState().programCompletedAt).toBe('string');
+  });
+
+  it('is idempotent — a second call never moves the original timestamp', () => {
+    useProgramStore.getState().completeProgram();
+    const first = useProgramStore.getState().programCompletedAt;
+    useProgramStore.getState().completeProgram();
+    expect(useProgramStore.getState().programCompletedAt).toBe(first);
+  });
+
+  it('reset clears it back to null', () => {
+    useProgramStore.getState().completeProgram();
+    useProgramStore.getState().reset();
+    expect(useProgramStore.getState().programCompletedAt).toBeNull();
+  });
+});
+
 describe('useProgramStore — checklist_commit next-day follow-up', () => {
   afterEach(() => {
     useProgramStore.getState().reset();
