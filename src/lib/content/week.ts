@@ -1,9 +1,10 @@
 import week1Raw from '../../../content/week1.json';
 import week2Raw from '../../../content/week2.json';
 import week3Raw from '../../../content/week3.json';
+import week4Raw from '../../../content/week4.json';
 
 import type { ProgramModule } from '@/types/content';
-import type { UrgeSurfScript, WeekContentPack } from '@/types/program';
+import type { UrgeSurfScript, UrgeValueMapPayload, WeekContentPack } from '@/types/program';
 
 const REFLECTION_TYPES = ['single_choice', 'free_text'];
 // CLINICAL_SPEC §7 lists decisional_balance|worksheet|audio_practice|planner|card_sort
@@ -119,7 +120,12 @@ let cachedPacks: WeekContentPack[] | null = null;
 // not yet built). Validation runs once per pack and is memoized.
 export function getAllWeekPacks(): WeekContentPack[] {
   if (!cachedPacks) {
-    cachedPacks = [validateWeekContentPack(week1Raw), validateWeekContentPack(week2Raw), validateWeekContentPack(week3Raw)];
+    cachedPacks = [
+      validateWeekContentPack(week1Raw),
+      validateWeekContentPack(week2Raw),
+      validateWeekContentPack(week3Raw),
+      validateWeekContentPack(week4Raw),
+    ];
   }
   return cachedPacks;
 }
@@ -140,6 +146,21 @@ export function getUrgeSurfScript(): UrgeSurfScript | undefined {
   for (let i = packs.length - 1; i >= 0; i--) {
     const script = packs[i].toolkit_scripts?.urge_surf;
     if (script) return script;
+  }
+  return undefined;
+}
+
+// Finds the urge_value_map exercise payload wherever it lives in the program
+// (Week 4 Day 4 today) — used by the urge-log screen to source its ongoing
+// "what was it asking for?" tag options (tag_options_source + extra_tags)
+// without hardcoding a week/day number.
+export function getUrgeValueMapPayload(): UrgeValueMapPayload | undefined {
+  for (const module of getProgramModules()) {
+    for (const day of module.days) {
+      if ((day.exercise.payload as { kind?: string })?.kind === 'urge_value_map') {
+        return day.exercise.payload as unknown as UrgeValueMapPayload;
+      }
+    }
   }
   return undefined;
 }

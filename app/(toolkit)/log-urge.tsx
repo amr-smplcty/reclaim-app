@@ -9,9 +9,13 @@ import { ThemedView } from '@/components/themed-view';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { NumberScale } from '@/features/program/exercises/NumberScale';
 import { useToolkitStore, type Trigger } from '@/features/toolkit/useToolkitStore';
+import { useProgramStore } from '@/features/program/useProgramStore';
+import { resolveTagOptions } from '@/features/program/urgeValueMap';
+import { getUrgeValueMapPayload } from '@/lib/content/week';
 import { trackUrgeLogged } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/theme/tokens';
+import type { MultiSelectWriteOutput } from '@/types/program';
 
 const TRIGGERS: Array<{ id: Trigger; label: string }> = [
   { id: 'stress', label: 'Stress' },
@@ -26,18 +30,33 @@ const TRIGGERS: Array<{ id: Trigger; label: string }> = [
 export default function LogUrgeScreen() {
   const theme = useTheme();
   const logUrge = useToolkitStore((s) => s.logUrge);
+  // Week 4 Day 4's enable_ongoing_tagging: once that exercise is complete,
+  // every future real urge log offers this same optional tag — gated on the
+  // save existing, not on any specific week/day position.
+  const urgeValueMapDone = useProgramStore((s) => !!s.exerciseOutputs.urge_value_map);
+  const valuesCore = useProgramStore((s) => (s.exerciseOutputs.values_core as MultiSelectWriteOutput | undefined)?.selected);
 
   const [intensity, setIntensity] = useState<number | null>(null);
   const [trigger, setTrigger] = useState<Trigger | null>(null);
   const [location, setLocation] = useState('');
   const [whatHappenedNext, setWhatHappenedNext] = useState('');
+  const [valueTag, setValueTag] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+
+  const urgeValueMapPayload = urgeValueMapDone ? getUrgeValueMapPayload() : undefined;
+  const tagOptions = urgeValueMapPayload ? resolveTagOptions(valuesCore ?? [], urgeValueMapPayload.extra_tags) : [];
 
   const canSubmit = intensity !== null && trigger !== null;
 
   function handleSubmit() {
     if (!guardAllFreeText([location, whatHappenedNext])) return;
-    logUrge({ intensity: intensity as number, trigger: trigger as Trigger, location, whatHappenedNext });
+    logUrge({
+      intensity: intensity as number,
+      trigger: trigger as Trigger,
+      location,
+      whatHappenedNext,
+      valueTag: valueTag ?? undefined,
+    });
     trackUrgeLogged(trigger as Trigger, intensity as number);
     setSaved(true);
   }
@@ -98,6 +117,24 @@ export default function LogUrgeScreen() {
         style={[styles.input, styles.multiline, { color: theme.textPrimary, borderColor: theme.border }]}
         accessibilityLabel="What happened next"
       />
+
+      {tagOptions.length > 0 ? (
+        <>
+          <ThemedText type="subtitle" style={styles.prompt}>
+            What was it asking for? (optional)
+          </ThemedText>
+          <View>
+            {tagOptions.map((tag) => (
+              <ChoiceChip
+                key={tag}
+                label={tag}
+                selected={valueTag === tag}
+                onPress={() => setValueTag((prev) => (prev === tag ? null : tag))}
+              />
+            ))}
+          </View>
+        </>
+      ) : null}
 
       <PrimaryButton label="Save" onPress={handleSubmit} disabled={!canSubmit} />
     </ScrollView>

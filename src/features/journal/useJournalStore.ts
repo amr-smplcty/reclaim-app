@@ -15,6 +15,11 @@ export interface CheckinEntry {
   urgeCount: number;
   promptText: string;
   promptResponse: string;
+  // Week 4 Day 3's checkin_integration — keyed by CommittedAction.id, only
+  // present (and only for today's scheduled actions) while Week 4 is
+  // active. Optional and shame-free: an unanswered action is just absent,
+  // never recorded as a "no."
+  committedActionStatus?: Record<string, boolean>;
 }
 
 function generateId(): string {

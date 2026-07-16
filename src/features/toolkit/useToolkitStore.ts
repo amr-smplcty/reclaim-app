@@ -13,6 +13,11 @@ export interface UrgeLogEntry {
   trigger: Trigger;
   location: string;
   whatHappenedNext: string;
+  // Week 4 Day 4's "what was it actually asking for?" ongoing tag
+  // (enable_ongoing_tagging) — optional and only offered once that exercise
+  // is complete; undefined for every log before then. Feeds Progress pattern
+  // insights in a future epic (not yet computed from this field).
+  valueTag?: string;
 }
 
 export interface ToolUseEntry {

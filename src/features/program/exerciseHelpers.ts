@@ -1,10 +1,27 @@
 import type {
   CommitmentBuilderPayload,
   GuidedListOutput,
+  MultiSelectWritePayload,
   MultiSelectWriteOutput,
   ProfileSection,
   RatedInventoryOutput,
 } from '@/types/program';
+
+// Week 4 Day 2 sources its select options from Day 1's value_card_sort save
+// (values_top5) instead of listing them inline — this resolves either shape
+// to a plain string list, degrading to empty (never throwing) if the source
+// hasn't been saved yet.
+export function resolveSelectOptions(payload: MultiSelectWritePayload, outputs: Record<string, unknown>): string[] {
+  if (payload.select_options) return payload.select_options;
+  if (!payload.select_options_source) return [];
+
+  const source = outputs[payload.select_options_source];
+  if (Array.isArray(source)) return source as string[];
+  if (source && typeof source === 'object' && Array.isArray((source as Record<string, unknown>).top5)) {
+    return (source as Record<string, unknown>).top5 as string[];
+  }
+  return [];
+}
 
 // Fills the {anchor_why_summary} placeholder in the Day 7 commitment template
 // (content/week1.json) from the Day 1 multi_select_write output. The result is

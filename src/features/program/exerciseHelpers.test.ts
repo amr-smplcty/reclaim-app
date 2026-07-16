@@ -3,9 +3,10 @@ import {
   buildAnchorWhySummary,
   collectComparisonLines,
   resolveCommitmentTemplate,
+  resolveSelectOptions,
   summarizeExerciseOutput,
 } from '@/features/program/exerciseHelpers';
-import type { CommitmentBuilderPayload } from '@/types/program';
+import type { CommitmentBuilderPayload, MultiSelectWritePayload } from '@/types/program';
 
 describe('buildAnchorWhySummary', () => {
   it('falls back gracefully when nothing was saved yet', () => {
@@ -155,6 +156,41 @@ describe('resolveCommitmentTemplate', () => {
 
   it('never throws on completely empty outputs', () => {
     expect(() => resolveCommitmentTemplate(week3Payload, {})).not.toThrow();
+  });
+});
+
+describe('resolveSelectOptions — Week 4 Day 2 sources its options from a saved output', () => {
+  const inlinePayload: MultiSelectWritePayload = {
+    kind: 'multi_select_write',
+    select_options: ['Did it', "Didn't manage it"],
+    select_count: 1,
+    write_prompt: 'p',
+    save_to: 'flexibility_rep',
+  };
+
+  const sourcedPayload: MultiSelectWritePayload = {
+    kind: 'multi_select_write',
+    select_options_source: 'values_top5',
+    select_count: 2,
+    write_prompt: 'p',
+    save_to: 'values_core',
+  };
+
+  it('uses select_options directly when present (Week 1/2/4 Day 5 style)', () => {
+    expect(resolveSelectOptions(inlinePayload, {})).toEqual(['Did it', "Didn't manage it"]);
+  });
+
+  it('resolves select_options_source from a value_card_sort output (Week 4 Day 2)', () => {
+    const outputs = { values_top5: { kept: ['A', 'B', 'C', 'D', 'E', 'F'], top5: ['A', 'B', 'C', 'D', 'E'] } };
+    expect(resolveSelectOptions(sourcedPayload, outputs)).toEqual(['A', 'B', 'C', 'D', 'E']);
+  });
+
+  it('resolves select_options_source from a plain string-array output', () => {
+    expect(resolveSelectOptions(sourcedPayload, { values_top5: ['X', 'Y'] })).toEqual(['X', 'Y']);
+  });
+
+  it('returns an empty list when the source has not been saved yet, rather than throwing', () => {
+    expect(resolveSelectOptions(sourcedPayload, {})).toEqual([]);
   });
 });
 
