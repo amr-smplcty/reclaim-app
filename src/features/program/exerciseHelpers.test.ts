@@ -83,6 +83,50 @@ describe('summarizeExerciseOutput', () => {
     expect(summarizeExerciseOutput({ items: ['Walk', 'Call a friend'] })).toBe('Walk, Call a friend');
   });
 
+  // Week 5 Day 7's foundations_profile is the first profile_builder to pull
+  // in a rated_inventory section (life_audit) — previously fell through
+  // every branch to '', rendering blank.
+  it('summarizes a rated_inventory output, area by area, with notes where present', () => {
+    const output = {
+      ratings: { Sleep: 1, Movement: 0, Connection: 2 },
+      notes: { Sleep: "Up past 1am most nights.", Movement: "Basically never." },
+    };
+    expect(summarizeExerciseOutput(output)).toBe(
+      "Sleep: 1 — Up past 1am most nights.; Movement: 0 — Basically never.; Connection: 2"
+    );
+  });
+
+  // Week 5 Day 7 also pulls in movement_plan, a committed_action_planner
+  // output (CommittedAction[]) — previously matched the bare Array.isArray
+  // branch and fell through to `.join(', ')` on objects, rendering
+  // "[object Object]".
+  it('summarizes a committed_action_planner output (CommittedAction[]), not [object Object]', () => {
+    const output = [
+      { id: 'w5-action-0', value: 'Health & vitality', action: '10-minute walk', if_then_anchor: 'After dinner', days_of_week: ['mon', 'wed', 'fri'] },
+    ];
+    const result = summarizeExerciseOutput(output);
+    expect(result).not.toContain('[object Object]');
+    expect(result).toBe('10-minute walk (mon/wed/fri)');
+  });
+
+  // Week 5 Day 7's foundations_profile also pulls in weekly_architecture, a
+  // risk_window_planner output ({plants, worksheetText}).
+  it('summarizes a risk_window_planner output in planned mode as window -> plant pairs', () => {
+    const output = {
+      plants: [
+        { window: 'Late at night', plant: '10-minute walk' },
+        { window: 'Post-work slump', plant: 'Guitar' },
+      ],
+      worksheetText: null,
+    };
+    expect(summarizeExerciseOutput(output)).toBe('Late at night → 10-minute walk; Post-work slump → Guitar');
+  });
+
+  it('summarizes a risk_window_planner output in worksheet fallback mode as the free text', () => {
+    const output = { plants: [], worksheetText: 'Still mapping my windows out.' };
+    expect(summarizeExerciseOutput(output)).toBe('Still mapping my windows out.');
+  });
+
   it('falls back to a friendly placeholder when nothing was saved', () => {
     expect(summarizeExerciseOutput(undefined)).toBe('Not yet completed.');
   });

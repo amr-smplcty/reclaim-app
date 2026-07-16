@@ -23,15 +23,19 @@ export function MultiSelectWrite({ payload, options, onSubmit }: Props) {
   const [selected, setSelected] = useState<string[]>([]);
   const [write, setWrite] = useState('');
 
+  // select_count: 0 (content/week2.json's trigger_map_external/internal)
+  // means "select every one that applies" — no fixed count, at least one.
+  const isUnlimited = payload.select_count === 0;
+
   function toggle(option: string) {
     setSelected((prev) => {
       if (prev.includes(option)) return prev.filter((o) => o !== option);
-      if (prev.length >= payload.select_count) return prev;
+      if (!isUnlimited && prev.length >= payload.select_count) return prev;
       return [...prev, option];
     });
   }
 
-  const canSubmit = selected.length === payload.select_count && write.trim().length > 0;
+  const canSubmit = (isUnlimited ? selected.length > 0 : selected.length === payload.select_count) && write.trim().length > 0;
 
   function handleSubmit() {
     if (!guardFreeText(write)) return;
@@ -41,7 +45,7 @@ export function MultiSelectWrite({ payload, options, onSubmit }: Props) {
   return (
     <ScrollView style={styles.scroll} contentContainerStyle={styles.container}>
       <ThemedText type="small" themeColor="textSecondary" style={styles.hint}>
-        Pick exactly {payload.select_count}
+        {isUnlimited ? 'Select every one that applies' : `Pick exactly ${payload.select_count}`}
       </ThemedText>
       <View>
         {options.map((option) => (

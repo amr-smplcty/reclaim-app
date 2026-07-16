@@ -60,6 +60,14 @@ export function summarizeExerciseOutput(value: unknown): string {
     if (value.every((item) => item && typeof item === 'object' && 'if_text' in item && 'then_text' in item)) {
       return value.map((plan) => `If ${plan.if_text}, then ${plan.then_text}.`).join(' ');
     }
+    // committed_action_planner output (CommittedAction[], Week 4/5) — an
+    // array of objects, so the plain `.join(', ')` fallback below would
+    // stringify each as "[object Object]" instead of reading its action text.
+    if (value.every((item) => item && typeof item === 'object' && 'action' in item && 'days_of_week' in item)) {
+      return value
+        .map((a) => `${a.action} (${(a.days_of_week as string[]).join('/')})`)
+        .join('; ');
+    }
     return value.join(', ');
   }
 
@@ -77,6 +85,22 @@ export function summarizeExerciseOutput(value: unknown): string {
     }
     if (Array.isArray(v.items)) {
       return (v.items as string[]).join(', ');
+    }
+    // rated_inventory output (Week 5 Day 1's life_audit) — area: rating,
+    // plus the note where the user added one.
+    if (v.ratings && typeof v.ratings === 'object' && v.notes && typeof v.notes === 'object') {
+      const ratings = v.ratings as Record<string, number>;
+      const notes = v.notes as Record<string, string>;
+      return Object.entries(ratings)
+        .map(([area, rating]) => (notes[area] ? `${area}: ${rating} — ${notes[area]}` : `${area}: ${rating}`))
+        .join('; ');
+    }
+    // risk_window_planner output (Week 5 Day 6's weekly_architecture) —
+    // window → plant pairs in the planned mode, or its worksheet fallback text.
+    if (Array.isArray(v.plants)) {
+      const plants = v.plants as Array<{ window: string; plant: string }>;
+      if (plants.length > 0) return plants.map((p) => `${p.window} → ${p.plant}`).join('; ');
+      return typeof v.worksheetText === 'string' && v.worksheetText ? v.worksheetText : '';
     }
   }
 

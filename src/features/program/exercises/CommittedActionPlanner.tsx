@@ -26,18 +26,24 @@ const DAYS: Array<{ id: DayOfWeek; label: string }> = [
   { id: 'sun', label: 'S' },
 ];
 
-// One small action per core value (Week 4 Day 3). `values` comes from Day
-// 2's save (values_core) — if that's somehow empty (Day 2 skipped), there's
-// nothing to plan, so this degrades to a message rather than an empty form.
+// One small action per core value (Week 4 Day 3), or one value-agnostic
+// action in Week 5 Day 3's freestanding mode (values_source: null,
+// resolved to [fixed_value_label] by the caller). `values` comes from
+// resolveCommittedActionValues() — if that's somehow empty (Day 2 skipped
+// for the value-driven case, or content omitted fixed_value_label for the
+// freestanding case), there's nothing to plan, so this degrades to a
+// message rather than an empty form.
 export function CommittedActionPlanner({ payload, values, onSubmit }: Props) {
   const theme = useTheme();
-  const [actions, setActions] = useState(() => initializeActions(values));
+  const [actions, setActions] = useState(() => initializeActions(values, payload.save_to));
 
   if (values.length === 0) {
     return (
       <ThemedView style={styles.emptyContainer}>
         <ThemedText type="default" themeColor="textSecondary">
-          Complete yesterday's exercise first — your two core values feed this one.
+          {payload.values_source === null
+            ? "Nothing to plan yet — check back once this week's content is ready."
+            : "Complete yesterday's exercise first — your values feed this one."}
         </ThemedText>
       </ThemedView>
     );

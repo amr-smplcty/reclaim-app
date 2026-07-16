@@ -7,12 +7,13 @@ import { ThemedView } from '@/components/themed-view';
 import { useTheme } from '@/hooks/use-theme';
 import { getProgramModules } from '@/lib/content/week';
 import { useProgramStore } from '@/features/program/useProgramStore';
-import { dayKey, findProgramDay, previousPosition } from '@/features/program/progression';
+import { dayKey, findProgramDay } from '@/features/program/progression';
 import { computeSessionArcProgress } from '@/features/program/sessionArc';
+import { resolveChecklistFollowup } from '@/features/program/checklistFollowup';
 import { DailyCard } from '@/features/program/DailyCard';
 import { CommitmentFollowupCard } from '@/features/program/CommitmentFollowupCard';
 import { Spacing } from '@/theme/tokens';
-import type { ChecklistCommitOutput, ChecklistCommitPayload, CommitmentBuilderOutput } from '@/types/program';
+import type { CommitmentBuilderOutput } from '@/types/program';
 
 // Today (PRODUCT_SPEC §5.1) — daily card stack. Progression advances on
 // completion, not calendar: whatever day the store says is current, that's
@@ -31,20 +32,10 @@ export default function TodayScreen() {
   const commitment = exerciseOutputs.commitment_statement as CommitmentBuilderOutput | undefined;
 
   // Generic scan for any previous day's checklist_commit exercise that asked
-  // for a next-day follow-up (currently Week 2 Day 4) — not hardcoded to a
-  // specific day, so it keeps working if a future week reuses the pattern.
-  const previousDayPosition = previousPosition(position);
-  const previousDay = previousDayPosition ? findProgramDay(getProgramModules(), previousDayPosition) : undefined;
-  const previousPayload =
-    previousDay?.exercise.payload?.kind === 'checklist_commit'
-      ? (previousDay.exercise.payload as unknown as ChecklistCommitPayload)
-      : undefined;
-  const previousKey = previousDayPosition ? dayKey(previousDayPosition) : null;
-  const alreadyAnsweredFollowup = previousKey ? !!commitmentFollowups[previousKey] : true;
-  const followupOutput = previousPayload
-    ? (exerciseOutputs[previousPayload.save_to] as ChecklistCommitOutput | undefined)
-    : undefined;
-  const showFollowup = !!previousPayload?.followup_next_day && !!followupOutput && !alreadyAnsweredFollowup;
+  // for a next-day follow-up — content/week2.json Day 4 and
+  // content/week5.json Day 2 today, proven independent in
+  // checklistFollowup.test.ts, not hardcoded to either.
+  const followup = resolveChecklistFollowup(position, getProgramModules(), exerciseOutputs, commitmentFollowups);
   const sessionProgress = computeSessionArcProgress(completion);
 
   return (
@@ -70,10 +61,10 @@ export default function TodayScreen() {
         </ThemedView>
       ) : null}
 
-      {showFollowup && followupOutput ? (
+      {followup.shouldShow && followup.output ? (
         <CommitmentFollowupCard
-          commitments={followupOutput.commitments}
-          onAnswer={(answer) => previousKey && recordCommitmentFollowup(previousKey, answer)}
+          commitments={followup.output.commitments}
+          onAnswer={(answer) => followup.key && recordCommitmentFollowup(followup.key, answer)}
         />
       ) : null}
 

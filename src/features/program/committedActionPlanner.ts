@@ -1,16 +1,38 @@
-// Pure pieces behind CommittedActionPlanner.tsx (Week 4 Day 3) — one small
-// action per core value, an if-then anchor, and a day-of-week schedule.
+// Pure pieces behind CommittedActionPlanner.tsx (Week 4 Day 3, and Week 5
+// Day 3's freestanding mode) — one small action per value (or one
+// value-agnostic action), an if-then anchor, and a day-of-week schedule.
 
-import type { CommittedAction, DayOfWeek } from '@/types/program';
+import type { CommittedAction, CommittedActionPlannerPayload, DayOfWeek, MultiSelectWriteOutput } from '@/types/program';
 
-export function initializeActions(values: string[]): CommittedAction[] {
+// idPrefix is the payload's own save_to — every committed_action_planner
+// instance saves to a different key (committed_actions, movement_plan, …),
+// so using it as the id prefix keeps two instances' actions from ever
+// colliding once checkin.tsx merges them into one Record keyed by id.
+export function initializeActions(values: string[], idPrefix: string): CommittedAction[] {
   return values.map((value, index) => ({
-    id: `w4-action-${index}`,
+    id: `${idPrefix}-action-${index}`,
     value,
     action: '',
     if_then_anchor: '',
     days_of_week: [],
   }));
+}
+
+// Week 4 Day 3 sources its values from a prior multi_select_write save
+// (values_core); Week 5 Day 3 is "freestanding" (values_source: null) — a
+// single value-agnostic action under a fixed label ("Health & vitality").
+// Degrades to an empty list (never throws) if freestanding mode somehow
+// omits its label, same spirit as the empty-values guard already in the
+// component for the value-driven case.
+export function resolveCommittedActionValues(
+  payload: CommittedActionPlannerPayload,
+  outputs: Record<string, unknown>
+): string[] {
+  if (payload.values_source === null) {
+    return payload.fixed_value_label ? [payload.fixed_value_label] : [];
+  }
+  const valuesOutput = outputs[payload.values_source] as MultiSelectWriteOutput | undefined;
+  return valuesOutput?.selected ?? [];
 }
 
 export function toggleDay(days: DayOfWeek[], day: DayOfWeek): DayOfWeek[] {

@@ -66,6 +66,17 @@ e2e/            # maestro flows
 10. **Incident log:** when you diagnose and fix any real bug, append an entry to INCIDENTS.md
     (symptom → root cause → fix → prevention rule) and honor its Standing Prevention Rules in
     all work — they are requirements, not suggestions.
+11. **Shell commands:** run plain commands from the repo root (`npx jest …`, `npx tsc …`,
+    `npm run …`). Never prefix with `export PATH=…`, `cd <absolute path> &&`, or other
+    environment mutation — npx/node are on PATH and the session already runs in the repo.
+    Never substitute absolute binary paths (`/opt/homebrew/bin/node …`) for the plain
+    `npm`/`npx` forms either — same problem, same fix. Never wrap repeated commands in a
+    shell `for`/`while` loop or use shell variables to run something N times — issue each
+    as its own separate plain command instead. Variable-bearing prefixes, absolute-path
+    substitutions, and loops/variables all defeat static permission analysis and force a
+    manual approval on every command. If a binary genuinely can't be found, fix the
+    environment (`.claude/settings.json`'s `env.PATH`, see INCIDENTS.md INC-15) rather than
+    mutating commands to route around it.
 
 ## Environment / secrets
 
