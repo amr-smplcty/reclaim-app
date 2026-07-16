@@ -8,6 +8,7 @@ export interface CheckinSubmissionInput {
   urgeCount: number;
   promptText: string;
   promptResponse: string;
+  committedActionStatus?: Record<string, boolean>;
 }
 
 // Gate for saving a check-in — the prompt response is the one free-text

@@ -13,6 +13,7 @@ import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsS
 import { trackLapseLogged } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/theme/tokens';
+import type { GuidedListOutput } from '@/types/program';
 
 const BEFORE_CHIPS: Array<{ id: Trigger; label: string }> = [
   { id: 'stress', label: 'Stress' },
@@ -37,6 +38,9 @@ const FAILURE_MODES: Array<{ id: LapseFailureMode; label: string }> = [
 export default function LapseDebriefScreen() {
   const theme = useTheme();
   const lapseLetter = useProgramStore((s) => s.getExerciseOutput<string>('lapse_letter'));
+  // Week 4 Day 6's guided_list surface_in: ["lapse_debrief"] — the user's own
+  // critic-to-coach rewrites, shown alongside the Week 1 letter.
+  const innerCoachLines = useProgramStore((s) => s.getExerciseOutput<GuidedListOutput>('inner_coach_lines'));
   const logLapseDebrief = useToolkitStore((s) => s.logLapseDebrief);
 
   const [beforeChips, setBeforeChips] = useState<Trigger[]>([]);
@@ -105,6 +109,19 @@ export default function LapseDebriefScreen() {
           <ThemedText type="default" themeColor="textSecondary">
             {lapseLetter}
           </ThemedText>
+        </ThemedView>
+      ) : null}
+
+      {innerCoachLines && innerCoachLines.items.length > 0 ? (
+        <ThemedView style={[styles.letterBlock, { borderColor: theme.border }]}>
+          <ThemedText type="small" themeColor="accent" style={styles.letterLabel}>
+            Your coach, not your critic
+          </ThemedText>
+          {innerCoachLines.items.map((line) => (
+            <ThemedText key={line} type="default" themeColor="textSecondary">
+              {line}
+            </ThemedText>
+          ))}
         </ThemedView>
       ) : null}
 

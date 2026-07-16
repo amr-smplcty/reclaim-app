@@ -1,4 +1,11 @@
-import { validateWeekContentPack, getAllWeekPacks, getProgramModules, getAllCheckinPrompts, getUrgeSurfScript } from '@/lib/content/week';
+import {
+  validateWeekContentPack,
+  getAllWeekPacks,
+  getProgramModules,
+  getAllCheckinPrompts,
+  getUrgeSurfScript,
+  getUrgeValueMapPayload,
+} from '@/lib/content/week';
 import { findProgramDay } from '@/features/program/progression';
 
 function validFixture() {
@@ -114,18 +121,19 @@ describe('validateWeekContentPack — schema errors', () => {
   });
 });
 
-describe('multi-week loading — real content/week1.json + week2.json + week3.json', () => {
-  it('loads all three packs', () => {
+describe('multi-week loading — real content/week1.json + week2.json + week3.json + week4.json', () => {
+  it('loads all four packs', () => {
     const packs = getAllWeekPacks();
-    expect(packs).toHaveLength(3);
+    expect(packs).toHaveLength(4);
     expect(packs[0].modules[0].week).toBe(1);
     expect(packs[1].modules[0].week).toBe(2);
     expect(packs[2].modules[0].week).toBe(3);
+    expect(packs[3].modules[0].week).toBe(4);
   });
 
   it('merges modules across weeks so W2D1 is reachable right after W1D7', () => {
     const modules = getProgramModules();
-    expect(modules.map((m) => m.week)).toEqual([1, 2, 3]);
+    expect(modules.map((m) => m.week)).toEqual([1, 2, 3, 4]);
 
     const w1d7 = findProgramDay(modules, { week: 1, day: 7 });
     const w2d1 = findProgramDay(modules, { week: 2, day: 1 });
@@ -142,11 +150,37 @@ describe('multi-week loading — real content/week1.json + week2.json + week3.js
     expect(w3d1?.exercise.payload).toMatchObject({ kind: 'tool_practice', tool: 'urge_surf' });
   });
 
-  it('combines week 1 checkin_prompts with week 2 and week 3 additions', () => {
+  it('merges Week 4 in so W4D1 is reachable right after W3D7', () => {
+    const modules = getProgramModules();
+    expect(modules.map((m) => m.week)).toEqual([1, 2, 3, 4]);
+
+    const w3d7 = findProgramDay(modules, { week: 3, day: 7 });
+    const w4d1 = findProgramDay(modules, { week: 4, day: 1 });
+    expect(w3d7?.exercise.payload).toMatchObject({ kind: 'commitment_builder' });
+    expect(w4d1?.lesson.id).toBe('w4d1_lesson');
+    expect(w4d1?.exercise.payload).toMatchObject({ kind: 'value_card_sort', keep_count: 5, save_to: 'values_top5' });
+  });
+
+  it('combines week 1 checkin_prompts with week 2, week 3, and week 4 additions', () => {
     const prompts = getAllCheckinPrompts();
     expect(prompts).toContain('What was the strongest feeling you had today, and what did you do with it?');
     expect(prompts).toContain('Did any of your if-then plans fire today? What happened?');
     expect(prompts).toContain("Did you do today's calm practice run? What did you notice in your body?");
+    // All three of week4.json's checkin_prompts_additions, merged in.
+    expect(prompts).toContain('Did your committed actions happen today? Which votes got cast?');
+    expect(prompts).toContain('Did any urge today point at a value? Which one was hungriest?');
+    expect(prompts).toContain('Coach or critic — who did the talking today?');
+  });
+
+  it('finds the urge_value_map payload wherever it lives in the program (Week 4 Day 4)', () => {
+    const payload = getUrgeValueMapPayload();
+    expect(payload).toMatchObject({
+      kind: 'urge_value_map',
+      min_logs: 3,
+      tag_options_source: 'values_core',
+      enable_ongoing_tagging: true,
+    });
+    expect(payload?.extra_tags).toContain('rest / relief');
   });
 
   it('returns week 2s authored Urge Surf script, replacing the interim beats', () => {

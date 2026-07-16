@@ -6,7 +6,11 @@ import type { ToolId } from '@/features/toolkit/entitlement';
 
 export interface MultiSelectWritePayload {
   kind: 'multi_select_write';
-  select_options: string[];
+  // Week 4 Day 2 introduces sourcing the option list from a prior saved
+  // output (values_top5) instead of listing options inline — exactly one of
+  // these two is present per payload, resolved by resolveSelectOptions().
+  select_options?: string[];
+  select_options_source?: string;
   select_count: number;
   write_prompt: string;
   save_to: string;
@@ -26,6 +30,7 @@ export interface GuidedListPayload {
   suggestions: string[];
   min_items: number;
   save_to: string;
+  surface_in?: string[];
 }
 
 export interface DecisionalBalanceComparePayload {
@@ -49,6 +54,7 @@ export interface LetterWritePayload {
   prompt: string;
   min_chars: number;
   save_to: string;
+  surface_in?: string[];
 }
 
 export interface CommitmentBuilderPayload {
@@ -113,6 +119,44 @@ export interface ProfileBuilderPayload {
   surface_in: string[];
 }
 
+// Week 4 (CLINICAL_SPEC §4) — a deck of value cards: keep/discard each one,
+// then rank the keepers down to `keep_count`.
+export interface ValueCardSortPayload {
+  kind: 'value_card_sort';
+  deck: Array<{ id: string; label: string; hint: string }>;
+  keep_count: number;
+  save_to: string;
+}
+
+// One small action per core value, delivered via the Week 2 if-then
+// structure and a day-of-week schedule.
+export interface CommittedActionPlannerPayload {
+  kind: 'committed_action_planner';
+  actions_per_value: number;
+  values_source: string;
+  action_fields: string[];
+  size_note: string;
+  save_to: string;
+  // Day 3's payload sets this — while Week 4 is active, the evening check-in
+  // asks whether today's scheduled actions happened (checkin.tsx).
+  checkin_integration?: boolean;
+}
+
+// Tags the user's own recent urge logs with the value each urge was really
+// asking for. Below `min_logs`, there isn't enough real data to make this
+// meaningful, so the component degrades to a free-text worksheet instead.
+export interface UrgeValueMapPayload {
+  kind: 'urge_value_map';
+  logs_source: string;
+  min_logs: number;
+  tag_options_source: string;
+  extra_tags: string[];
+  save_to: string;
+  // Once true (Week 4 Day 4), the urge-log screen keeps offering this same
+  // tag on every future real urge log (log-urge.tsx), not just this exercise.
+  enable_ongoing_tagging?: boolean;
+}
+
 export type ExercisePayload =
   | MultiSelectWritePayload
   | RatedInventoryPayload
@@ -125,7 +169,10 @@ export type ExercisePayload =
   | ChecklistCommitPayload
   | IfThenBuilderPayload
   | ProfileBuilderPayload
-  | ToolPracticePayload;
+  | ToolPracticePayload
+  | ValueCardSortPayload
+  | CommittedActionPlannerPayload
+  | UrgeValueMapPayload;
 
 export const KNOWN_PAYLOAD_KINDS = [
   'multi_select_write',
@@ -140,6 +187,9 @@ export const KNOWN_PAYLOAD_KINDS = [
   'if_then_builder',
   'profile_builder',
   'tool_practice',
+  'value_card_sort',
+  'committed_action_planner',
+  'urge_value_map',
 ] as const;
 
 // -- Saved output shapes, keyed by each payload's save_to name --
@@ -200,6 +250,42 @@ export type IfThenBuilderOutput = IfThenPlan[];
 
 export interface ProfileBuilderOutput {
   sections: Array<{ title: string; content: string }>;
+}
+
+export interface ValueCardSortOutput {
+  // Every card the user kept, in the order they were reviewed.
+  kept: string[];
+  // The final ranked selection, length === payload.keep_count (or all of
+  // `kept`, in keep-order, when the user kept keep_count or fewer already).
+  top5: string[];
+}
+
+export type DayOfWeek = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun';
+
+export interface CommittedAction {
+  // Stable per-action key (w4-action-<index>) so checkin.tsx can key a
+  // per-action yes/no map without relying on `value` staying unique.
+  id: string;
+  value: string;
+  action: string;
+  if_then_anchor: string;
+  days_of_week: DayOfWeek[];
+}
+
+export type CommittedActionPlannerOutput = CommittedAction[];
+
+export interface UrgeValueMapEntry {
+  logId: string;
+  tag: string;
+}
+
+export interface UrgeValueMapOutput {
+  // Populated when there were enough real logs to map (mode: 'mapped').
+  entries: UrgeValueMapEntry[];
+  // Populated instead when there weren't (mode: 'worksheet') — the two are
+  // mutually exclusive per submission, both fields always present so
+  // consumers never have to branch on a missing key.
+  worksheetText: string | null;
 }
 
 export interface LessonReflectionRecord {

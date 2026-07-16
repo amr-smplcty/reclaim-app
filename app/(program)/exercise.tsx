@@ -22,23 +22,31 @@ import { MultiSelectWrite } from '@/features/program/exercises/MultiSelectWrite'
 import { ProfileBuilder } from '@/features/program/exercises/ProfileBuilder';
 import { RatedInventory } from '@/features/program/exercises/RatedInventory';
 import { ToolPractice } from '@/features/program/exercises/ToolPractice';
+import { ValueCardSort } from '@/features/program/exercises/ValueCardSort';
+import { CommittedActionPlanner } from '@/features/program/exercises/CommittedActionPlanner';
+import { UrgeValueMap } from '@/features/program/exercises/UrgeValueMap';
 import { WorksheetFallback } from '@/features/program/exercises/WorksheetFallback';
 import { resolveShiftListSeed } from '@/features/program/shiftList';
-import { summarizeExerciseOutput } from '@/features/program/exerciseHelpers';
+import { resolveSelectOptions, summarizeExerciseOutput } from '@/features/program/exerciseHelpers';
+import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import type {
   ChainBuilderPayload,
   ChecklistCommitPayload,
   CommitmentBuilderPayload,
+  CommittedActionPlannerPayload,
   DecisionalBalanceComparePayload,
   DualSliderWritePayload,
   GuidedListOutput,
   GuidedListPayload,
   IfThenBuilderPayload,
+  MultiSelectWriteOutput,
   MultiSelectWritePayload,
   ProfileBuilderPayload,
   RatedInventoryOutput,
   RatedInventoryPayload,
   ToolPracticePayload,
+  UrgeValueMapPayload,
+  ValueCardSortPayload,
 } from '@/types/program';
 
 // Exercise renderer (PRODUCT_SPEC §5.3 program tie-in) — switches on
@@ -53,6 +61,7 @@ export default function ExerciseScreen() {
   // cross-referencing exercises (decisional_balance_compare, commitment_builder)
   // reactive to outputs saved by earlier days in the same session.
   const exerciseOutputs = useProgramStore((s) => s.exerciseOutputs);
+  const urgeLogs = useToolkitStore((s) => s.urgeLogs);
 
   const [justCompleted, setJustCompleted] = useState(false);
 
@@ -93,7 +102,13 @@ export default function ExerciseScreen() {
   switch (payload.kind) {
     case 'multi_select_write': {
       const p = payload as unknown as MultiSelectWritePayload;
-      body = <MultiSelectWrite payload={p} onSubmit={(o) => handleSubmit(p.save_to, o)} />;
+      body = (
+        <MultiSelectWrite
+          payload={p}
+          options={resolveSelectOptions(p, exerciseOutputs)}
+          onSubmit={(o) => handleSubmit(p.save_to, o)}
+        />
+      );
       break;
     }
     case 'rated_inventory': {
@@ -175,6 +190,32 @@ export default function ExerciseScreen() {
     case 'tool_practice': {
       const p = payload as unknown as ToolPracticePayload;
       body = <ToolPractice payload={p} onSubmit={(o) => handleSubmit(p.save_to, o)} />;
+      break;
+    }
+    case 'value_card_sort': {
+      const p = payload as unknown as ValueCardSortPayload;
+      body = <ValueCardSort payload={p} onSubmit={(o) => handleSubmit(p.save_to, o)} />;
+      break;
+    }
+    case 'committed_action_planner': {
+      const p = payload as unknown as CommittedActionPlannerPayload;
+      const valuesOutput = exerciseOutputs[p.values_source] as MultiSelectWriteOutput | undefined;
+      body = (
+        <CommittedActionPlanner payload={p} values={valuesOutput?.selected ?? []} onSubmit={(o) => handleSubmit(p.save_to, o)} />
+      );
+      break;
+    }
+    case 'urge_value_map': {
+      const p = payload as unknown as UrgeValueMapPayload;
+      const valuesOutput = exerciseOutputs[p.tag_options_source] as MultiSelectWriteOutput | undefined;
+      body = (
+        <UrgeValueMap
+          payload={p}
+          urgeLogs={urgeLogs}
+          valuesCore={valuesOutput?.selected ?? []}
+          onSubmit={(o) => handleSubmit(p.save_to, o)}
+        />
+      );
       break;
     }
     default:

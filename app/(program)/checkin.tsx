@@ -10,12 +10,14 @@ import { ThemedView } from '@/components/themed-view';
 import { getAllCheckinPrompts } from '@/lib/content/week';
 import { NumberScale } from '@/features/program/exercises/NumberScale';
 import { buildCheckinEntry } from '@/features/journal/checkinSubmission';
+import { actionsForToday, dayOfWeekKeyFor } from '@/features/journal/committedActionCheckin';
 import { useJournalStore } from '@/features/journal/useJournalStore';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { dayKey } from '@/features/program/progression';
 import { trackCheckinCompleted } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/theme/tokens';
+import type { CommittedActionPlannerOutput } from '@/types/program';
 
 // Full evening check-in (PRODUCT_SPEC §5.4): mood (5-point), urges today
 // (y/n + count), one rotating free-text prompt. Replaces the Epic 4
@@ -25,13 +27,21 @@ export default function CheckinScreen() {
   const position = useProgramStore((s) => s.position);
   const completions = useProgramStore((s) => s.completions);
   const completeCheckin = useProgramStore((s) => s.completeCheckin);
+  const exerciseOutputs = useProgramStore((s) => s.exerciseOutputs);
   const addCheckin = useJournalStore((s) => s.addCheckin);
 
   const [mood, setMood] = useState<number | null>(null);
   const [urgesToday, setUrgesToday] = useState<boolean | null>(null);
   const [urgeCount, setUrgeCount] = useState<number | null>(null);
   const [promptResponse, setPromptResponse] = useState('');
+  const [actionStatus, setActionStatus] = useState<Record<string, boolean>>({});
   const [done, setDone] = useState(false);
+
+  // Week 4 Day 3's checkin_integration — only while Week 4 is active, and
+  // only for actions actually scheduled today (not the whole committed_actions
+  // list). Optional and shame-free: nothing here blocks submitting.
+  const committedActions = (exerciseOutputs.committed_actions as CommittedActionPlannerOutput | undefined) ?? [];
+  const todaysActions = position.week === 4 ? actionsForToday(committedActions, dayOfWeekKeyFor(new Date())) : [];
 
   const prompt = useMemo(() => {
     const prompts = getAllCheckinPrompts();
@@ -53,6 +63,7 @@ export default function CheckinScreen() {
       urgeCount: urgesToday ? (urgeCount as number) : 0,
       promptText: prompt,
       promptResponse,
+      committedActionStatus: Object.keys(actionStatus).length > 0 ? actionStatus : undefined,
     });
     if (!entry) return;
 
@@ -105,6 +116,36 @@ export default function CheckinScreen() {
         </>
       ) : null}
 
+      {todaysActions.length > 0 ? (
+        <>
+          <ThemedText type="subtitle" style={styles.prompt}>
+            Did today's committed actions happen?
+          </ThemedText>
+          <ThemedText type="small" themeColor="textSecondary" style={styles.hint}>
+            No judgment either way — just tracking your votes.
+          </ThemedText>
+          {todaysActions.map((action) => (
+            <View key={action.id} style={styles.actionRow}>
+              <ThemedText type="default" style={styles.actionLabel}>
+                {action.action}
+              </ThemedText>
+              <View style={styles.row}>
+                <ChoiceChip
+                  label="Yes"
+                  selected={actionStatus[action.id] === true}
+                  onPress={() => setActionStatus((prev) => ({ ...prev, [action.id]: true }))}
+                />
+                <ChoiceChip
+                  label="No"
+                  selected={actionStatus[action.id] === false}
+                  onPress={() => setActionStatus((prev) => ({ ...prev, [action.id]: false }))}
+                />
+              </View>
+            </View>
+          ))}
+        </>
+      ) : null}
+
       <ThemedText type="subtitle" style={styles.prompt}>
         {prompt}
       </ThemedText>
@@ -130,6 +171,8 @@ const styles = StyleSheet.create({
   prompt: { marginTop: Spacing.four, marginBottom: Spacing.two },
   row: { flexDirection: 'row', gap: Spacing.two },
   hint: { marginTop: Spacing.two, marginBottom: Spacing.one },
+  actionRow: { marginTop: Spacing.two, gap: Spacing.one },
+  actionLabel: { marginBottom: Spacing.half },
   input: {
     borderWidth: 1,
     borderRadius: 10,

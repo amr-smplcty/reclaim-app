@@ -21,7 +21,7 @@ import { CommitmentGoalsSection } from '@/features/progress/CommitmentGoalsSecti
 import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsStore';
 import { computeDayCreditInputForDate, dateKeyOf } from '@/features/progress/dailyCreditReconciliation';
 import { Spacing } from '@/theme/tokens';
-import type { CommitmentBuilderOutput, ProfileBuilderOutput } from '@/types/program';
+import type { CommitmentBuilderOutput, LetterWriteOutput, ProfileBuilderOutput } from '@/types/program';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -40,6 +40,11 @@ export default function ProgressScreen() {
   // signature, signed_at}), same shape Week 1 Day 7 saves — never a bare
   // string, even though only .statement ever gets displayed.
   const urgeScript = getExerciseOutput<CommitmentBuilderOutput>('urge_script');
+  // Week 4 Day 7's letter surfaces here and joins Emergency Card data
+  // (surface_in: ["progress_tab", "emergency_card"]) — there's no dedicated
+  // Emergency Card screen yet (BACKLOG #27), so this is the one place it's
+  // shown today; it's already tagged and ready to feed that screen once built.
+  const becomingLetter = getExerciseOutput<LetterWriteOutput>('becoming_letter');
 
   const checkins = useJournalStore((s) => s.checkins);
   const urgeLogs = useToolkitStore((s) => s.urgeLogs);
@@ -192,6 +197,17 @@ export default function ProgressScreen() {
               </ThemedText>
             </ThemedView>
           ))}
+        </ThemedView>
+      ) : null}
+
+      {becomingLetter ? (
+        <ThemedView style={styles.profileCard}>
+          <ThemedText type="subtitle" style={styles.profileTitle}>
+            The person you're becoming
+          </ThemedText>
+          <ThemedText type="default" themeColor="textSecondary">
+            {becomingLetter}
+          </ThemedText>
         </ThemedView>
       ) : null}
     </ScrollView>

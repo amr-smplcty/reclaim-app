@@ -11,10 +11,14 @@ import type { MultiSelectWriteOutput, MultiSelectWritePayload } from '@/types/pr
 
 interface Props {
   payload: MultiSelectWritePayload;
+  // Resolved by the caller (exercise.tsx via resolveSelectOptions) — payload
+  // may specify select_options inline OR select_options_source (Week 4 Day 2
+  // reads values_top5), and the component itself doesn't need to know which.
+  options: string[];
   onSubmit: (output: MultiSelectWriteOutput) => void;
 }
 
-export function MultiSelectWrite({ payload, onSubmit }: Props) {
+export function MultiSelectWrite({ payload, options, onSubmit }: Props) {
   const theme = useTheme();
   const [selected, setSelected] = useState<string[]>([]);
   const [write, setWrite] = useState('');
@@ -40,7 +44,7 @@ export function MultiSelectWrite({ payload, onSubmit }: Props) {
         Pick exactly {payload.select_count}
       </ThemedText>
       <View>
-        {payload.select_options.map((option) => (
+        {options.map((option) => (
           <ChoiceChip key={option} label={option} selected={selected.includes(option)} onPress={() => toggle(option)} />
         ))}
       </View>
