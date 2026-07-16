@@ -1,0 +1,305 @@
+{
+  "content_version": "1.5.0",
+  "notes_for_engineering": "Week 5 pack. Kind reuse: rated_inventory (D1), checklist_commit (D2), committed_action_planner in freestanding mode (D3 — values_source is null; treat the plan as value-agnostic; if the component requires a value label, use the fixed label 'Health & vitality'), guided_list (D4, D5), profile_builder (D7). One new kind: risk_window_planner (D6) — reads the user's trigger_map_external and chain_analysis saves to list their risk windows, and for each window the user plants one activity chosen from their shift_list / boredom_plan / movement_plan / reconnection entries or free text; fallback: sequential worksheet listing the windows as text. D2 uses checklist_commit's followup_next_day. All copy clinician-review-pending; do not edit wording in code.",
+  "modules": [
+    {
+      "week": 5,
+      "title": "Rebuild the Life",
+      "days": [
+        {
+          "day": 1,
+          "lesson": {
+            "id": "w5d1_lesson",
+            "title": "Restriction loses. Replacement wins.",
+            "body_md": "Four weeks of skills, and now an honest question: what happens when the program ends and it's just you and an ordinary, unstructured life? The answer depends on something no urge-surfing technique can fix: **what your life is made of.**\n\nHere's the uncomfortable physics of the situation. Porn is what researchers call a *supernormal stimulus* — engineered intensity, infinite novelty, zero effort. In a head-to-head, moment-to-moment contest of raw stimulation, no real activity beats it. Not the gym, not the guitar, not the walk. If your strategy is to out-dazzle it in the moment of temptation, you will lose that contest most nights.\n\nBut that's not the contest that decides your life. Real activities beat the supernormal kind on a different field entirely: **they're scheduled, they're meaningful, and they compound.** A Tuesday that contains a morning workout, real work, dinner with an actual human, and a wind-down routine doesn't have to out-stimulate anything — it simply *has no vacancy*. The empty evening is where the loop lives; a built life is the landlord who never returns its calls.\n\nAnd there's a slower, quieter payoff. Weeks of ordinary rewards — movement, sunlight, connection, finished work, real rest — gradually recalibrate what your brain finds satisfying. Flat, gray days get their color back. Not in a weekend. Over weeks. This is that project.\n\nSo this week we build the five pillars that hold everything else up: **sleep** (tomorrow — for late-night people, this is the whole game), **movement**, **connection**, and **play**, assembled into a **weekly architecture** that plants defenses directly into your risk windows from Week 2.\n\nToday: the audit. Five pillars, rated honestly. Not to grade yourself — to find out which pillar, if you reinforced it first, would carry the most load. Every building project starts with a walkthrough.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Gut answer before the audit: which pillar is weakest right now?",
+              "options": [
+                "Sleep — late nights, tired days",
+                "Movement — my body idles",
+                "Connection — I'm around people, close to few",
+                "Purpose — work fills time, not meaning",
+                "Play — I honestly don't have hobbies anymore"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w5d1_ex",
+            "type": "worksheet",
+            "title": "The five-pillar audit",
+            "steps": [
+              "Rate each pillar honestly: 0 = collapsed, 1 = shaky, 2 = holding, 3 = strong.",
+              "For anything at 0 or 1, add one sentence: what does its current state actually look like in your week?",
+              "Your two lowest pillars get priority this week. The audit saves to your foundations."
+            ],
+            "payload": {
+              "kind": "rated_inventory",
+              "areas": [
+                "Sleep (consistent, enough, phone-free)",
+                "Movement (my body works regularly)",
+                "Connection (real contact with people who matter)",
+                "Purpose (work/effort that feels like it counts)",
+                "Play (absorbing things I do just because)"
+              ],
+              "scale_max": 3,
+              "note_threshold": 1,
+              "save_to": "life_audit"
+            }
+          }
+        },
+        {
+          "day": 2,
+          "lesson": {
+            "id": "w5d2_lesson",
+            "title": "Sleep: the keystone",
+            "body_md": "If your risk window is late at night — and for most people here, it is — then listen closely, because this may be the highest-leverage lesson in the program: **your porn problem is partly a sleep problem wearing a disguise.**\n\nConnect what you already know. Week 1: willpower is weakest when you're depleted. Week 2: your own trigger map, which almost certainly features late night, in bed, phone in hand. Now add the physiology: a tired brain is measurably worse at impulse control — the reflective system that runs your if-then plans and reads your urge script goes offline first, hours before the craving system does. Every hour you stay up past tired, you're benching your defense while the offense keeps playing. The 11:40pm version of you isn't weaker in character than the 2pm version. He's *neurologically understaffed*.\n\nAnd the loop knows it. Late-night scrolling isn't relaxation — it's your brain hunting stimulation to stay awake against its own tiredness, drifting exactly along the chain you mapped in Week 2. Then the slip wrecks the night's sleep, tomorrow starts depleted, the day goes flat, and flat days end in risky nights. It's a flywheel, and it spins both ways — which is the good news. **Protect sleep and you're not just resting; you're defunding the entire loop.**\n\nSo tonight we build your **wind-down protocol** — the boring, powerful ritual that ends the day on purpose instead of by collapse:\n\n1. **A shutdown time** — chosen at noon logic, not midnight logic, and alarmed.\n2. **The phone exiles itself** — charging outside the bedroom (your Week 2 change; tonight it becomes policy).\n3. **A three-step off-ramp** — fifteen unhurried minutes that tell your nervous system the day is over: shower, page of a book, tomorrow's list, stretch, dim lights. Yours to design.\n\nUnsexy? Completely. So is a foundation. Everything stands on it anyway.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "What actually happens in your last hour before sleep on a typical night — honestly, minute by minute?"
+            }
+          },
+          "exercise": {
+            "id": "w5d2_ex",
+            "type": "worksheet",
+            "title": "Build the wind-down protocol",
+            "steps": [
+              "Audit your current nights against the checklist below — no judgment, just the facts.",
+              "Set your shutdown time (be realistic — 30 minutes earlier than current, not 3 hours) and design your three-step off-ramp.",
+              "It runs tonight. The app will ask tomorrow how it went — and keep asking this week while it hardens into a habit."
+            ],
+            "payload": {
+              "kind": "checklist_commit",
+              "audit_items": [
+                "My phone is in the bedroom overnight",
+                "My sleep time varies by more than an hour night to night",
+                "I'm usually on a screen until the moment I try to sleep",
+                "I regularly stay up past tired, hunting stimulation",
+                "My riskiest moments happen after my body wanted to sleep"
+              ],
+              "commit_prompt": "My shutdown time, and my three-step off-ramp:",
+              "commit_count": 3,
+              "followup_next_day": true,
+              "save_to": "winddown_protocol"
+            }
+          }
+        },
+        {
+          "day": 3,
+          "lesson": {
+            "id": "w5d3_lesson",
+            "title": "Movement: the state-changer",
+            "body_md": "Forget fitness culture for the next four minutes. This lesson isn't about physiques, programs, or discipline aesthetics. It's about the single fastest legal way to change the state your nervous system is in — which, if you think about everything you've learned, is the actual currency of this entire problem.\n\nRun the review. Urges live in **states**: stressed, restless, flat, wound-up, under-slept. Your triggers (Week 2) are mostly states. Your shift list's physical entry exists because movement changes state faster than anything else on the list. The 10-Minute Shift's best performer, for most people, is the walk or the pushups. You've already been using movement as a *rescue tool* — grabbing it in the moment an urge hits.\n\nThis week we promote it from rescue to **infrastructure**. Because here's what the rescue-only approach misses: regular movement doesn't just interrupt bad states — it *lowers the baseline* they grow from. A body that moved today carries less accumulated stress into the evening, sleeps deeper tonight (feeding yesterday's keystone), and wakes with more of the energy that makes values feel reachable instead of theoretical. Movement is the pillar that pays rent to all the other pillars.\n\nThe prescription is deliberately humble, and Week 4's rule applies with full force — **shrink it until it's unmissable**: a daily minimum so small it survives your worst day. Ten minutes of walking. Fifteen pushups and a stretch. One song of jumping rope. If you already train, this isn't about adding volume — it's about *consistency on the bad days*, because bad days are when the state-changer earns its keep. The grand three-hour Saturday session that excuses a sedentary week is exactly the pattern we're not building.\n\nAnd anchor it where it defends you: movement placed in or just before a risk window is a defensive structure, not just exercise. Evening urges? A post-dinner walk isn't cardio. It's architecture.\n\nToday: set the minimum, anchor it, schedule it.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Where would movement defend you best?",
+              "options": [
+                "Morning — start the day with a vote",
+                "The after-work slump",
+                "Post-dinner, guarding the evening",
+                "Right inside my risk window",
+                "Honestly, whenever it actually happens"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w5d3_ex",
+            "type": "worksheet",
+            "title": "The daily minimum",
+            "steps": [
+              "Define your unmissable daily minimum — something 5 to 15 minutes long that survives your worst realistic day.",
+              "Anchor it with an if-then (when and where), ideally in or just before a risk window.",
+              "Pick your days — daily is the goal, 5 of 7 still wins. It joins your committed actions in the evening check-in."
+            ],
+            "payload": {
+              "kind": "committed_action_planner",
+              "actions_per_value": 1,
+              "values_source": null,
+              "fixed_value_label": "Health & vitality",
+              "action_fields": ["action", "if_then_anchor", "days_of_week"],
+              "size_note": "5-15 minutes, survivable on your worst day",
+              "save_to": "movement_plan",
+              "checkin_integration": true
+            }
+          }
+        },
+        {
+          "day": 4,
+          "lesson": {
+            "id": "w5d4_lesson",
+            "title": "Connection: the real thing",
+            "body_md": "Time for the deepest pillar, and the one this habit guards most jealously. Recall your Day 4 discovery from last week — for a huge number of people here, the value the urges point at most often is **connection**. Loneliness knocks; porn answers. Which makes porn something we haven't quite said out loud yet: **an intimacy substitute.** It offers the shape of closeness — faces, bodies, attention on demand — with none of the substance, and none of the risk.\n\nAnd the *risk* is the key word. Real connection requires exposure: being seen, possibly awkward, possibly rejected. The substitute never says no, never judges, never requires you to be anything. After years of the substitute, many people find their tolerance for the real thing has quietly atrophied — reaching out feels effortful, vulnerable, strangely dangerous. So they don't. And the loneliness deepens, and the substitute answers again. It's the same trap from Week 1 — *the habit manufactures its own demand* — running on the most human need there is.\n\nThe way out is the way you've retrained everything else: **small, repeated, deliberate reps** — starting well below the level that feels scary. Not \"make new best friends.\" Not \"finally have the big talk.\" Today's rep is one honest message to one actual person: a check-in that isn't about logistics, a *thinking-of-you*, a *how are you actually doing*, a thank-you owed for months. Two minutes. One rep. A vote for the person who has real people.\n\nTwo notes for two situations. **If you're partnered:** the highest-value rep is usually presence — the phone-away dinner, the ten-minute conversation about her actual day. Rebuilt intimacy with a partner is the strongest replacement this program knows. **If connection feels like starting from zero:** the rep still counts at any size — a message to family, a regular at the gym, an old friend from another city. Atrophied is not gone. Muscles remember.\n\nOne message today. One real interaction planned this week. Small reps. Real thing.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "Who came to mind while reading this — the person a two-minute honest message should go to?"
+            }
+          },
+          "exercise": {
+            "id": "w5d4_ex",
+            "type": "worksheet",
+            "title": "One message, one plan",
+            "steps": [
+              "Send it now, before the exercise ends: one honest, non-logistical message to the person who came to mind. Two minutes. Done beats perfect.",
+              "Then plan one real interaction this week — a call, a meal, a walk with someone. Name the person, the day, the move.",
+              "Log both here. The check-in will ask how the plan went."
+            ],
+            "payload": {
+              "kind": "guided_list",
+              "prompt": "My rep today, and my plan this week:",
+              "suggestions": [
+                "Sent: 'Hey — thought of you today. How are you actually doing?'",
+                "Sent a long-overdue thank-you",
+                "Planned: call Dad on Thursday evening",
+                "Planned: phone-away dinner with her on Friday",
+                "Planned: coffee with an old friend this weekend"
+              ],
+              "min_items": 2,
+              "save_to": "reconnection_plan"
+            }
+          }
+        },
+        {
+          "day": 5,
+          "lesson": {
+            "id": "w5d5_lesson",
+            "title": "Play: the missing pillar",
+            "body_md": "Ask a man in this program what his hobbies are and you'll often get a strange pause. Work, sure. Obligations, plenty. Scrolling, endlessly. But *play* — absorbing, pointless-on-purpose, time-vanishing play? Somewhere in adulthood it quietly fell off the schedule. Today we put it back, because its absence isn't a lifestyle detail. It's a structural hole your loop has been living in.\n\nHere's the mechanism, and you already know its pieces. Boredom is one of your mapped triggers — not dramatic, just that restless, under-stimulated flatness of an empty evening. A brain built for engagement, idling, will *find* stimulation — and it reaches for the cheapest available. For years, you've had exactly one deeply reliable answer to \"nothing's happening\": the supernormal one. Play is what you install in that slot instead. Not because a guitar out-stimulates porn in the moment — Day 1 already settled that it can't — but because a person mid-project, mid-game, mid-chapter, mid-riff *doesn't have an empty evening*. Absorption is occupancy. Occupied evenings don't drift.\n\nWhat qualifies as play? Three tests: it **absorbs** you (time disappears — the state matters more than the activity), it's **active** (you're doing, making, solving — passive feeds barely count; scrolling doesn't count at all), and it's **honestly yours** (chess, sketching, cooking, a language, woodworking, gaming in moderation, a football league — no adult grades this). The often-forgotten source: what absorbed you at twelve? That interest usually survived, buried, and reactivates faster than starting cold.\n\nThen apply Week 2's friction law *in reverse*: play must be **easier to start than the slip**. The guitar on a stand, not in a closet. The sketchbook on the desk, open. The chess app on the home screen where the doom-scroll used to live. Prepared play is a defense; unprepared play is a nice idea.\n\nToday: pick two or three, prep them physically, and give one of them tonight's empty slot.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "What absorbed you at twelve?",
+              "options": [
+                "Making or building things",
+                "Games — board, video, puzzles",
+                "Sports and being outside",
+                "Music, drawing, or writing",
+                "Reading and rabbit holes"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w5d5_ex",
+            "type": "worksheet",
+            "title": "The boredom plan",
+            "steps": [
+              "Choose two or three genuinely-yours play activities — the absorption test decides, not impressiveness.",
+              "Prep each one physically tonight: visible, ready, one step from started. Friction law in reverse.",
+              "Assign one of them to your next empty evening — by name, in advance. Boredom that already has plans isn't a trigger; it's a time slot."
+            ],
+            "payload": {
+              "kind": "guided_list",
+              "prompt": "My play list — each with its prep step:",
+              "suggestions": [
+                "Guitar — back on the stand, next to the couch",
+                "Chess app — home screen, where the scroll app was",
+                "Sketchbook — open on the desk, pencil on it",
+                "That book series — volume one on the nightstand",
+                "Cooking one real recipe — ingredients bought Sunday"
+              ],
+              "min_items": 2,
+              "save_to": "boredom_plan"
+            }
+          }
+        },
+        {
+          "day": 6,
+          "lesson": {
+            "id": "w5d6_lesson",
+            "title": "The weekly architecture",
+            "body_md": "Everything this week built a pillar. Today we do what architects do: put the pillars **where the load is** — and you've known exactly where the load is since Week 2. Open your Pattern Profile and look at your risk windows: late nights, empty Saturday afternoons, the post-work slump, Sunday evenings. Those aren't just danger zones. They're *unscheduled* zones. That's the entire secret, and it's time to say it plainly: **your risk windows are simply the hours nobody planned.**\n\nSo we plan them. Not the whole week — this isn't productivity culture, and a life scheduled to the minute snaps on contact with reality. We're doing something far more surgical: **planting one deliberate thing inside each risk window.** The post-dinner walk sits in the 9pm slot (movement, guarding the evening's entrance). The Thursday call lives Thursday at 8 (connection). The guitar owns the 10-to-10:30 slot where the drift used to start (play). The wind-down protocol closes the gate at 11. Your Saturday afternoon gets *one named thing* — a project block, a league, a long walk — because a Saturday with one anchor doesn't sprawl into the shapeless afternoon your chain loves.\n\nNotice what you're really doing: this is Week 2's environment design, scaled from a bedroom to a calendar. Same law — **drift needs a vacuum, and structure removes the vacuum.** An urge that arrives during a planted activity meets a person mid-something, with momentum, instead of a person adrift, negotiating. You've felt the difference. Now you're manufacturing it on purpose.\n\nAnd hold it lightly, per Week 4: this plan bends without breaking. Miss a slot? The architecture still stands — one empty room isn't a condemned building. The plan serves the life, never the reverse.\n\nToday's exercise walks your actual risk windows and plants each one, drawing from everything you've built: shift list, movement plan, connection plan, boredom plan. Tomorrow, we bolt the whole foundation together.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Which window most needs a tenant?",
+              "options": [
+                "Late night — the classic",
+                "Post-work / post-dinner slump",
+                "The shapeless weekend afternoon",
+                "Sunday evening dread zone",
+                "Home-alone stretches"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w5d6_ex",
+            "type": "worksheet",
+            "title": "Plant the windows",
+            "steps": [
+              "Review your risk windows, pulled from your own pattern map.",
+              "Plant one deliberate activity in each — drawn from your movement plan, connection plan, boredom plan, or shift list. Name it and time it.",
+              "One per window is enough. This becomes your weekly architecture — visible on your Progress page, editable anytime."
+            ],
+            "payload": {
+              "kind": "risk_window_planner",
+              "windows_source": ["trigger_map_external", "chain_analysis"],
+              "plant_options_sources": ["movement_plan", "reconnection_plan", "boredom_plan", "shift_list"],
+              "allow_free_text": true,
+              "save_to": "weekly_architecture",
+              "surface_in": ["progress_tab"]
+            }
+          }
+        },
+        {
+          "day": 7,
+          "lesson": {
+            "id": "w5d7_lesson",
+            "title": "A life that defends itself",
+            "body_md": "Step back and look at what exists now that didn't exist seven days ago: a protected sleep window with an off-ramp. A daily movement minimum planted where it defends you. A reconnection rep completed and a real interaction on the calendar. Play, prepped and stationed in the boredom slots. And a weekly architecture with a tenant in every risk window. \n\nThat's not a collection of health tips. That's a **perimeter**.\n\nHere's the shift in strategy it represents, and it's worth naming because it changes how you should think about every week from now on. Weeks 1 through 4 armed *you* — awareness, urge skills, values, the inner coach. All of it still essential. But skills-based defense has a vulnerability you've probably already sensed: it depends on you showing up sharp, and Week 2 taught you that your hardest moments are precisely when you're not sharp. Infrastructure doesn't have that vulnerability. **The wind-down protocol works while tired. The planted Saturday defends itself. The phone charging in the kitchen requires nothing of you at midnight.** You've moved from being the only guard on the wall to living inside a fortress that holds watch with you.\n\nOne honest expectation before the final week: perimeters degrade. Life will flood the schedule, travel will wreck the sleep window, a brutal month will empty the play slots. That's not failure — that's *maintenance*, the completely normal cost of owning anything worth having. The five-pillar audit you took on Day 1 is now a diagnostic you can re-run any month things feel shaky: find the sagging pillar, reinforce it, carry on. You know how to build now. Rebuilding is the same skill, smaller.\n\nToday, everything bolts together into your **Foundations** — the one-page blueprint of the life you've built, alongside your Pattern Profile and your urge script. Next week is the last one: relapse-proofing the whole structure, assembling your Emergency Card, and designing what life with this app — and without this program — looks like from here.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Which piece of the perimeter are you most confident in?",
+              "options": [
+                "The wind-down — my nights finally have an ending",
+                "The movement minimum — small enough to actually hold",
+                "The reconnection — that message mattered",
+                "The play slots — I forgot how much I missed this",
+                "The planted windows — my week has a shape now"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w5d7_ex",
+            "type": "worksheet",
+            "title": "Assemble your Foundations",
+            "steps": [
+              "Review the blueprint below — compiled from your week: the audit, the wind-down, the movement minimum, the connection plan, the play list, and the planted windows.",
+              "Edit anything that already needs adjusting — a plan that survived contact with one real week is worth ten perfect drafts.",
+              "Save it. It lives on your Progress page next to your Pattern Profile: the map of the problem, and now the map of the life that answers it."
+            ],
+            "payload": {
+              "kind": "profile_builder",
+              "sections": [
+                {"title": "My five pillars (audit)", "source": "life_audit"},
+                {"title": "My wind-down protocol", "source": "winddown_protocol"},
+                {"title": "My movement minimum", "source": "movement_plan"},
+                {"title": "My connection plan", "source": "reconnection_plan"},
+                {"title": "My play list", "source": "boredom_plan"},
+                {"title": "My weekly architecture", "source": "weekly_architecture"}
+              ],
+              "save_to": "foundations_profile",
+              "surface_in": ["progress_tab"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "checkin_prompts_additions": [
+    "Did the wind-down protocol run tonight — or what's about to run it?",
+    "Did your movement minimum happen today?",
+    "Was there an empty window today — and what moved into it?",
+    "One real human moment today: what was it?"
+  ]
+}
