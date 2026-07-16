@@ -129,16 +129,21 @@ export interface ValueCardSortPayload {
 }
 
 // One small action per core value, delivered via the Week 2 if-then
-// structure and a day-of-week schedule.
+// structure and a day-of-week schedule. Week 5 Day 3 introduces a
+// "freestanding" mode (values_source: null, fixed_value_label set) for a
+// value-agnostic single action — e.g. the movement minimum, which isn't
+// tied to any of the user's chosen core values.
 export interface CommittedActionPlannerPayload {
   kind: 'committed_action_planner';
   actions_per_value: number;
-  values_source: string;
+  values_source: string | null;
+  fixed_value_label?: string;
   action_fields: string[];
   size_note: string;
   save_to: string;
-  // Day 3's payload sets this — while Week 4 is active, the evening check-in
-  // asks whether today's scheduled actions happened (checkin.tsx).
+  // Set on every committed_action_planner payload that should join the
+  // evening check-in's "did today's committed actions happen?" section
+  // (checkin.tsx) — not week-specific, scanned generically.
   checkin_integration?: boolean;
 }
 
@@ -157,6 +162,21 @@ export interface UrgeValueMapPayload {
   enable_ongoing_tagging?: boolean;
 }
 
+// Week 5 Day 6 — reads the user's own risk windows (from trigger_map_external
+// + chain_analysis) and lets them plant one activity in each, chosen from
+// their own movement/reconnection/boredom plans and shift list, or free
+// text. Below zero derivable windows there's nothing to plant into, so the
+// component degrades to a free-text worksheet instead (same shape as
+// urge_value_map's dual-mode pattern).
+export interface RiskWindowPlannerPayload {
+  kind: 'risk_window_planner';
+  windows_source: string[];
+  plant_options_sources: string[];
+  allow_free_text: boolean;
+  save_to: string;
+  surface_in?: string[];
+}
+
 export type ExercisePayload =
   | MultiSelectWritePayload
   | RatedInventoryPayload
@@ -172,7 +192,8 @@ export type ExercisePayload =
   | ToolPracticePayload
   | ValueCardSortPayload
   | CommittedActionPlannerPayload
-  | UrgeValueMapPayload;
+  | UrgeValueMapPayload
+  | RiskWindowPlannerPayload;
 
 export const KNOWN_PAYLOAD_KINDS = [
   'multi_select_write',
@@ -190,6 +211,7 @@ export const KNOWN_PAYLOAD_KINDS = [
   'value_card_sort',
   'committed_action_planner',
   'urge_value_map',
+  'risk_window_planner',
 ] as const;
 
 // -- Saved output shapes, keyed by each payload's save_to name --
@@ -285,6 +307,19 @@ export interface UrgeValueMapOutput {
   // Populated instead when there weren't (mode: 'worksheet') — the two are
   // mutually exclusive per submission, both fields always present so
   // consumers never have to branch on a missing key.
+  worksheetText: string | null;
+}
+
+export interface RiskWindowPlant {
+  window: string;
+  plant: string;
+}
+
+export interface RiskWindowPlannerOutput {
+  // Populated when at least one risk window was derivable (mode: 'planned').
+  plants: RiskWindowPlant[];
+  // Populated instead when none were (mode: 'worksheet') — same
+  // mutually-exclusive-but-both-present shape as UrgeValueMapOutput.
   worksheetText: string | null;
 }
 

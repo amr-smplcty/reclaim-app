@@ -25,11 +25,15 @@ import { ToolPractice } from '@/features/program/exercises/ToolPractice';
 import { ValueCardSort } from '@/features/program/exercises/ValueCardSort';
 import { CommittedActionPlanner } from '@/features/program/exercises/CommittedActionPlanner';
 import { UrgeValueMap } from '@/features/program/exercises/UrgeValueMap';
+import { RiskWindowPlanner } from '@/features/program/exercises/RiskWindowPlanner';
 import { WorksheetFallback } from '@/features/program/exercises/WorksheetFallback';
 import { resolveShiftListSeed } from '@/features/program/shiftList';
 import { resolveSelectOptions, summarizeExerciseOutput } from '@/features/program/exerciseHelpers';
+import { resolveCommittedActionValues } from '@/features/program/committedActionPlanner';
+import { deriveRiskWindows, resolvePlantOptions } from '@/features/program/riskWindowPlanner';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import type {
+  ChainBuilderOutput,
   ChainBuilderPayload,
   ChecklistCommitPayload,
   CommitmentBuilderPayload,
@@ -44,6 +48,7 @@ import type {
   ProfileBuilderPayload,
   RatedInventoryOutput,
   RatedInventoryPayload,
+  RiskWindowPlannerPayload,
   ToolPracticePayload,
   UrgeValueMapPayload,
   ValueCardSortPayload,
@@ -199,9 +204,12 @@ export default function ExerciseScreen() {
     }
     case 'committed_action_planner': {
       const p = payload as unknown as CommittedActionPlannerPayload;
-      const valuesOutput = exerciseOutputs[p.values_source] as MultiSelectWriteOutput | undefined;
       body = (
-        <CommittedActionPlanner payload={p} values={valuesOutput?.selected ?? []} onSubmit={(o) => handleSubmit(p.save_to, o)} />
+        <CommittedActionPlanner
+          payload={p}
+          values={resolveCommittedActionValues(p, exerciseOutputs)}
+          onSubmit={(o) => handleSubmit(p.save_to, o)}
+        />
       );
       break;
     }
@@ -213,6 +221,25 @@ export default function ExerciseScreen() {
           payload={p}
           urgeLogs={urgeLogs}
           valuesCore={valuesOutput?.selected ?? []}
+          onSubmit={(o) => handleSubmit(p.save_to, o)}
+        />
+      );
+      break;
+    }
+    case 'risk_window_planner': {
+      const p = payload as unknown as RiskWindowPlannerPayload;
+      // windows_source is always [trigger_map_external, chain_analysis] in
+      // content today — read by their well-known keys, same convention as
+      // commitment_builder's lapse_letter read below.
+      const windows = deriveRiskWindows(
+        exerciseOutputs.trigger_map_external as MultiSelectWriteOutput | undefined,
+        exerciseOutputs.chain_analysis as ChainBuilderOutput | undefined
+      );
+      body = (
+        <RiskWindowPlanner
+          payload={p}
+          windows={windows}
+          plantOptions={resolvePlantOptions(p.plant_options_sources, exerciseOutputs)}
           onSubmit={(o) => handleSubmit(p.save_to, o)}
         />
       );

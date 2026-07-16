@@ -21,7 +21,7 @@ import { CommitmentGoalsSection } from '@/features/progress/CommitmentGoalsSecti
 import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsStore';
 import { computeDayCreditInputForDate, dateKeyOf } from '@/features/progress/dailyCreditReconciliation';
 import { Spacing } from '@/theme/tokens';
-import type { CommitmentBuilderOutput, LetterWriteOutput, ProfileBuilderOutput } from '@/types/program';
+import type { CommitmentBuilderOutput, LetterWriteOutput, ProfileBuilderOutput, RiskWindowPlannerOutput } from '@/types/program';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -45,6 +45,11 @@ export default function ProgressScreen() {
   // Emergency Card screen yet (BACKLOG #27), so this is the one place it's
   // shown today; it's already tagged and ready to feed that screen once built.
   const becomingLetter = getExerciseOutput<LetterWriteOutput>('becoming_letter');
+  // Week 5 Day 6's planted risk windows (surface_in: ["progress_tab"]).
+  const weeklyArchitecture = getExerciseOutput<RiskWindowPlannerOutput>('weekly_architecture');
+  // Week 5 Day 7's Foundations — same profile_builder shape as pattern_profile
+  // (surface_in: ["progress_tab"]), shown alongside it.
+  const foundationsProfile = getExerciseOutput<ProfileBuilderOutput>('foundations_profile');
 
   const checkins = useJournalStore((s) => s.checkins);
   const urgeLogs = useToolkitStore((s) => s.urgeLogs);
@@ -182,23 +187,7 @@ export default function ProgressScreen() {
 
       <CommitmentGoalsSection />
 
-      {patternProfile ? (
-        <ThemedView style={styles.profileCard}>
-          <ThemedText type="subtitle" style={styles.profileTitle}>
-            Your Pattern Profile
-          </ThemedText>
-          {patternProfile.sections.map((section) => (
-            <ThemedView key={section.title} style={styles.section}>
-              <ThemedText type="small" themeColor="accent" style={styles.sectionLabel}>
-                {section.title}
-              </ThemedText>
-              <ThemedText type="default" themeColor="textSecondary">
-                {section.content}
-              </ThemedText>
-            </ThemedView>
-          ))}
-        </ThemedView>
-      ) : null}
+      {patternProfile ? <ProfileCard title="Your Pattern Profile" profile={patternProfile} /> : null}
 
       {becomingLetter ? (
         <ThemedView style={styles.profileCard}>
@@ -210,7 +199,53 @@ export default function ProgressScreen() {
           </ThemedText>
         </ThemedView>
       ) : null}
+
+      {weeklyArchitecture ? (
+        <ThemedView style={styles.profileCard}>
+          <ThemedText type="subtitle" style={styles.profileTitle}>
+            Your Weekly Architecture
+          </ThemedText>
+          {weeklyArchitecture.plants.length > 0 ? (
+            weeklyArchitecture.plants.map((p) => (
+              <ThemedView key={p.window} style={styles.section}>
+                <ThemedText type="small" themeColor="accent" style={styles.sectionLabel}>
+                  {p.window}
+                </ThemedText>
+                <ThemedText type="default" themeColor="textSecondary">
+                  {p.plant}
+                </ThemedText>
+              </ThemedView>
+            ))
+          ) : (
+            <ThemedText type="default" themeColor="textSecondary">
+              {weeklyArchitecture.worksheetText}
+            </ThemedText>
+          )}
+        </ThemedView>
+      ) : null}
+
+      {foundationsProfile ? <ProfileCard title="Your Foundations" profile={foundationsProfile} /> : null}
     </ScrollView>
+  );
+}
+
+function ProfileCard({ title, profile }: { title: string; profile: ProfileBuilderOutput }) {
+  return (
+    <ThemedView style={styles.profileCard}>
+      <ThemedText type="subtitle" style={styles.profileTitle}>
+        {title}
+      </ThemedText>
+      {profile.sections.map((section) => (
+        <ThemedView key={section.title} style={styles.section}>
+          <ThemedText type="small" themeColor="accent" style={styles.sectionLabel}>
+            {section.title}
+          </ThemedText>
+          <ThemedText type="default" themeColor="textSecondary">
+            {section.content}
+          </ThemedText>
+        </ThemedView>
+      ))}
+    </ThemedView>
   );
 }
 

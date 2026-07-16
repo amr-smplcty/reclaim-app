@@ -2,9 +2,10 @@ import week1Raw from '../../../content/week1.json';
 import week2Raw from '../../../content/week2.json';
 import week3Raw from '../../../content/week3.json';
 import week4Raw from '../../../content/week4.json';
+import week5Raw from '../../../content/week5.json';
 
 import type { ProgramModule } from '@/types/content';
-import type { UrgeSurfScript, UrgeValueMapPayload, WeekContentPack } from '@/types/program';
+import type { CommittedActionPlannerPayload, UrgeSurfScript, UrgeValueMapPayload, WeekContentPack } from '@/types/program';
 
 const REFLECTION_TYPES = ['single_choice', 'free_text'];
 // CLINICAL_SPEC §7 lists decisional_balance|worksheet|audio_practice|planner|card_sort
@@ -125,6 +126,7 @@ export function getAllWeekPacks(): WeekContentPack[] {
       validateWeekContentPack(week2Raw),
       validateWeekContentPack(week3Raw),
       validateWeekContentPack(week4Raw),
+      validateWeekContentPack(week5Raw),
     ];
   }
   return cachedPacks;
@@ -163,4 +165,22 @@ export function getUrgeValueMapPayload(): UrgeValueMapPayload | undefined {
     }
   }
   return undefined;
+}
+
+// Finds every committed_action_planner payload's save_to key that opted
+// into the evening check-in's "did today's committed actions happen?"
+// section (checkin_integration: true) — Week 4 Day 3's committed_actions
+// and Week 5 Day 3's movement_plan today, generic to any future week that
+// reuses the pattern rather than hardcoding either key.
+export function getCheckinIntegratedActionKeys(): string[] {
+  const keys: string[] = [];
+  for (const module of getProgramModules()) {
+    for (const day of module.days) {
+      const payload = day.exercise.payload as unknown as CommittedActionPlannerPayload;
+      if (payload?.kind === 'committed_action_planner' && payload.checkin_integration) {
+        keys.push(payload.save_to);
+      }
+    }
+  }
+  return keys;
 }

@@ -5,6 +5,7 @@ import {
   getAllCheckinPrompts,
   getUrgeSurfScript,
   getUrgeValueMapPayload,
+  getCheckinIntegratedActionKeys,
 } from '@/lib/content/week';
 import { findProgramDay } from '@/features/program/progression';
 
@@ -121,19 +122,20 @@ describe('validateWeekContentPack — schema errors', () => {
   });
 });
 
-describe('multi-week loading — real content/week1.json + week2.json + week3.json + week4.json', () => {
-  it('loads all four packs', () => {
+describe('multi-week loading — real content/week1.json + week2.json + week3.json + week4.json + week5.json', () => {
+  it('loads all five packs', () => {
     const packs = getAllWeekPacks();
-    expect(packs).toHaveLength(4);
+    expect(packs).toHaveLength(5);
     expect(packs[0].modules[0].week).toBe(1);
     expect(packs[1].modules[0].week).toBe(2);
     expect(packs[2].modules[0].week).toBe(3);
     expect(packs[3].modules[0].week).toBe(4);
+    expect(packs[4].modules[0].week).toBe(5);
   });
 
   it('merges modules across weeks so W2D1 is reachable right after W1D7', () => {
     const modules = getProgramModules();
-    expect(modules.map((m) => m.week)).toEqual([1, 2, 3, 4]);
+    expect(modules.map((m) => m.week)).toEqual([1, 2, 3, 4, 5]);
 
     const w1d7 = findProgramDay(modules, { week: 1, day: 7 });
     const w2d1 = findProgramDay(modules, { week: 2, day: 1 });
@@ -152,7 +154,7 @@ describe('multi-week loading — real content/week1.json + week2.json + week3.js
 
   it('merges Week 4 in so W4D1 is reachable right after W3D7', () => {
     const modules = getProgramModules();
-    expect(modules.map((m) => m.week)).toEqual([1, 2, 3, 4]);
+    expect(modules.map((m) => m.week)).toEqual([1, 2, 3, 4, 5]);
 
     const w3d7 = findProgramDay(modules, { week: 3, day: 7 });
     const w4d1 = findProgramDay(modules, { week: 4, day: 1 });
@@ -161,7 +163,16 @@ describe('multi-week loading — real content/week1.json + week2.json + week3.js
     expect(w4d1?.exercise.payload).toMatchObject({ kind: 'value_card_sort', keep_count: 5, save_to: 'values_top5' });
   });
 
-  it('combines week 1 checkin_prompts with week 2, week 3, and week 4 additions', () => {
+  it('merges Week 5 in so W5D1 is reachable right after W4D7', () => {
+    const modules = getProgramModules();
+    const w4d7 = findProgramDay(modules, { week: 4, day: 7 });
+    const w5d1 = findProgramDay(modules, { week: 5, day: 1 });
+    expect(w4d7?.exercise.payload).toMatchObject({ kind: 'letter_write', save_to: 'becoming_letter' });
+    expect(w5d1?.lesson.id).toBe('w5d1_lesson');
+    expect(w5d1?.exercise.payload).toMatchObject({ kind: 'rated_inventory', save_to: 'life_audit' });
+  });
+
+  it('combines week 1 checkin_prompts with week 2-5 additions', () => {
     const prompts = getAllCheckinPrompts();
     expect(prompts).toContain('What was the strongest feeling you had today, and what did you do with it?');
     expect(prompts).toContain('Did any of your if-then plans fire today? What happened?');
@@ -170,6 +181,11 @@ describe('multi-week loading — real content/week1.json + week2.json + week3.js
     expect(prompts).toContain('Did your committed actions happen today? Which votes got cast?');
     expect(prompts).toContain('Did any urge today point at a value? Which one was hungriest?');
     expect(prompts).toContain('Coach or critic — who did the talking today?');
+    // All four of week5.json's checkin_prompts_additions, merged in.
+    expect(prompts).toContain("Did the wind-down protocol run tonight — or what's about to run it?");
+    expect(prompts).toContain('Did your movement minimum happen today?');
+    expect(prompts).toContain('Was there an empty window today — and what moved into it?');
+    expect(prompts).toContain('One real human moment today: what was it?');
   });
 
   it('finds the urge_value_map payload wherever it lives in the program (Week 4 Day 4)', () => {
@@ -188,5 +204,9 @@ describe('multi-week loading — real content/week1.json + week2.json + week3.js
     expect(script?.duration_seconds).toBe(180);
     expect(script?.on_screen_beats.length).toBeGreaterThan(0);
     expect(script?.on_screen_beats[0]).toMatchObject({ at_seconds: 0 });
+  });
+
+  it('finds both checkin_integration committed_action_planner keys — Week 4s committed_actions and Week 5s movement_plan', () => {
+    expect(getCheckinIntegratedActionKeys()).toEqual(['committed_actions', 'movement_plan']);
   });
 });

@@ -7,7 +7,7 @@ import { CompletionBadge } from '@/components/completion-badge';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { getAllCheckinPrompts } from '@/lib/content/week';
+import { getAllCheckinPrompts, getCheckinIntegratedActionKeys } from '@/lib/content/week';
 import { NumberScale } from '@/features/program/exercises/NumberScale';
 import { buildCheckinEntry } from '@/features/journal/checkinSubmission';
 import { actionsForToday, dayOfWeekKeyFor } from '@/features/journal/committedActionCheckin';
@@ -37,11 +37,14 @@ export default function CheckinScreen() {
   const [actionStatus, setActionStatus] = useState<Record<string, boolean>>({});
   const [done, setDone] = useState(false);
 
-  // Week 4 Day 3's checkin_integration — only while Week 4 is active, and
-  // only for actions actually scheduled today (not the whole committed_actions
-  // list). Optional and shame-free: nothing here blocks submitting.
-  const committedActions = (exerciseOutputs.committed_actions as CommittedActionPlannerOutput | undefined) ?? [];
-  const todaysActions = position.week === 4 ? actionsForToday(committedActions, dayOfWeekKeyFor(new Date())) : [];
+  // checkin_integration (Week 4 Day 3's committed_actions, Week 5 Day 3's
+  // movement_plan, generically scanned — not hardcoded to either key) —
+  // only for actions actually scheduled today, merged across every
+  // integrated save. Optional and shame-free: nothing here blocks submitting.
+  const committedActions = getCheckinIntegratedActionKeys().flatMap(
+    (key) => (exerciseOutputs[key] as CommittedActionPlannerOutput | undefined) ?? []
+  );
+  const todaysActions = actionsForToday(committedActions, dayOfWeekKeyFor(new Date()));
 
   const prompt = useMemo(() => {
     const prompts = getAllCheckinPrompts();
