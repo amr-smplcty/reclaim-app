@@ -46,6 +46,15 @@ export async function getCurrentUserId(): Promise<string | undefined> {
   return data.session?.user.id;
 }
 
+// Settings' account-info row — the email is only ever populated by the
+// email/OTP sign-in path; Apple sign-in and the dev bypass both leave it
+// undefined (Apple can be configured to withhold the real email, and the
+// dev bypass never touches Supabase at all).
+export async function getCurrentUserEmail(): Promise<string | undefined> {
+  const { data } = await supabase.auth.getSession();
+  return data.session?.user.email ?? undefined;
+}
+
 // Dev-only escape hatch (BACKLOG — remove or re-verify before TestFlight):
 // lets a developer clear both Apple sign-in (needs a real dev-client/EAS
 // build) and a configured Supabase project to keep testing the rest of

@@ -2,6 +2,7 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 import { SosButton } from '@/components/sos-button';
+import { SettingsButton } from '@/components/settings-button';
 import { useTheme } from '@/hooks/use-theme';
 
 export default function TabsLayout() {
@@ -23,6 +24,7 @@ export default function TabsLayout() {
         name="today"
         options={{
           title: 'Today',
+          headerLeft: () => <SettingsButton />,
           tabBarIcon: ({ color, size }) => <Ionicons name="today-outline" size={size} color={color} />,
         }}
       />

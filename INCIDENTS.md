@@ -67,6 +67,12 @@
 - **Fix:** Both consumers retyped to `getExerciseOutput<CommitmentBuilderOutput>('urge_script')`; urge-surf.tsx renders `.statement` specifically; progress.tsx only used the value as a boolean presence check, so it was inert either way but corrected for type accuracy.
 - **Prevention rule:** **A payload's declared output type (`XOutput` in `src/types/program.ts`) is the only source of truth for what `getExerciseOutput<T>` should be typed as at each call site — grep every consumer of an exercise's `save_to` key when that exercise's output shape changes or is reused by a new payload kind, don't assume the old call sites still match.**
 
+### INC-11 · `jest.mock()` factory silently captured `undefined` from an outer const
+- **Symptom:** Epic 9's delete-account screen test threw `TypeError: getCurrentUserId is not a function` at runtime, even though the mock module and the const it referenced were both declared correctly and TypeScript found nothing wrong.
+- **Root cause:** Babel hoists both `jest.mock()` calls and (via the CJS transform) static `import` statements to the top of the file, ahead of any `const` declaration written below them in source order. A mock factory like `jest.mock('@/lib/x', () => ({ fn: mockFn }))` that references `mockFn` **directly** captures whatever `mockFn` evaluates to *at require-time* — which, because the test file's own imports (including the module under test, which transitively requires the mocked module) run before the `const mockFn = jest.fn()` line below them executes, is `undefined`. It was introduced while "fixing" a TypeScript spread-argument error by replacing a working arrow-function wrapper with a direct reference to the mock variable — the direct reference is what broke it.
+- **Fix:** Reverted to a wrapper closure (`fn: (arg) => mockFn(arg)`) instead of a direct reference. The closure defers the read of `mockFn` until the mock is actually *called* (inside the test body, by which point the whole file has finished evaluating), rather than reading it once at require-time.
+- **Prevention rule:** **A `jest.mock()` factory must never reference an outer `const mock*` variable directly — always wrap it in a closure (`(arg) => mockVar(arg)`), even though direct references typecheck fine and even pass on some hoisting orderings. This is this project's first test to mock a `@/`-aliased local module rather than only third-party/native modules, so the hazard hadn't come up before.**
+
 ## Standing prevention rules (the distilled list for prompt-writing)
 
 1. Native-module UI: availability-check + graceful fallback, always (INC-2).
@@ -78,3 +84,4 @@
 7. Language lints encode spec exceptions; never edit content to satisfy a lint (INC-5).
 8. `.env`/config changes → cache-cleared restart before debugging "mystery" errors (INC-3).
 9. When an exercise output's shape changes or is reused by a new payload kind, grep every `getExerciseOutput<T>` call site for that `save_to` key — don't assume old consumers still match (INC-10).
+10. `jest.mock()` factories reference outer `mock*` variables only through a closure, never directly (INC-11).

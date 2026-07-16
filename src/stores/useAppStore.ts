@@ -5,6 +5,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 interface AppState {
   hasOnboarded: boolean;
   setHasOnboarded: (value: boolean) => void;
+  reset: () => void;
 }
 
 // Persisted (not just in-memory): app/index.tsx's resume-on-relaunch redirect
@@ -15,6 +16,7 @@ export const useAppStore = create<AppState>()(
     (set) => ({
       hasOnboarded: false,
       setHasOnboarded: (value) => set({ hasOnboarded: value }),
+      reset: () => set({ hasOnboarded: false }),
     }),
     {
       name: 'app-store',

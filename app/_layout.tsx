@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { AppLockGate } from '@/features/lock/AppLockGate';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -19,13 +20,15 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={colorScheme === 'light' ? DefaultTheme : DarkTheme}>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(onboarding)" />
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="(program)" />
-          <Stack.Screen name="(toolkit)" />
-          <Stack.Screen name="(modals)" options={{ presentation: 'modal' }} />
-        </Stack>
+        <AppLockGate>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(onboarding)" />
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="(program)" />
+            <Stack.Screen name="(toolkit)" />
+            <Stack.Screen name="(modals)" options={{ presentation: 'modal' }} />
+          </Stack>
+        </AppLockGate>
       </ThemeProvider>
     </QueryClientProvider>
   );

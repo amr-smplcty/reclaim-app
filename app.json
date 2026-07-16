@@ -38,7 +38,14 @@
         }
       ],
       "expo-secure-store",
-      "expo-localization"
+      "expo-localization",
+      "expo-sharing",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Reclaim uses Face ID to keep your app locked and private."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

@@ -23,6 +23,14 @@ async function getOrCreateEncryptionKey(): Promise<string> {
 // elsewhere) over the persisted JSON blob. The key is generated once via
 // expo-crypto's CSPRNG and held only in the iOS Keychain (expo-secure-store)
 // — never in the encrypted blob, never in analytics, never leaves the device.
+// Delete-account flow (PRODUCT_SPEC §5.6): removing the Keychain key makes
+// any residual encrypted blob permanently undecryptable, which is as good as
+// erased — a fresh key is generated the next time anything encrypted is
+// written. Exported so deleteAccount.ts can wipe it as part of "all data."
+export async function deleteEncryptionKey(): Promise<void> {
+  await SecureStore.deleteItemAsync(KEY_STORAGE_NAME);
+}
+
 export function createEncryptedAsyncStorage(): StateStorage {
   return {
     getItem: async (name: string) => {
