@@ -10,12 +10,16 @@ import type { LetterWriteOutput, LetterWritePayload } from '@/types/program';
 
 interface Props {
   payload: LetterWritePayload;
+  // Resolved by the caller from exerciseOutputs[payload.prefill_from] (Week 6
+  // Day 1's in-place letter revision) — undefined for a normal blank letter,
+  // including when prefill_from is set but nothing was saved under that key yet.
+  prefillValue?: string;
   onSubmit: (output: LetterWriteOutput) => void;
 }
 
-export function LetterWrite({ payload, onSubmit }: Props) {
+export function LetterWrite({ payload, prefillValue, onSubmit }: Props) {
   const theme = useTheme();
-  const [text, setText] = useState('');
+  const [text, setText] = useState(prefillValue ?? '');
 
   const canSubmit = text.trim().length >= payload.min_chars;
 

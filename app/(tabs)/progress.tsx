@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet } from 'react-native';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -21,7 +21,13 @@ import { CommitmentGoalsSection } from '@/features/progress/CommitmentGoalsSecti
 import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsStore';
 import { computeDayCreditInputForDate, dateKeyOf } from '@/features/progress/dailyCreditReconciliation';
 import { Spacing } from '@/theme/tokens';
-import type { CommitmentBuilderOutput, LetterWriteOutput, ProfileBuilderOutput, RiskWindowPlannerOutput } from '@/types/program';
+import type {
+  CommitmentBuilderOutput,
+  EmergencyCardOutput,
+  LetterWriteOutput,
+  ProfileBuilderOutput,
+  RiskWindowPlannerOutput,
+} from '@/types/program';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -50,6 +56,13 @@ export default function ProgressScreen() {
   // Week 5 Day 7's Foundations — same profile_builder shape as pattern_profile
   // (surface_in: ["progress_tab"]), shown alongside it.
   const foundationsProfile = getExerciseOutput<ProfileBuilderOutput>('foundations_profile');
+  // Week 6 Day 4's assembled relapse-prevention plan (surface_in: ["progress_tab"]).
+  const relapsePreventionPlan = getExerciseOutput<ProfileBuilderOutput>('relapse_prevention_plan');
+  // Week 6 Day 5's Emergency Card (surface_in: ["progress_tab"], BACKLOG #27)
+  // — a link into the real screen, not the raw data, once it's built.
+  const emergencyCard = getExerciseOutput<EmergencyCardOutput>('emergency_card');
+  // Week 6 Day 7's graduation reflection (surface_in: ["progress_tab"]).
+  const graduationReflection = getExerciseOutput<LetterWriteOutput>('graduation_reflection');
 
   const checkins = useJournalStore((s) => s.checkins);
   const urgeLogs = useToolkitStore((s) => s.urgeLogs);
@@ -225,6 +238,35 @@ export default function ProgressScreen() {
       ) : null}
 
       {foundationsProfile ? <ProfileCard title="Your Foundations" profile={foundationsProfile} /> : null}
+
+      {relapsePreventionPlan ? <ProfileCard title="Your Relapse-Prevention Plan" profile={relapsePreventionPlan} /> : null}
+
+      {emergencyCard ? (
+        <Pressable
+          onPress={() => router.push('/(modals)/emergency-card' as Href)}
+          accessibilityRole="button"
+          accessibilityLabel="Open your Emergency Card"
+          style={[styles.emergencyCardCard, { borderColor: theme.accent, backgroundColor: theme.accentTint }]}
+        >
+          <ThemedText type="subtitle" themeColor="accent">
+            Your Emergency Card
+          </ThemedText>
+          <ThemedText type="small" themeColor="textSecondary">
+            One tap away, whenever you need it.
+          </ThemedText>
+        </Pressable>
+      ) : null}
+
+      {graduationReflection ? (
+        <ThemedView style={styles.profileCard}>
+          <ThemedText type="subtitle" style={styles.profileTitle}>
+            Your graduation reflection
+          </ThemedText>
+          <ThemedText type="default" themeColor="textSecondary">
+            {graduationReflection}
+          </ThemedText>
+        </ThemedView>
+      ) : null}
     </ScrollView>
   );
 }
@@ -263,6 +305,7 @@ const styles = StyleSheet.create({
   milestoneChip: { borderWidth: 1, borderRadius: 999, paddingVertical: 6, paddingHorizontal: 12 },
   insightText: { marginTop: Spacing.two },
   profileCard: { gap: Spacing.three, marginTop: Spacing.four },
+  emergencyCardCard: { borderWidth: 1, borderRadius: 12, padding: Spacing.three, marginTop: Spacing.four, gap: Spacing.one },
   profileTitle: { marginBottom: Spacing.one },
   section: { gap: 2, marginBottom: Spacing.two },
   sectionLabel: { fontWeight: '700' },

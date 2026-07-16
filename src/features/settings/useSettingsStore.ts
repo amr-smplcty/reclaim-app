@@ -2,6 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import type { MaintenancePlanOutput } from '@/types/program';
+
 export interface TimeOfDay {
   hour: number;
   minute: number;
@@ -14,9 +16,16 @@ interface SettingsState {
   dailyLessonTime: TimeOfDay;
   eveningCheckinTime: TimeOfDay;
   appLockEnabled: boolean;
+  // Week 6 Day 6's maintenance_setup (CLINICAL_SPEC §4) — check-in cadence,
+  // 14-day re-assessment reminder opt-in, weekly booster opt-in. Null until
+  // the user actually graduates and completes that exercise. Lives here
+  // alongside the notification preferences above for the same future
+  // notifications epic (BACKLOG #35) to read both from one place.
+  maintenancePlan: MaintenancePlanOutput | null;
   setDailyLessonTime: (time: TimeOfDay) => void;
   setEveningCheckinTime: (time: TimeOfDay) => void;
   setAppLockEnabled: (value: boolean) => void;
+  setMaintenancePlan: (plan: MaintenancePlanOutput) => void;
   reset: () => void;
 }
 
@@ -24,6 +33,7 @@ const initialState = {
   dailyLessonTime: { hour: 8, minute: 0 },
   eveningCheckinTime: { hour: 21, minute: 30 },
   appLockEnabled: false,
+  maintenancePlan: null as MaintenancePlanOutput | null,
 };
 
 export const useSettingsStore = create<SettingsState>()(
@@ -33,6 +43,7 @@ export const useSettingsStore = create<SettingsState>()(
       setDailyLessonTime: (time) => set({ dailyLessonTime: time }),
       setEveningCheckinTime: (time) => set({ eveningCheckinTime: time }),
       setAppLockEnabled: (value) => set({ appLockEnabled: value }),
+      setMaintenancePlan: (plan) => set({ maintenancePlan: plan }),
       reset: () => set(initialState),
     }),
     {

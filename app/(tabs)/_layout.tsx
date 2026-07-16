@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { SosButton } from '@/components/sos-button';
 import { SettingsButton } from '@/components/settings-button';
+import { EmergencyCardButton } from '@/components/emergency-card-button';
 import { useTheme } from '@/hooks/use-theme';
 
 export default function TabsLayout() {
@@ -32,6 +33,7 @@ export default function TabsLayout() {
         name="toolkit"
         options={{
           title: 'Toolkit',
+          headerLeft: () => <EmergencyCardButton />,
           tabBarIcon: ({ color, size }) => <Ionicons name="shield-checkmark-outline" size={size} color={color} />,
         }}
       />

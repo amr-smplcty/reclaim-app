@@ -55,6 +55,14 @@ export interface LetterWritePayload {
   min_chars: number;
   save_to: string;
   surface_in?: string[];
+  // Week 6 Day 1 — loads an existing save (here, Week 1's lapse_letter) as
+  // the starting text instead of a blank field, for in-place revision.
+  // Absent for a normal fresh letter (e.g. Week 6 Day 7's graduation_reflection).
+  prefill_from?: string;
+  // Week 6 Day 7 — submitting this letter is the program-completion signal
+  // (CLINICAL_SPEC §4 "Post-program maintenance mode"): Today switches to
+  // maintenance mode after a calm graduation moment, not a normal "saved" state.
+  completes_program?: boolean;
 }
 
 export interface CommitmentBuilderPayload {
@@ -177,6 +185,39 @@ export interface RiskWindowPlannerPayload {
   surface_in?: string[];
 }
 
+// Week 6 Day 5 — compiles the Emergency Card (BACKLOG #27) from named prior
+// saves, in this default order; the user can reorder/hide before saving.
+// `render` picks how emergencyCard.ts / EmergencyCardScreen present a
+// section beyond plain text; `max_items` caps list-shaped sources (tools,
+// shifts) to a card-sized handful. No fallback — this exercise's whole job
+// is producing the screen (see notes_for_engineering).
+export interface EmergencyCardSourceSpec {
+  title: string;
+  source: string;
+  render?: 'action_buttons' | 'contact_action' | 'collapsed';
+  max_items?: number;
+}
+
+export interface EmergencyCardBuilderPayload {
+  kind: 'emergency_card_builder';
+  sections_default_order: EmergencyCardSourceSpec[];
+  editable: boolean;
+  save_to: string;
+  activates_screen: boolean;
+  surface_in: string[];
+}
+
+// Week 6 Day 6 — maintenance-mode preferences, stored alongside the Epic 9
+// notification preferences (useSettingsStore) for the future notifications
+// epic; also read by Today to shape the post-graduation check-in cadence.
+export interface MaintenanceSetupPayload {
+  kind: 'maintenance_setup';
+  checkin_cadence_options: string[];
+  reassessment_reminder: { default: boolean; interval_days: number };
+  weekly_booster: { default: boolean };
+  save_to: string;
+}
+
 export type ExercisePayload =
   | MultiSelectWritePayload
   | RatedInventoryPayload
@@ -193,7 +234,9 @@ export type ExercisePayload =
   | ValueCardSortPayload
   | CommittedActionPlannerPayload
   | UrgeValueMapPayload
-  | RiskWindowPlannerPayload;
+  | RiskWindowPlannerPayload
+  | EmergencyCardBuilderPayload
+  | MaintenanceSetupPayload;
 
 export const KNOWN_PAYLOAD_KINDS = [
   'multi_select_write',
@@ -212,6 +255,8 @@ export const KNOWN_PAYLOAD_KINDS = [
   'committed_action_planner',
   'urge_value_map',
   'risk_window_planner',
+  'emergency_card_builder',
+  'maintenance_setup',
 ] as const;
 
 // -- Saved output shapes, keyed by each payload's save_to name --
@@ -323,6 +368,26 @@ export interface RiskWindowPlannerOutput {
   worksheetText: string | null;
 }
 
+// Saved order + visibility only — the actual displayed content is always
+// recompiled fresh from current exerciseOutputs (emergencyCard.ts), so a
+// later edit to (say) the shift list is reflected without re-running the
+// builder. `source` is the stable identity a saved entry maps back to a
+// content-defined EmergencyCardSourceSpec.
+export interface EmergencyCardSectionState {
+  source: string;
+  hidden: boolean;
+}
+
+export interface EmergencyCardOutput {
+  sections: EmergencyCardSectionState[];
+}
+
+export interface MaintenancePlanOutput {
+  cadence: string;
+  reassessmentReminderEnabled: boolean;
+  weeklyBoosterEnabled: boolean;
+}
+
 export interface LessonReflectionRecord {
   type: 'single_choice' | 'free_text';
   value: string;
@@ -348,6 +413,16 @@ export interface ToolkitScripts {
   urge_surf?: UrgeSurfScript;
 }
 
+// Post-program maintenance mode (CLINICAL_SPEC §4) — a rotating two-minute
+// sharpening lesson, one per week. Week 6 ships the array; rotation math
+// lives in maintenance.ts (selectWeeklyBooster), generic to any future
+// week's booster list.
+export interface BoosterLesson {
+  id: string;
+  title: string;
+  body_md: string;
+}
+
 export interface WeekContentPack {
   content_version: string;
   notes_for_engineering: string;
@@ -357,4 +432,5 @@ export interface WeekContentPack {
   checkin_prompts?: string[];
   checkin_prompts_additions?: string[];
   toolkit_scripts?: ToolkitScripts;
+  booster_lessons?: BoosterLesson[];
 }

@@ -3,9 +3,17 @@ import week2Raw from '../../../content/week2.json';
 import week3Raw from '../../../content/week3.json';
 import week4Raw from '../../../content/week4.json';
 import week5Raw from '../../../content/week5.json';
+import week6Raw from '../../../content/week6.json';
 
 import type { ProgramModule } from '@/types/content';
-import type { CommittedActionPlannerPayload, UrgeSurfScript, UrgeValueMapPayload, WeekContentPack } from '@/types/program';
+import type {
+  BoosterLesson,
+  CommittedActionPlannerPayload,
+  EmergencyCardBuilderPayload,
+  UrgeSurfScript,
+  UrgeValueMapPayload,
+  WeekContentPack,
+} from '@/types/program';
 
 const REFLECTION_TYPES = ['single_choice', 'free_text'];
 // CLINICAL_SPEC §7 lists decisional_balance|worksheet|audio_practice|planner|card_sort
@@ -110,6 +118,19 @@ export function validateWeekContentPack(raw: unknown): WeekContentPack {
     }
   }
 
+  // Post-program maintenance content (CLINICAL_SPEC §4) — Week 6 is the
+  // first pack to carry this, later weeks could in principle add more.
+  if (raw.booster_lessons !== undefined) {
+    if (!Array.isArray(raw.booster_lessons)) fail('booster_lessons must be an array when present');
+    raw.booster_lessons.forEach((lesson, index) => {
+      if (!isPlainObject(lesson)) fail(`booster_lessons[${index}] must be an object`);
+      const l = lesson as Record<string, unknown>;
+      if (typeof l.id !== 'string') fail(`booster_lessons[${index}].id must be a string`);
+      if (typeof l.title !== 'string') fail(`booster_lessons[${index}].title must be a string`);
+      if (typeof l.body_md !== 'string') fail(`booster_lessons[${index}].body_md must be a string`);
+    });
+  }
+
   return raw as unknown as WeekContentPack;
 }
 
@@ -127,6 +148,7 @@ export function getAllWeekPacks(): WeekContentPack[] {
       validateWeekContentPack(week3Raw),
       validateWeekContentPack(week4Raw),
       validateWeekContentPack(week5Raw),
+      validateWeekContentPack(week6Raw),
     ];
   }
   return cachedPacks;
@@ -161,6 +183,27 @@ export function getUrgeValueMapPayload(): UrgeValueMapPayload | undefined {
     for (const day of module.days) {
       if ((day.exercise.payload as { kind?: string })?.kind === 'urge_value_map') {
         return day.exercise.payload as unknown as UrgeValueMapPayload;
+      }
+    }
+  }
+  return undefined;
+}
+
+// Later weeks' booster lessons append to earlier ones, same convention as
+// getAllCheckinPrompts — only Week 6 carries any today.
+export function getBoosterLessons(): BoosterLesson[] {
+  return getAllWeekPacks().flatMap((pack) => pack.booster_lessons ?? []);
+}
+
+// Finds the emergency_card_builder payload wherever it lives in the program
+// (Week 6 Day 5 today) — read by the always-available Emergency Card screen
+// so it never hardcodes a week/day number, same pattern as
+// getUrgeValueMapPayload.
+export function getEmergencyCardBuilderPayload(): EmergencyCardBuilderPayload | undefined {
+  for (const module of getProgramModules()) {
+    for (const day of module.days) {
+      if ((day.exercise.payload as { kind?: string })?.kind === 'emergency_card_builder') {
+        return day.exercise.payload as unknown as EmergencyCardBuilderPayload;
       }
     }
   }

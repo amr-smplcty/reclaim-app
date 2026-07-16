@@ -6,6 +6,8 @@ import {
   getUrgeSurfScript,
   getUrgeValueMapPayload,
   getCheckinIntegratedActionKeys,
+  getBoosterLessons,
+  getEmergencyCardBuilderPayload,
 } from '@/lib/content/week';
 import { findProgramDay } from '@/features/program/progression';
 
@@ -122,20 +124,21 @@ describe('validateWeekContentPack — schema errors', () => {
   });
 });
 
-describe('multi-week loading — real content/week1.json + week2.json + week3.json + week4.json + week5.json', () => {
-  it('loads all five packs', () => {
+describe('multi-week loading — real content/week1.json + week2.json + week3.json + week4.json + week5.json + week6.json', () => {
+  it('loads all six packs', () => {
     const packs = getAllWeekPacks();
-    expect(packs).toHaveLength(5);
+    expect(packs).toHaveLength(6);
     expect(packs[0].modules[0].week).toBe(1);
     expect(packs[1].modules[0].week).toBe(2);
     expect(packs[2].modules[0].week).toBe(3);
     expect(packs[3].modules[0].week).toBe(4);
     expect(packs[4].modules[0].week).toBe(5);
+    expect(packs[5].modules[0].week).toBe(6);
   });
 
   it('merges modules across weeks so W2D1 is reachable right after W1D7', () => {
     const modules = getProgramModules();
-    expect(modules.map((m) => m.week)).toEqual([1, 2, 3, 4, 5]);
+    expect(modules.map((m) => m.week)).toEqual([1, 2, 3, 4, 5, 6]);
 
     const w1d7 = findProgramDay(modules, { week: 1, day: 7 });
     const w2d1 = findProgramDay(modules, { week: 2, day: 1 });
@@ -154,7 +157,7 @@ describe('multi-week loading — real content/week1.json + week2.json + week3.js
 
   it('merges Week 4 in so W4D1 is reachable right after W3D7', () => {
     const modules = getProgramModules();
-    expect(modules.map((m) => m.week)).toEqual([1, 2, 3, 4, 5]);
+    expect(modules.map((m) => m.week)).toEqual([1, 2, 3, 4, 5, 6]);
 
     const w3d7 = findProgramDay(modules, { week: 3, day: 7 });
     const w4d1 = findProgramDay(modules, { week: 4, day: 1 });
@@ -208,5 +211,47 @@ describe('multi-week loading — real content/week1.json + week2.json + week3.js
 
   it('finds both checkin_integration committed_action_planner keys — Week 4s committed_actions and Week 5s movement_plan', () => {
     expect(getCheckinIntegratedActionKeys()).toEqual(['committed_actions', 'movement_plan']);
+  });
+
+  it('merges Week 6 in so W6D1 is reachable right after W5D7 (W5D7 advances into Week 6)', () => {
+    const modules = getProgramModules();
+    expect(modules.map((m) => m.week)).toEqual([1, 2, 3, 4, 5, 6]);
+
+    const w5d7 = findProgramDay(modules, { week: 5, day: 7 });
+    const w6d1 = findProgramDay(modules, { week: 6, day: 1 });
+    expect(w5d7?.exercise.payload).toMatchObject({ kind: 'profile_builder', save_to: 'foundations_profile' });
+    expect(w6d1?.lesson.id).toBe('w6d1_lesson');
+    expect(w6d1?.exercise.payload).toMatchObject({ kind: 'letter_write', prefill_from: 'lapse_letter', save_to: 'lapse_letter' });
+  });
+
+  it('finds the final day, W6D7, with completes_program set', () => {
+    const w6d7 = findProgramDay(getProgramModules(), { week: 6, day: 7 });
+    expect(w6d7?.exercise.payload).toMatchObject({
+      kind: 'letter_write',
+      save_to: 'graduation_reflection',
+      completes_program: true,
+    });
+  });
+
+  it('combines checkin prompts through Week 6s additions too', () => {
+    const prompts = getAllCheckinPrompts();
+    expect(prompts).toContain('Has the seat been filled? How\'s your person?');
+  });
+
+  it('returns Week 6s booster lessons', () => {
+    const boosters = getBoosterLessons();
+    expect(boosters.length).toBe(6);
+    expect(boosters.map((b) => b.id)).toContain('booster_doctrine');
+    boosters.forEach((b) => {
+      expect(typeof b.title).toBe('string');
+      expect(typeof b.body_md).toBe('string');
+    });
+  });
+
+  it('finds the emergency_card_builder payload (Week 6 Day 5)', () => {
+    const payload = getEmergencyCardBuilderPayload();
+    expect(payload).toMatchObject({ kind: 'emergency_card_builder', editable: true, activates_screen: true, save_to: 'emergency_card' });
+    expect(payload?.sections_default_order.length).toBe(7);
+    expect(payload?.surface_in).toEqual(['toolkit_header', 'lapse_debrief', 'progress_tab']);
   });
 });

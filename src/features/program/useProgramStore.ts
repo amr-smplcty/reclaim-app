@@ -16,6 +16,11 @@ interface ProgramState {
   completions: Record<string, DayCompletion>;
   exerciseOutputs: Record<string, unknown>;
   reflections: Record<string, LessonReflectionRecord>;
+  // Set once, the moment Week 6 Day 7's letter_write (completes_program: true)
+  // is submitted — the program's single source of truth for "has this user
+  // graduated" (CLINICAL_SPEC §4 maintenance mode). Never cleared by
+  // anything except reset().
+  programCompletedAt: string | null;
   completeLesson: (week: number, day: number) => void;
   completeExercise: (week: number, day: number) => void;
   // Evening check-in *content* (mood, urges, prompt response) now lives in
@@ -26,6 +31,7 @@ interface ProgramState {
   saveReflection: (lessonId: string, record: Omit<LessonReflectionRecord, 'timestamp'>) => void;
   commitmentFollowups: Record<string, CommitmentFollowupAnswer>;
   recordCommitmentFollowup: (dayKey: string, answer: CommitmentFollowupAnswer) => void;
+  completeProgram: () => void;
   reset: () => void;
 }
 
@@ -47,6 +53,7 @@ export const useProgramStore = create<ProgramState>()(
       exerciseOutputs: {},
       reflections: {},
       commitmentFollowups: {},
+      programCompletedAt: null,
 
       completeLesson: (week, day) => {
         set((state) => {
@@ -85,6 +92,13 @@ export const useProgramStore = create<ProgramState>()(
         set((state) => ({ commitmentFollowups: { ...state.commitmentFollowups, [key]: answer } }));
       },
 
+      // Idempotent — only the first call stamps a timestamp, so re-saving
+      // Week 6 Day 7 (e.g. a refresher redo, or any future re-run) can never
+      // push the graduation date forward.
+      completeProgram: () => {
+        set((state) => (state.programCompletedAt ? state : { programCompletedAt: new Date().toISOString() }));
+      },
+
       reset: () =>
         set({
           position: { week: 1, day: 1 },
@@ -92,6 +106,7 @@ export const useProgramStore = create<ProgramState>()(
           exerciseOutputs: {},
           reflections: {},
           commitmentFollowups: {},
+          programCompletedAt: null,
         }),
     }),
     {

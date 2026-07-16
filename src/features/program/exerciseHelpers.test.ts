@@ -130,6 +130,33 @@ describe('summarizeExerciseOutput', () => {
   it('falls back to a friendly placeholder when nothing was saved', () => {
     expect(summarizeExerciseOutput(undefined)).toBe('Not yet completed.');
   });
+
+  // BACKLOG #47 audit, closed out ahead of Week 6: Week 6 Day 4's
+  // relapse_prevention_plan (profile_builder) nests pattern_profile — itself
+  // a profile_builder output ({sections}) — as a section source. Previously
+  // fell through every branch to '', rendering blank.
+  it('summarizes a profile_builder output ({sections}) by joining each section as "Title: content"', () => {
+    const output = {
+      sections: [
+        { title: 'My risky conditions', content: 'Late at night — alone in bed.' },
+        { title: 'My chain', content: 'Chain: Stress → Phone in bed. Weakest link: Phone in bed' },
+      ],
+    };
+    expect(summarizeExerciseOutput(output)).toBe(
+      'My risky conditions: Late at night — alone in bed.; My chain: Chain: Stress → Phone in bed. Weakest link: Phone in bed'
+    );
+  });
+
+  // Week 6 Day 5's Emergency Card sources urge_script directly — a
+  // commitment_builder output ({statement, signature, signed_at}), same as
+  // BACKLOG #37's already-fixed direct consumers. summarizeExerciseOutput
+  // itself never got the matching branch, so any *nested* reference (a
+  // future profile/card pulling it in via the generic summarizer) still
+  // rendered blank.
+  it('summarizes a commitment_builder output as its statement', () => {
+    const output = { statement: 'When it rises, I breathe and name it.', signature: 'Alex', signed_at: '2026-01-01T00:00:00.000Z' };
+    expect(summarizeExerciseOutput(output)).toBe('When it rises, I breathe and name it.');
+  });
 });
 
 describe('resolveCommitmentTemplate', () => {

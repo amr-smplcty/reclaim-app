@@ -42,6 +42,14 @@ const ALLOWLISTED_PHRASES = [
   // itself is therapy. Content will keep citing these across future weeks.
   'Cognitive-behavioral therapy',
   'Acceptance and Commitment Therapy',
+  // content/week6.json Day 4 — "every recovery tradition ever built, from
+  // twelve-step rooms to modern therapy, converges on..." cites therapy as
+  // one example among other general recovery traditions (twelve-step rooms)
+  // to motivate having a trusted person, same non-claim citation category as
+  // CBT/ACT above — not a claim that Reclaim itself is therapy. Kept as the
+  // full surrounding phrase (not the bare word "therapy") so this stays
+  // narrow to this one usage rather than allowlisting the word everywhere.
+  'twelve-step rooms to modern therapy',
 ].map(normalize);
 
 const BANNED_TERMS = [
