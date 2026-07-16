@@ -1,0 +1,311 @@
+{
+  "content_version": "1.6.0",
+  "notes_for_engineering": "Week 6 pack — final program week. New payload kinds: (1) emergency_card_builder (D5) — THE build signal for BACKLOG #27: compiles the Emergency Card from the listed named saves in the given section order, lets the user edit/reorder/hide sections, and on save ACTIVATES the Emergency Card as a real screen, reachable from the Toolkit header and the lapse debrief; fallback none — this one needs its native screen, it IS the feature. (2) maintenance_setup (D6) — user chooses check-in cadence, re-assessment reminder opt-in (default on, 14-day), and weekly booster opt-in; saves maintenance_plan and these preferences feed the future notifications epic. (3) D1 reuses letter_write with a new optional prefill_from field (loads an existing save for review/edit; here the Week 1 lapse_letter). D7 completion triggers PROGRAM COMPLETION → maintenance mode per CLINICAL_SPEC section 4: Today switches to weekly booster rotation (booster_lessons array below) + continued check-ins + biweekly re-assessment; if score rises >= 6 across two consecutive re-assessments, offer the refresher week (auto-assembled from Weeks 2-3 days, accept/decline). All copy clinician-review-pending; do not edit wording in code.",
+  "modules": [
+    {
+      "week": 6,
+      "title": "Stay Free",
+      "days": [
+        {
+          "day": 1,
+          "lesson": {
+            "id": "w6d1_lesson",
+            "title": "The doctrine: lapse is an event, relapse is a story",
+            "body_md": "Final week. Everything now is about one thing: making what you've built **permanent**. And we start by upgrading something you learned in Week 1 from an idea into a doctrine — because someday, maybe months from now, you may need it word-perfect.\n\nHere it is: **a lapse is an event. A relapse is a story about the event.** They are not the same thing, and the difference is not semantics — it's the entire fork in the road.\n\nA lapse is a data point: on one specific night, under specific conditions, the old loop won a round. It has a timestamp. It ends. A **relapse** is what happens *after*, if the abstinence-violation story gets the microphone: *\"I've ruined it. I'm back to zero. I was fooling myself. What's the point now.\"* That story converts one bad night into a bad month — not because the lapse had that power, but because the story generates the shame, and shame is the loop's favorite fuel. You've known this since Week 1. What's new today is seeing the full accounting: **the lapse costs you an evening. The story costs you the recovery.** Guard accordingly.\n\nAnd here's what six weeks of work has actually purchased — the part the story always lies about: a lapse cannot un-learn your skills, un-map your pattern, un-choose your values, or un-build your perimeter. The score trend, the surfed urges, the rewired bedroom, the person you've been voting for — none of it has a reset button. *You cannot go back to zero, because zero no longer exists.*\n\nSo the doctrine, in practice: if a lapse ever happens — tonight, next month, next year — the move is the one you've rehearsed. Debrief, not spiral. Your letter, your coach lines, four questions, plan updated, back to the process. Fifteen minutes, and the story never gets the microphone.\n\nToday you'll re-read the letter you wrote in Week 1 for exactly that moment — with five weeks of new wisdom, make it stronger.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "If a lapse happened next month, what's honestly the biggest risk?",
+              "options": [
+                "The shame story taking the microphone",
+                "Hiding it — not logging, not debriefing",
+                "The 'already ruined' write-off spiral",
+                "Quietly abandoning the app and the tools",
+                "Honestly, I think I'd run the debrief now"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w6d1_ex",
+            "type": "worksheet",
+            "title": "Strengthen the letter",
+            "steps": [
+              "Re-read the letter you wrote in Week 1 to the version of you who slipped.",
+              "You know things now that you didn't then — the doctrine, your coach lines, the fact that zero no longer exists. Edit the letter with everything five more weeks have taught you.",
+              "This is the first thing you'd see after logging a lapse. Make it exactly what that moment needs."
+            ],
+            "payload": {
+              "kind": "letter_write",
+              "prefill_from": "lapse_letter",
+              "prompt": "To me, in the hour after a slip (revised, with everything I know now):",
+              "min_chars": 100,
+              "save_to": "lapse_letter"
+            }
+          }
+        },
+        {
+          "day": 2,
+          "lesson": {
+            "id": "w6d2_lesson",
+            "title": "Forecasting: the hazards you can see coming",
+            "body_md": "Your defenses were built for your *ordinary* life — the mapped triggers, the planted windows, the wind-down. But relapse research is blunt about when people actually fall: **disproportionately during exceptions.** The business trip. The breakup. The brutal season at work. The holidays at your parents'. The week you're sick on the couch. Ordinary life has your perimeter; exceptions arrive with none of it — new room, broken schedule, drained reserves, phone always in hand.\n\nHere's the good news the same research offers: **most exceptions are visible from a distance.** You usually know a trip is coming, a stressful season is scheduled, a hard anniversary sits on the calendar. Which means they can be *pre-planned for* — and a high-risk situation with a plan is barely high-risk at all. Today you become your own forecaster.\n\nThe categories to scan, and note the last one, because it surprises everyone:\n\n**Displacement** — travel, hotels, house-sitting, any night your environment design doesn't come with you.\n**Stress seasons** — deadlines, exams, financial pressure, conflict at home.\n**Emotional weather** — breakups, rejections, grief, anniversaries with teeth.\n**Depletion** — illness, injuries, stretches of bad sleep, recovery-from-anything.\n**Wins.** Yes, wins. Celebration lowers the guard exactly like sadness does — *\"I've earned a reward\"* is your Reward Pitch wearing a party hat. Big promotion, finished project, milestone reached: forecast them like storms.\n\nFor each hazard you spot, the plan is compact — three lines: **what travels with me** (which tools, which routines survive the disruption — the breather and your script go anywhere), **what I pre-decide** (an if-then written *now*: \"If I'm in the hotel at 10pm, then phone charges by the TV and I call home\"), and **who knows** (one person aware you're in a risk window — foreshadowing Day 4).\n\nScan the next three months. Name the storms. Plan them while the sky is clear.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Which category is most likely to test you in the next 90 days?",
+              "options": [
+                "Travel or displacement",
+                "A stress season I can already see",
+                "Emotional weather — something's brewing",
+                "Depletion — health, sleep, burnout",
+                "A win, honestly — I know my Reward Pitch"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w6d2_ex",
+            "type": "worksheet",
+            "title": "The 90-day forecast",
+            "steps": [
+              "Scan your next three months — calendar, work, relationships, health — and name two to four foreseeable high-risk situations.",
+              "For each: what travels with me, what I pre-decide (a written if-then), and who knows.",
+              "Storms you've planned for are weather. Storms you haven't are ambushes. Choose weather."
+            ],
+            "payload": {
+              "kind": "guided_list",
+              "prompt": "My forecast — each hazard with its three-line plan:",
+              "suggestions": [
+                "Work trip in 3 weeks → breather + script travel with me; phone charges by the TV; text her each night at 10",
+                "Deadline season next month → wind-down protected as non-negotiable; movement minimum shrinks to 5 min but never zero",
+                "The anniversary in June → planned evening with my brother; Toolkit on the home screen that week",
+                "If the promotion lands → celebrate in public, with people; watch for the Reward Pitch in a party hat"
+              ],
+              "min_items": 2,
+              "save_to": "risk_forecast"
+            }
+          }
+        },
+        {
+          "day": 3,
+          "lesson": {
+            "id": "w6d3_lesson",
+            "title": "Early warnings: relapse starts before the urge",
+            "body_md": "Here's the finding that changes how you'll watch yourself for the next year: **relapse is a process, not an event — and the process starts long before any urge shows up.** People who study it describe a drift phase: days or weeks where the structure quietly erodes while everything still *feels* fine. By the time a strong urge arrives, the battle has often been losing ground for a fortnight. Which means the urge isn't your earliest alarm. It's your *last* one.\n\nThe earlier alarms are behavioral, and they're almost embarrassingly mundane:\n\n**The tools go quiet.** Check-ins skipped — *\"nothing to report anyway.\"* Urges unlogged. The app unopened for days.\n**The perimeter erodes.** The phone migrates back into the bedroom. The wind-down slips an hour, then vanishes. The movement minimum takes a week off. Planted windows go vacant.\n**The connections thin.** Fewer real conversations. The reply that never got sent. More alone time that isn't solitude, just isolation.\n**And the thoughts get cocky.** This is the sneakiest family, because they arrive dressed as *good news*: \"I'm basically cured.\" \"I don't need to log anymore.\" \"I could handle a little scrolling in bed now.\" \"This app has done its job.\" Notice the signature — each one quietly argues for **dismantling a defense.** Healthy confidence wants to keep what works. It's the *pull to dismantle* that marks these as drift, not recovery.\n\nNone of these means a lapse is coming. Each one means **the conditions for one are assembling** — and conditions, caught early, are trivially cheap to fix. Skipped check-ins? Do tonight's. Phone in the bedroom? Kitchen, tonight. Isolation forming? One message, Week 5 style. The repairs are small precisely *because* the warnings are early.\n\nToday you build your personal early-warning list — your specific drift signatures — and attach one small repair to each. This becomes the self-scan you'll run for years: thirty seconds, once a week, forever cheaper than the alternative.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "free_text",
+              "prompt": "Looking back at past attempts to change — what was YOUR drift signature? What quietly stopped happening first?"
+            }
+          },
+          "exercise": {
+            "id": "w6d3_ex",
+            "type": "worksheet",
+            "title": "Your tripwires",
+            "steps": [
+              "Choose your four or five most honest early-warning signs — the specific ways YOUR structure erodes first.",
+              "Attach a small same-day repair to each ('check-ins gone 3 days → do tonight's, right now').",
+              "These become your weekly 30-second self-scan in maintenance mode. Early is cheap. Late is expensive."
+            ],
+            "payload": {
+              "kind": "guided_list",
+              "prompt": "My early warnings — each with its same-day repair:",
+              "suggestions": [
+                "3+ days without a check-in → do tonight's immediately",
+                "Phone back in the bedroom → kitchen charger, tonight",
+                "Wind-down skipped twice in a week → alarm reinstated",
+                "\"I'm basically cured\" thought → re-read the doctrine, keep the defense",
+                "A week without one real conversation → send the two-minute message today"
+              ],
+              "min_items": 4,
+              "save_to": "early_warnings"
+            }
+          }
+        },
+        {
+          "day": 4,
+          "lesson": {
+            "id": "w6d4_lesson",
+            "title": "The plan — and the person",
+            "body_md": "Today, two things: assembling your complete relapse-prevention plan, and adding the one component no app can be — **a person.**\n\nFirst, the assembly. A relapse-prevention plan is the standard closing move of every serious program, and yours writes itself, because you've spent six weeks building its parts: your **triggers** (the Week 2 maps), your **early warnings** (yesterday), your **tools** (ranked, drilled, scripted), your **forecast** (Day 2), and your **response protocol** if a lapse happens anyway (the doctrine, the debrief, the letter). Today's exercise bolts them into one document. Nothing new to create — just the war room getting its master map.\n\nNow the person. Here's the uncomfortable, well-documented truth: **secrecy is load-bearing for this habit.** It lives in the gap between your public life and your private one, and shame patrols that gap. Every recovery tradition ever built — from twelve-step rooms to modern therapy — converges on the same counter-move: *let one trusted human in.* Not the whole world. Not a confession tour. **One person who knows.**\n\nWhat telling one person actually does: it collapses the secrecy the loop needs; it makes your early warnings visible to someone who isn't inside your own weather; and it gives the 11pm version of you a number to text that isn't a screen. The research on social support in behavior change is unambiguous — accountability with warmth roughly doubles the durability of everything else you've built.\n\nWho qualifies? Someone who can hold *\"honest and steady, zero contempt\"* — your Day 6 coach, in human form. A close friend, a brother, a partner (with care: for partners this may open a bigger conversation — worth having, possibly with support), a mentor, a therapist. And what you ask is small: *\"I'm six weeks into changing something. If I text you 'rough night,' just call me. That's the whole job.\"*\n\nIf nobody feels possible yet — that's real, and the plan still works without it. But leave the seat open. The chair is part of the architecture.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Where are you on the person?",
+              "options": [
+                "I know exactly who — I'll ask this week",
+                "Someone already knows; I'll formalize the 'rough night' deal",
+                "A therapist or counselor is my person",
+                "Nobody feels possible yet — leaving the seat open",
+                "My partner — and that's a bigger conversation I'm ready for"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w6d4_ex",
+            "type": "worksheet",
+            "title": "Assemble the plan",
+            "steps": [
+              "Review your assembled relapse-prevention plan — triggers, early warnings, tools, forecast, and the lapse protocol, compiled from your six weeks.",
+              "Add the person: their name, and the exact 'rough night' arrangement you'll propose. (Or mark the seat open — honestly is fine.)",
+              "Edit anything that's drifted. This document plus tomorrow's Emergency Card are what you keep forever."
+            ],
+            "payload": {
+              "kind": "profile_builder",
+              "sections": [
+                {"title": "My triggers", "source": "pattern_profile"},
+                {"title": "My early warnings & repairs", "source": "early_warnings"},
+                {"title": "My tools, ranked", "source": "tool_ranking"},
+                {"title": "My 90-day forecast", "source": "risk_forecast"},
+                {"title": "If a lapse happens (the protocol)", "source": "lapse_letter"},
+                {"title": "My person", "source": null, "free_text_prompt": "Name + the 'rough night' arrangement (or: seat open for now)"}
+              ],
+              "save_to": "relapse_prevention_plan",
+              "surface_in": ["progress_tab"]
+            }
+          }
+        },
+        {
+          "day": 5,
+          "lesson": {
+            "id": "w6d5_lesson",
+            "title": "The Emergency Card",
+            "body_md": "Everything you've built has one design flaw, and it's time to face it honestly: **it's all somewhere else.** The urge script is in the Toolkit. The coach lines live in Week 4. The letter, the why, the shift list, the person — scattered across six weeks of work. And the moment you'll need them most is precisely the moment you'll be least capable of going looking: 11:52pm, depleted, mid-wave, reflective brain understaffed.\n\nEmergency services solved this problem long ago, and the solution is beautifully dumb: **put everything on one card.** Pilots have the checklist. Paramedics have the protocol taped inside the kit. Nobody navigates a crisis from memory or from a filing cabinet — they navigate it from one pre-assembled page, built in calm daylight by someone who knew exactly what the bad moment would need.\n\nToday you build yours. From tomorrow on, your Emergency Card lives one tap away, and it opens to *your own words, in this order*:\n\n**Your line** — the single hardest-hitting truth you chose in Week 1. First, because it re-anchors *why* in one second.\n**Your script** — the wave protocol: opening tool, named pitches, the crest line, the turn.\n**Your top two tools** — as buttons. Breather and Surf, or however you ranked them. One tap from reading to doing.\n**Your top shifts** — the two most realistic 11pm entries from your list.\n**Your person** — name and the arranged text, right there, sendable.\n**Your coach lines** — because if the card is open, the critic is probably talking.\n**Your letter** — for the after, if there is one.\n\nNothing on it is new. That's the whole point — a crisis is the wrong time for new. The card is six weeks of your calmest wisdom, compressed for your hardest minute.\n\nBuild it carefully today. Order it, trim it, make every word yours. Then hope it gathers dust — and know it's there, one tap away, either way.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Which element earns the top of YOUR card?",
+              "options": [
+                "My line — the why hits hardest",
+                "The script — I need the protocol first",
+                "The tool buttons — action before words",
+                "My person — reaching out is my hardest move",
+                "The coach lines — my critic is fast"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w6d5_ex",
+            "type": "worksheet",
+            "title": "Build your Emergency Card",
+            "steps": [
+              "Review the assembled card — your line, script, tools, shifts, person, coach lines, letter, in the default order.",
+              "Edit ruthlessly: reorder for YOUR worst moment, trim anything that doesn't earn its place, hide what doesn't serve.",
+              "Activate it. From now on it lives one tap away — in the Toolkit and wherever you'll need it. Built in daylight, for midnight."
+            ],
+            "payload": {
+              "kind": "emergency_card_builder",
+              "sections_default_order": [
+                {"title": "My line", "source": "emergency_card_line"},
+                {"title": "My urge script", "source": "urge_script"},
+                {"title": "Tools", "source": "tool_ranking", "render": "action_buttons", "max_items": 2},
+                {"title": "My shifts", "source": "shift_list", "max_items": 2},
+                {"title": "My person", "source": "relapse_prevention_plan.person", "render": "contact_action"},
+                {"title": "Coach lines", "source": "inner_coach_lines"},
+                {"title": "If it happened: my letter", "source": "lapse_letter", "render": "collapsed"}
+              ],
+              "editable": true,
+              "save_to": "emergency_card",
+              "activates_screen": true,
+              "surface_in": ["toolkit_header", "lapse_debrief", "progress_tab"]
+            }
+          }
+        },
+        {
+          "day": 6,
+          "lesson": {
+            "id": "w6d6_lesson",
+            "title": "The long game: how progress is measured from here",
+            "body_md": "Tomorrow you graduate. Today we design what comes after — because the most dangerous sentence in recovery is *\"I finished the program,\"* if what it means is *\"the structure can come down now.\"* The program ends. **The practice doesn't.** It just gets lighter.\n\nHere's what \"lighter\" actually looks like, and how progress is measured from here:\n\n**The score stays the scoreboard.** Every two weeks, the same ninety-second check you've been doing — that trend line is the single most honest measure of how you're really doing, immune to both the critic's catastrophizing and the drift's cocky optimism. A rising score isn't failure; it's *information*, and if it rises meaningfully across two checks, the app will offer you a refresher week — the greatest-hits of your pattern and urge skills, one week, tune-up done. Accepting that offer is maintenance, not relapse. Champions re-drill fundamentals; that's *why* they're champions.\n\n**The weekly rhythm replaces the daily program.** One booster lesson a week — a rotating two-minute sharpening of one skill. Your check-ins continue at whatever cadence you choose today. And your thirty-second early-warning self-scan (Day 3) runs weekly, forever. Total load: maybe ten minutes a week. That's the entire subscription your freedom asks of you now.\n\n**The tools stay exactly where they are.** The Toolkit, the card, the debrief — none of it expires. Using the Urge Surf in month eight isn't a step backward; it's the system working precisely as built.\n\nAnd one more measure of progress, the quiet one nobody puts on a chart: **how much of your life is about this.** Early recovery is loud — it has to be; you were rebuilding. But the destination was never a life *about* not watching porn. It's a life so full of the actual things — the Tuesday dinners, the work that counts, the sleep, the person you're becoming — that this whole subject slowly fades to a small, well-guarded room in a very large house.\n\nToday: choose your maintenance rhythm. Tomorrow: we count what six weeks actually built.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "What's your honest maintenance risk?",
+              "options": [
+                "Dropping everything the moment I feel fine",
+                "Skipping re-assessments to avoid bad news",
+                "Keeping tools but losing the check-in rhythm",
+                "Making my whole identity about recovery",
+                "None — light and steady sounds right"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w6d6_ex",
+            "type": "worksheet",
+            "title": "Set your maintenance rhythm",
+            "steps": [
+              "Choose your check-in cadence for maintenance mode — daily is welcome, but three evenings a week sustained beats seven abandoned.",
+              "Confirm the 14-day re-assessment reminder (strongly recommended — the trend is the truth) and the weekly booster.",
+              "This is the whole ask from here: about ten minutes a week, holding everything you built."
+            ],
+            "payload": {
+              "kind": "maintenance_setup",
+              "checkin_cadence_options": ["Daily", "Weekdays", "3 evenings a week", "Weekly"],
+              "reassessment_reminder": {"default": true, "interval_days": 14},
+              "weekly_booster": {"default": true},
+              "save_to": "maintenance_plan"
+            }
+          }
+        },
+        {
+          "day": 7,
+          "lesson": {
+            "id": "w6d7_lesson",
+            "title": "Graduation: count the votes",
+            "body_md": "Day forty-two. Before anything else, go back and read two things you wrote: your **why**, from Day 1 — back when this was all cost and hope. And your **letter to the person you're becoming**, from Week 4. Read them slowly. We'll wait.\n\nNow count what actually got built between those two documents. A validated score with a trend line — not a feeling, a *measurement*. A mapped pattern: your triggers, your chain, its weakest link. A re-engineered environment that defends you while you sleep. Urges demoted from emergencies to weather — surfed, named, scripted. Two values with daily votes attached. A fired critic and a hired coach. Five pillars audited and reinforced, a week with architecture, a forecast, an early-warning system, a plan, a person (or a seat held open), and a card for the worst minute. **Forty-two days ago, none of it existed.** That's not an app streak. That's infrastructure for a life.\n\nBe honest about the road ahead, because you've earned honesty: there will be hard nights. Possibly a lapse — you know the doctrine. There will be drift seasons and a re-assessment that stings. None of that will mean this didn't work. It will mean you're a human being running a practice, which is all anyone — in any recovery, any discipline, any faith — has ever been. The measure was never perfection. It was **trajectory**, and yours has changed.\n\nOne last reframe, and it's the graduation gift: for six weeks, this was about escaping something. Look at what you actually did, though — the sleep, the values, the reconnection, the play, the person. **You didn't spend six weeks quitting porn. You spent six weeks building a life you don't need to escape from.** Porn was the doorway you came in through. It was never what the building was about.\n\nWrite your graduation reflection. Then close the app, and go live in the thing you built. It'll be here — lighter now — holding the watch with you.",
+            "read_minutes": 4,
+            "audio_url": null,
+            "reflection": {
+              "type": "single_choice",
+              "prompt": "Six weeks. What changed most?",
+              "options": [
+                "The urges — they're weather now, not weather I obey",
+                "The shame — the coach talks more than the critic",
+                "The life — there's less vacancy in my week",
+                "The clarity — I finally understand my own pattern",
+                "The trajectory — the number, and what it means"
+              ]
+            }
+          },
+          "exercise": {
+            "id": "w6d7_ex",
+            "type": "worksheet",
+            "title": "Graduation reflection",
+            "steps": [
+              "You just re-read your Day 1 'why' and your Week 4 letter. Now write to one more person: the man six weeks behind you, sitting down at Day 1 tonight.",
+              "Tell him what's true — what was harder than promised, what worked, what you'd tell him to trust. Be honest; he can smell marketing.",
+              "This completes the program. Maintenance mode begins — lighter, steady, yours. Congratulations. Genuinely."
+            ],
+            "payload": {
+              "kind": "letter_write",
+              "prompt": "To the me of six weeks ago, starting Day 1 tonight:",
+              "min_chars": 150,
+              "save_to": "graduation_reflection",
+              "completes_program": true,
+              "surface_in": ["progress_tab"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "booster_lessons": [
+    {"id": "booster_urge_anatomy", "title": "Two minutes: the wave still works", "body_md": "Quick sharpening. An urge rises, crests, and passes — *if you don't feed it*. Attention is food: acting, fantasizing, negotiating, panicking all count as meals. The observing stance starves it: find it in the body, describe it like a scientist, breathe into the exact spot. You've ridden every wave you've ever had. Including the ones that felt unrideable at second thirty.\n\n**This week's rep:** one calm practice run of the Urge Surf — flat water, three minutes, keeping the skill warm."},
+    {"id": "booster_defusion", "title": "Two minutes: the sales team still calls", "body_md": "Your mind's pitches never fully retire — the Reward Pitch, the One-Timer, the Monday Reset. They just call less often, and hope you've forgotten their names. You haven't. The move is unchanged: *\"I'm having the thought that…\"* — re-wrap the thought in its packaging, name the salesman, thank the mind, keep walking.\n\n**This week's rep:** catch one pitch — any pitch, about anything — and defuse it by name."},
+    {"id": "booster_perimeter", "title": "Two minutes: walk the perimeter", "body_md": "Infrastructure degrades quietly — that's its only weakness. Thirty-second inspection: Where does the phone sleep tonight? Is the wind-down still running? Did the movement minimum happen this week? Any planted window sitting vacant? One real conversation in the last few days?\n\nAnything sagging gets its same-day repair — you attached one to every early warning for exactly this moment.\n\n**This week's rep:** fix the one sagging item. Just the one."},
+    {"id": "booster_values", "title": "Two minutes: count a vote", "body_md": "Identity is an election that never ends, and the votes are small on purpose: the two-minute check-in text, the phone-away dinner, the page read instead of the scroll. Your two core values still name the ballot. The only losing move is a week with no votes in it.\n\n**This week's rep:** one deliberate vote today, cast while noticing you're casting it. That noticing is half the power."},
+    {"id": "booster_compass", "title": "Two minutes: read the compass", "body_md": "If an urge visited recently, it carried information: which value was hungriest? Loneliness points at connection. Flatness points at purpose and play. Restlessness points at a body that wants using. The urge was never the desire — it was the wrong address for it.\n\n**This week's rep:** next urge or restless moment, ask the old question — *what is this actually asking for?* — and feed the value it names, not the address it suggests."},
+    {"id": "booster_doctrine", "title": "Two minutes: the doctrine, word-perfect", "body_md": "A lapse is an event. A relapse is a story about the event. The lapse costs an evening; the story costs the recovery — and the story only wins if it gets the microphone. Your counter-move hasn't changed: debrief, not spiral. Letter, coach lines, four questions, plan updated, back to the process.\n\nZero no longer exists. Nothing can un-build what you built.\n\n**This week's rep:** re-read your lapse letter once, in calm daylight. Keep it word-perfect for a moment you'll hopefully never have."}
+  ],
+  "checkin_prompts_additions": [
+    "Weekly scan: any early warnings flickering — and did the repair happen?",
+    "Has the seat been filled? How's your person?",
+    "One line for the trend: better, holding, or drifting — and what's the evidence?"
+  ]
+}
