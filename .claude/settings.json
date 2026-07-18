@@ -1,5 +1,16 @@
 {
   "env": {
     "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npx supabase:*)",
+      "Bash(supabase:*)",
+      "Bash(brew --version:*)",
+      "Bash(brew list:*)",
+      "Bash(brew info:*)",
+      "Bash(eas:*)",
+      "Bash(npx eas:*)"
+    ]
   }
 }
