@@ -10,6 +10,18 @@ export function trackAssessmentCompleted(score: number, band: string) {
   getAnalyticsClient()?.capture('assessment_completed', { score, band });
 }
 
+export function trackPaywallViewed() {
+  getAnalyticsClient()?.capture('paywall_viewed');
+}
+
+export function trackTrialStarted() {
+  getAnalyticsClient()?.capture('trial_started');
+}
+
+export function trackSubscriptionStarted(plan: 'annual' | 'monthly') {
+  getAnalyticsClient()?.capture('subscription_started', { plan });
+}
+
 export function trackReassessmentCompleted(score: number, delta: number | null) {
   getAnalyticsClient()?.capture('reassessment_completed', { score, delta });
 }
