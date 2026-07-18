@@ -6,6 +6,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AppLockGate } from '@/features/lock/AppLockGate';
 import { useNotificationScheduler } from '@/features/notifications/useNotificationScheduler';
+import { configureRevenueCat } from '@/lib/revenuecat/client';
+import { useSubscriptionStore } from '@/features/paywall/useSubscriptionStore';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -17,6 +19,18 @@ export default function RootLayout() {
 
   useEffect(() => {
     SplashScreen.hideAsync();
+  }, []);
+
+  useEffect(() => {
+    // Both are INC-2 availability-checked and never throw: configureRevenueCat
+    // no-ops when the native module is absent (Expo Go), and
+    // refreshEntitlement degrades to status "unavailable" rather than
+    // crashing. This keeps a returning subscriber's entitlement (Toolkit
+    // gating, Settings status) current outside of onboarding too, not just
+    // right after a fresh purchase.
+    const apiKey = process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY;
+    if (apiKey) configureRevenueCat(apiKey);
+    useSubscriptionStore.getState().refreshEntitlement();
   }, []);
 
   return (

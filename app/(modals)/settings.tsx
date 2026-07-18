@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { Alert, Linking, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -11,6 +11,7 @@ import { isAppLockAvailable } from '@/features/lock/localAuth';
 import { useSettingsStore } from '@/features/settings/useSettingsStore';
 import { TimeStepperRow } from '@/features/settings/TimeStepperRow';
 import { shareDataExport } from '@/features/settings/exportData';
+import { useSubscriptionStore } from '@/features/paywall/useSubscriptionStore';
 import { Spacing } from '@/theme/tokens';
 
 // Settings (PRODUCT_SPEC §5.6), reachable from the Today header.
@@ -25,10 +26,16 @@ export default function SettingsScreen() {
   const riskyWindowReminderEnabled = useSettingsStore((s) => s.riskyWindowReminderEnabled);
   const riskyWindowOfferDecided = useSettingsStore((s) => s.riskyWindowOfferDecided);
   const decideRiskyWindowReminder = useSettingsStore((s) => s.decideRiskyWindowReminder);
+  const subscriptionStatus = useSubscriptionStore((s) => s.status);
+  const hasProEntitlement = useSubscriptionStore((s) => s.hasProEntitlement);
+  const willRenew = useSubscriptionStore((s) => s.willRenew);
+  const expirationDate = useSubscriptionStore((s) => s.expirationDate);
+  const restore = useSubscriptionStore((s) => s.restore);
 
   const [email, setEmail] = useState<string | undefined>(undefined);
   const [lockAvailable, setLockAvailable] = useState(true);
   const [exporting, setExporting] = useState(false);
+  const [restoring, setRestoring] = useState(false);
 
   useEffect(() => {
     getCurrentUserEmail().then(setEmail);
@@ -62,8 +69,24 @@ export default function SettingsScreen() {
     }
   }
 
-  function handleSubscriptionPress() {
-    Alert.alert('Subscription management', "Coming with launch — you're on the full program during development.");
+  async function handleManageSubscription() {
+    try {
+      await Linking.openURL('itms-apps://apps.apple.com/account/subscriptions');
+    } catch {
+      Alert.alert(
+        "Couldn't open subscription settings",
+        'Manage your subscription from Settings > [your name] > Subscriptions on your device.'
+      );
+    }
+  }
+
+  async function handleRestore() {
+    setRestoring(true);
+    const result = await restore();
+    setRestoring(false);
+    if (!result.success) {
+      Alert.alert('Nothing to restore', result.error ?? 'No active subscription was found for this Apple ID.');
+    }
   }
 
   return (
@@ -148,7 +171,32 @@ export default function SettingsScreen() {
         </Section>
 
         <Section title="Subscription">
-          <Row label="Manage subscription" onPress={handleSubscriptionPress} />
+          {subscriptionStatus === 'unavailable' ? (
+            <ThemedText type="small" themeColor="textSecondary">
+              Subscription management requires the full app build.
+            </ThemedText>
+          ) : hasProEntitlement ? (
+            <>
+              <ThemedText type="default">Reclaim Pro — active</ThemedText>
+              {expirationDate ? (
+                <ThemedText type="small" themeColor="textSecondary" style={styles.sectionNote}>
+                  {willRenew ? 'Renews' : 'Expires'} {new Date(expirationDate).toLocaleDateString()}
+                </ThemedText>
+              ) : null}
+              <Row label="Manage subscription" onPress={handleManageSubscription} />
+            </>
+          ) : (
+            <>
+              <ThemedText type="small" themeColor="textSecondary" style={styles.sectionNote}>
+                Not subscribed
+              </ThemedText>
+              <Row
+                label={restoring ? 'Restoring…' : 'Restore purchases'}
+                onPress={handleRestore}
+                disabled={restoring}
+              />
+            </>
+          )}
         </Section>
       </ScrollView>
     </ThemedView>
@@ -199,6 +247,7 @@ const styles = StyleSheet.create({
   title: { marginBottom: Spacing.four },
   section: { marginBottom: Spacing.five },
   sectionTitle: { marginBottom: Spacing.two, letterSpacing: 0.5 },
+  sectionNote: { marginBottom: Spacing.two },
   row: { paddingVertical: Spacing.two },
   lockRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: Spacing.two },
   rowLabel: { flex: 1, gap: 2, paddingRight: Spacing.three },

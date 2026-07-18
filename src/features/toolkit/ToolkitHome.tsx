@@ -9,13 +9,9 @@ import { NumberScale } from '@/features/program/exercises/NumberScale';
 import { suggestToolForIntensity } from '@/features/toolkit/suggestion';
 import { canUseTool, type ToolId } from '@/features/toolkit/entitlement';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
+import { useSubscriptionStore } from '@/features/paywall/useSubscriptionStore';
 import { useTheme } from '@/hooks/use-theme';
 import { colors, radius, Spacing } from '@/theme/tokens';
-
-// TODO(Epic 3, blocked on Apple Developer enrollment): replace with a real
-// RevenueCat entitlement check once the paywall lands. Urge Surf and Breather
-// stay free regardless (PRODUCT_SPEC §6 ethical floor) — see entitlement.ts.
-const HAS_PRO_ENTITLEMENT = true;
 
 const TOOLS: Array<{ id: ToolId; title: string; subtitle: string; route: Href }> = [
   { id: 'urge_surf', title: 'Urge Surf', subtitle: '3-minute guided wave', route: '/(toolkit)/urge-surf' as Href },
@@ -40,6 +36,7 @@ const TOOLS: Array<{ id: ToolId; title: string; subtitle: string; route: Href }>
 export function ToolkitHome() {
   const theme = useTheme();
   const startSession = useToolkitStore((s) => s.startSession);
+  const hasProEntitlement = useSubscriptionStore((s) => s.hasProEntitlement);
   const [intensity, setIntensity] = useState<number | null>(null);
 
   const suggested = useMemo(() => (intensity !== null ? suggestToolForIntensity(intensity) : null), [intensity]);
@@ -68,7 +65,7 @@ export function ToolkitHome() {
 
       <View style={styles.toolList}>
         {TOOLS.map((tool) => {
-          const entitled = canUseTool(tool.id, HAS_PRO_ENTITLEMENT);
+          const entitled = canUseTool(tool.id, hasProEntitlement);
           const enabled = intensity !== null && entitled;
           const isSuggested = tool.id === suggested;
           return (
