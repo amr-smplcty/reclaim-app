@@ -43,6 +43,34 @@ describe('useSettingsStore — notification-time preferences + app-lock opt-in (
   });
 });
 
+// PRODUCT_SPEC §7 — the risky-window reminder is a gentle opt-in offer, not
+// a default-on notification (Epic 13).
+describe('useSettingsStore — risky-window reminder opt-in', () => {
+  afterEach(() => {
+    useSettingsStore.getState().reset();
+  });
+
+  it('defaults to disabled and undecided', () => {
+    const state = useSettingsStore.getState();
+    expect(state.riskyWindowReminderEnabled).toBe(false);
+    expect(state.riskyWindowOfferDecided).toBe(false);
+  });
+
+  it('marks the offer decided and enables the reminder on "yes"', () => {
+    useSettingsStore.getState().decideRiskyWindowReminder(true);
+    const state = useSettingsStore.getState();
+    expect(state.riskyWindowReminderEnabled).toBe(true);
+    expect(state.riskyWindowOfferDecided).toBe(true);
+  });
+
+  it('marks the offer decided but keeps the reminder off on "no thanks" (never nags again)', () => {
+    useSettingsStore.getState().decideRiskyWindowReminder(false);
+    const state = useSettingsStore.getState();
+    expect(state.riskyWindowReminderEnabled).toBe(false);
+    expect(state.riskyWindowOfferDecided).toBe(true);
+  });
+});
+
 // Week 6 Day 6's maintenance_setup (CLINICAL_SPEC §4) — stored alongside the
 // notification preferences above (same store, BACKLOG #35's future
 // notifications epic reads both) rather than a separate store.

@@ -22,10 +22,16 @@ interface SettingsState {
   // alongside the notification preferences above for the same future
   // notifications epic (BACKLOG #35) to read both from one place.
   maintenancePlan: MaintenancePlanOutput | null;
+  // PRODUCT_SPEC §7 risky-window reminder — a gentle opt-in offer, not a
+  // default-on notification. `offerDecided` flips true the first time the
+  // user answers the offer (either way) so the banner never nags again.
+  riskyWindowReminderEnabled: boolean;
+  riskyWindowOfferDecided: boolean;
   setDailyLessonTime: (time: TimeOfDay) => void;
   setEveningCheckinTime: (time: TimeOfDay) => void;
   setAppLockEnabled: (value: boolean) => void;
   setMaintenancePlan: (plan: MaintenancePlanOutput) => void;
+  decideRiskyWindowReminder: (enabled: boolean) => void;
   reset: () => void;
 }
 
@@ -34,6 +40,8 @@ const initialState = {
   eveningCheckinTime: { hour: 21, minute: 30 },
   appLockEnabled: false,
   maintenancePlan: null as MaintenancePlanOutput | null,
+  riskyWindowReminderEnabled: false,
+  riskyWindowOfferDecided: false,
 };
 
 export const useSettingsStore = create<SettingsState>()(
@@ -44,6 +52,8 @@ export const useSettingsStore = create<SettingsState>()(
       setEveningCheckinTime: (time) => set({ eveningCheckinTime: time }),
       setAppLockEnabled: (value) => set({ appLockEnabled: value }),
       setMaintenancePlan: (plan) => set({ maintenancePlan: plan }),
+      decideRiskyWindowReminder: (enabled) =>
+        set({ riskyWindowReminderEnabled: enabled, riskyWindowOfferDecided: true }),
       reset: () => set(initialState),
     }),
     {

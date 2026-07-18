@@ -1,24 +1,24 @@
 import { StyleSheet } from 'react-native';
-import * as Notifications from 'expo-notifications';
 
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
+import { requestNotificationPermission } from '@/lib/notifications/availability';
 import { Spacing } from '@/theme/tokens';
 
 // PRODUCT_SPEC §4 step 9 — permission primer, then the OS prompt. Actual
-// reminder scheduling (daily/risky-window/re-assessment, PRODUCT_SPEC §7) is Epic 9.
+// reminder scheduling (daily/risky-window/re-assessment, PRODUCT_SPEC §7,
+// Epic 13) is driven by useNotificationScheduler, mounted at the app root —
+// it picks up and schedules automatically the moment permission is granted.
 export default function NotificationsScreen() {
   const updateAnswers = useOnboardingStore((s) => s.updateAnswers);
 
   async function handleEnable() {
-    try {
-      await Notifications.requestPermissionsAsync();
-    } catch {
-      // Permission dialog unavailable (e.g. simulator without push capability) — proceed regardless.
-    }
+    // INC-2: availability-checked, graceful either way — requestNotificationPermission
+    // never throws, so there's nothing to catch here.
+    await requestNotificationPermission();
     updateAnswers({ notificationsRequested: true });
     goNextFrom('notifications');
   }
