@@ -19,6 +19,8 @@ import { assembleRefresherWeekFromModules } from '@/features/program/refresher';
 import { dateKeyOf } from '@/features/progress/dailyCreditReconciliation';
 import { DailyCard } from '@/features/program/DailyCard';
 import { CommitmentFollowupCard } from '@/features/program/CommitmentFollowupCard';
+import { RiskyWindowOffer } from '@/features/notifications/RiskyWindowOffer';
+import { fastForwardCurrentDay } from '@/features/dev/devFastForward';
 import { Spacing } from '@/theme/tokens';
 import type { CommitmentBuilderOutput } from '@/types/program';
 
@@ -81,6 +83,8 @@ export default function TodayScreen() {
           Lighter now — steady, yours. About ten minutes a week holds everything you built.
         </ThemedText>
 
+        <RiskyWindowOffer />
+
         {maintenanceView.cadence ? (
           <ThemedText type="small" themeColor="textSecondary" style={styles.cadenceNote}>
             Checking in {maintenanceView.cadence.toLowerCase()}.
@@ -136,6 +140,22 @@ export default function TodayScreen() {
       <ThemedText type="default" themeColor="textSecondary" style={styles.subheading}>
         Pick up right where you left off — no rush, no penalty for a day you missed.
       </ThemedText>
+
+      <RiskyWindowOffer />
+
+      {__DEV__ ? (
+        <Pressable
+          onPress={() => fastForwardCurrentDay()}
+          accessibilityRole="button"
+          accessibilityLabel="Fast-forward today (dev)"
+          hitSlop={8}
+          style={styles.devFastForward}
+        >
+          <ThemedText type="small" themeColor="textSecondary">
+            Fast-forward today (dev)
+          </ThemedText>
+        </Pressable>
+      ) : null}
 
       {commitment ? (
         <ThemedView style={styles.pinnedCard}>
@@ -207,6 +227,7 @@ const styles = StyleSheet.create({
   heading: { marginTop: Spacing.one, marginBottom: Spacing.two },
   subheading: { marginBottom: Spacing.four },
   pinnedCard: { borderRadius: 12, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.one },
+  devFastForward: { marginBottom: Spacing.three },
   pinnedLabel: { fontWeight: '700' },
   emptyState: { gap: Spacing.two, paddingVertical: Spacing.five },
   sessionArc: { marginBottom: Spacing.three, gap: Spacing.one },

@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AppLockGate } from '@/features/lock/AppLockGate';
+import { useNotificationScheduler } from '@/features/notifications/useNotificationScheduler';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -12,6 +13,7 @@ const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  useNotificationScheduler();
 
   useEffect(() => {
     SplashScreen.hideAsync();

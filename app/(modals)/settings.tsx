@@ -22,6 +22,9 @@ export default function SettingsScreen() {
   const setEveningCheckinTime = useSettingsStore((s) => s.setEveningCheckinTime);
   const appLockEnabled = useSettingsStore((s) => s.appLockEnabled);
   const setAppLockEnabled = useSettingsStore((s) => s.setAppLockEnabled);
+  const riskyWindowReminderEnabled = useSettingsStore((s) => s.riskyWindowReminderEnabled);
+  const riskyWindowOfferDecided = useSettingsStore((s) => s.riskyWindowOfferDecided);
+  const decideRiskyWindowReminder = useSettingsStore((s) => s.decideRiskyWindowReminder);
 
   const [email, setEmail] = useState<string | undefined>(undefined);
   const [lockAvailable, setLockAvailable] = useState(true);
@@ -93,11 +96,24 @@ export default function SettingsScreen() {
         </Section>
 
         <Section title="Notifications">
-          <ThemedText type="small" themeColor="textSecondary" style={styles.sectionNote}>
-            These times are saved for when reminders are wired up — nothing is scheduled yet.
-          </ThemedText>
           <TimeStepperRow label="Daily session" time={dailyLessonTime} onChange={setDailyLessonTime} />
           <TimeStepperRow label="Evening check-in" time={eveningCheckinTime} onChange={setEveningCheckinTime} />
+          {riskyWindowOfferDecided ? (
+            <View style={styles.lockRow}>
+              <View style={styles.rowLabel}>
+                <ThemedText type="default">Risky-window reminder</ThemedText>
+                <ThemedText type="small" themeColor="textSecondary">
+                  A gentle nudge 30 minutes before your pattern's usual time
+                </ThemedText>
+              </View>
+              <Switch
+                value={riskyWindowReminderEnabled}
+                onValueChange={decideRiskyWindowReminder}
+                accessibilityLabel="Risky-window reminder"
+                trackColor={{ true: theme.accent, false: theme.border }}
+              />
+            </View>
+          ) : null}
         </Section>
 
         <Section title="Privacy">
@@ -183,7 +199,6 @@ const styles = StyleSheet.create({
   title: { marginBottom: Spacing.four },
   section: { marginBottom: Spacing.five },
   sectionTitle: { marginBottom: Spacing.two, letterSpacing: 0.5 },
-  sectionNote: { marginBottom: Spacing.two },
   row: { paddingVertical: Spacing.two },
   lockRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: Spacing.two },
   rowLabel: { flex: 1, gap: 2, paddingRight: Spacing.three },
