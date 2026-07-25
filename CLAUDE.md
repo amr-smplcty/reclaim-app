@@ -19,7 +19,9 @@ reachable logged-out), and never add advertising SDKs, pixels, or ad-platform da
 - Payments: **RevenueCat** (`react-native-purchases`), entitlement id: `pro`
 - Analytics: **PostHog React Native** — events exactly as named in PRODUCT_SPEC §8
 - Local storage: expo-secure-store (tokens), MMKV (cache); content pack cached for offline Toolkit
-- Audio: expo-av. Charts: victory-native. Testing: Jest + React Native Testing Library; Maestro for E2E flows
+- Audio: **expo-audio** (NOT expo-av — removed from Expo in SDK 54; this project is SDK 57).
+  Charts: **react-native-svg**, hand-built (victory-native/Skia rejected in Epic 7 — Expo-Go-incompatible).
+  Testing: Jest + React Native Testing Library; Maestro for E2E flows
 
 ## Project structure
 
@@ -69,14 +71,9 @@ e2e/            # maestro flows
 11. **Shell commands:** run plain commands from the repo root (`npx jest …`, `npx tsc …`,
     `npm run …`). Never prefix with `export PATH=…`, `cd <absolute path> &&`, or other
     environment mutation — npx/node are on PATH and the session already runs in the repo.
-    Never substitute absolute binary paths (`/opt/homebrew/bin/node …`) for the plain
-    `npm`/`npx` forms either — same problem, same fix. Never wrap repeated commands in a
-    shell `for`/`while` loop or use shell variables to run something N times — issue each
-    as its own separate plain command instead. Variable-bearing prefixes, absolute-path
-    substitutions, and loops/variables all defeat static permission analysis and force a
-    manual approval on every command. If a binary genuinely can't be found, fix the
-    environment (`.claude/settings.json`'s `env.PATH`, see INCIDENTS.md INC-15) rather than
-    mutating commands to route around it.
+    Variable-bearing prefixes defeat static permission analysis and force a manual approval
+    on every command. If a binary genuinely can't be found, report it instead of working
+    around it silently.
 
 ## Environment / secrets
 
@@ -86,6 +83,8 @@ EAS build profiles: `development`, `preview` (TestFlight), `production`.
 ## Definition of done (per epic)
 
 Typecheck clean · tests green · `lint:banned-words`, `lint:tokens`, `lint:bundle-purity` clean ·
-`verify:bundle` passes (real dev-mode Metro export — the authoritative "app actually builds" check) ·
+`verify:bundle` passes (real dev-mode Metro export) ·
+`npx expo-doctor` clean — catches packages incompatible with the installed SDK, which JS-level
+checks (tests, typecheck, verify:bundle) structurally cannot detect ·
 works in Expo Go on iPhone · analytics events fire ·
 no clinical copy invented · accessibility labels present · matches spec section cited in PR.
