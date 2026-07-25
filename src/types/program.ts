@@ -407,6 +407,10 @@ export interface UrgeSurfScript {
   note: string;
   on_screen_beats: UrgeSurfBeat[];
   narration_script: string;
+  // The recorded/TTS-generated guided audio (BACKLOG #4). Absent today —
+  // when present, the tool plays it via the expo-audio guided-audio helper
+  // (src/lib/audio/guidedAudio.ts); when absent, the tool runs visual-only.
+  audio_url?: string | null;
 }
 
 export interface ToolkitScripts {
