@@ -13,6 +13,7 @@ import { PostToolRating } from '@/features/toolkit/PostToolRating';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { describeDelta } from '@/features/toolkit/suggestion';
+import { playGuidedAudio } from '@/lib/audio/guidedAudio';
 import { trackUrgeToolUsed } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/theme/tokens';
@@ -24,6 +25,7 @@ import type { CommitmentBuilderOutput, UrgeSurfBeat } from '@/types/program';
 const script = getUrgeSurfScript();
 const durationSeconds = script?.duration_seconds ?? 180;
 const beats: UrgeSurfBeat[] = script?.on_screen_beats ?? [];
+const audioUrl = script?.audio_url ?? null;
 
 function currentBeatText(elapsedSeconds: number): string {
   let text = beats[0]?.text ?? '';
@@ -60,6 +62,15 @@ export default function UrgeSurfScreen() {
     const interval = setInterval(() => setRemaining((r) => Math.max(0, r - 1)), 1000);
     return () => clearInterval(interval);
   }, [remaining]);
+
+  // Guided audio, once it exists (BACKLOG #4). Plays alongside the on-screen
+  // beats; INC-2 graceful — no audio_url (today) or no native module (Expo
+  // Go) simply no-ops and the tool stays visual-only. Stops on unmount so
+  // leaving the tool never leaves audio playing.
+  useEffect(() => {
+    const handle = playGuidedAudio(audioUrl);
+    return () => handle?.stop();
+  }, []);
 
   function handleRate(postIntensity: number) {
     const preIntensity = activeSession?.preIntensity ?? postIntensity;
