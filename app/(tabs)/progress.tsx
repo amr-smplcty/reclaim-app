@@ -19,6 +19,7 @@ import { GrowthVisual } from '@/features/progress/GrowthVisual';
 import { computeWeeklyConsistency } from '@/features/progress/weeklyConsistency';
 import { CommitmentGoalsSection } from '@/features/progress/CommitmentGoalsSection';
 import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsStore';
+import { JourneyMap } from '@/features/journey/JourneyMapView';
 import { computeDayCreditInputForDate, dateKeyOf } from '@/features/progress/dailyCreditReconciliation';
 import { Spacing } from '@/theme/tokens';
 import type {
@@ -199,6 +200,11 @@ export default function ProgressScreen() {
       ) : null}
 
       <CommitmentGoalsSection />
+
+      <ThemedText type="subtitle" style={styles.sectionTitle}>
+        Your journey
+      </ThemedText>
+      <JourneyMap />
 
       {patternProfile ? <ProfileCard title="Your Pattern Profile" profile={patternProfile} /> : null}
 

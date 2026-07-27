@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { router, type Href } from 'expo-router';
+import { router, Redirect, type Href } from 'expo-router';
 
 import { MarkdownBody } from '@/components/markdown-body';
 import { ThemedText } from '@/components/themed-text';
@@ -19,8 +19,12 @@ import { assembleRefresherWeekFromModules } from '@/features/program/refresher';
 import { dateKeyOf } from '@/features/progress/dailyCreditReconciliation';
 import { DailyCard } from '@/features/program/DailyCard';
 import { CommitmentFollowupCard } from '@/features/program/CommitmentFollowupCard';
-import { RiskyWindowOffer } from '@/features/notifications/RiskyWindowOffer';
+import { TodayTopBanner } from '@/features/journey/TodayTopBanner';
+import { WeeklyKickoff } from '@/features/journey/WeeklyKickoff';
+import { useJourneyStore } from '@/features/journey/useJourneyStore';
+import { shouldShowBeginningSequence, shouldShowWeeklyIntro } from '@/features/journey/journeyMap';
 import { fastForwardCurrentDay } from '@/features/dev/devFastForward';
+import { useAppStore } from '@/stores/useAppStore';
 import { Spacing } from '@/theme/tokens';
 import type { CommitmentBuilderOutput } from '@/types/program';
 
@@ -39,11 +43,30 @@ export default function TodayScreen() {
   const checkins = useJournalStore((s) => s.checkins);
   const refresherOfferDecisions = useRefresherStore((s) => s.offerDecisions);
   const refresherCompletedLessonIds = useRefresherStore((s) => s.completedLessonIds);
+  const hasOnboarded = useAppStore((s) => s.hasOnboarded);
+  const beginningSequenceSeen = useJourneyStore((s) => s.beginningSequenceSeen);
+  const weeklyIntrosSeen = useJourneyStore((s) => s.weeklyIntrosSeen);
+  const markWeeklyIntroSeen = useJourneyStore((s) => s.markWeeklyIntroSeen);
 
   const day = useMemo(() => findProgramDay(getProgramModules(), position), [position]);
 
   const completion = completions[dayKey(position)];
   const commitment = exerciseOutputs.commitment_statement as CommitmentBuilderOutput | undefined;
+
+  // Beginning sequence (PRODUCT_SPEC §5.7) — shown once after the first
+  // paywall continuation, before W1D1 is ever engaged. Guarded here (not only
+  // at the paywall) so a kill-mid-sequence relaunch still lands on it.
+  if (
+    shouldShowBeginningSequence({
+      hasOnboarded,
+      beginningSequenceSeen,
+      position,
+      hasAnyCompletion: Object.keys(completions).length > 0,
+      programCompletedAt,
+    })
+  ) {
+    return <Redirect href={'/(onboarding)/beginning' as Href} />;
+  }
 
   // Generic scan for any previous day's checklist_commit exercise that asked
   // for a next-day follow-up — content/week2.json Day 4 and
@@ -83,7 +106,7 @@ export default function TodayScreen() {
           Lighter now — steady, yours. About ten minutes a week holds everything you built.
         </ThemedText>
 
-        <RiskyWindowOffer />
+        <TodayTopBanner />
 
         {maintenanceView.cadence ? (
           <ThemedText type="small" themeColor="textSecondary" style={styles.cadenceNote}>
@@ -129,11 +152,25 @@ export default function TodayScreen() {
     );
   }
 
+  // Weekly kickoff interstitial (PRODUCT_SPEC §5.7) — once, on the first open
+  // of each week's Day 1 session (weeks 2–6). Replaces the day stack until
+  // dismissed; stays re-readable from the journey map afterward.
+  if (shouldShowWeeklyIntro(position, weeklyIntrosSeen)) {
+    return <WeeklyKickoff week={position.week} onDismiss={() => markWeeklyIntroSeen(position.week)} />;
+  }
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <ThemedText type="small" themeColor="textSecondary">
-        Week {position.week} · Day {position.day}
-      </ThemedText>
+      <Pressable
+        onPress={() => router.push('/(modals)/journey-map' as Href)}
+        accessibilityRole="button"
+        accessibilityLabel={`Week ${position.week}, Day ${position.day}. Open your journey map.`}
+        hitSlop={8}
+      >
+        <ThemedText type="small" themeColor="accent">
+          Week {position.week} · Day {position.day}
+        </ThemedText>
+      </Pressable>
       <ThemedText type="title" style={styles.heading}>
         Today
       </ThemedText>
@@ -141,7 +178,7 @@ export default function TodayScreen() {
         Pick up right where you left off — no rush, no penalty for a day you missed.
       </ThemedText>
 
-      <RiskyWindowOffer />
+      <TodayTopBanner />
 
       {__DEV__ ? (
         <Pressable
