@@ -238,10 +238,13 @@ describe('multi-week loading — real content/week1.json + week2.json + week3.js
     expect(prompts).toContain('Has the seat been filled? How\'s your person?');
   });
 
-  it('returns Week 6s booster lessons', () => {
+  it('returns Week 6s booster lessons plus the Dopamine Nation addendum (Epic 14)', () => {
     const boosters = getBoosterLessons();
-    expect(boosters.length).toBe(6);
+    // 6 from week6.json + 2 merged from content/boosters_addendum.json.
+    expect(boosters.length).toBe(8);
     expect(boosters.map((b) => b.id)).toContain('booster_doctrine');
+    expect(boosters.map((b) => b.id)).toContain('booster_seesaw');
+    expect(boosters.map((b) => b.id)).toContain('booster_selfbinding');
     boosters.forEach((b) => {
       expect(typeof b.title).toBe('string');
       expect(typeof b.body_md).toBe('string');

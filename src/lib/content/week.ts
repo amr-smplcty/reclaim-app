@@ -4,6 +4,7 @@ import week3Raw from '../../../content/week3.json';
 import week4Raw from '../../../content/week4.json';
 import week5Raw from '../../../content/week5.json';
 import week6Raw from '../../../content/week6.json';
+import boostersAddendumRaw from '../../../content/boosters_addendum.json';
 
 import type { ProgramModule } from '@/types/content';
 import type {
@@ -190,9 +191,12 @@ export function getUrgeValueMapPayload(): UrgeValueMapPayload | undefined {
 }
 
 // Later weeks' booster lessons append to earlier ones, same convention as
-// getAllCheckinPrompts — only Week 6 carries any today.
+// getAllCheckinPrompts — only Week 6 carries any today. The Dopamine Nation
+// addendum (content/boosters_addendum.json, CLINICAL_SPEC §11) merges its two
+// entries into the same rotation (Epic 14).
 export function getBoosterLessons(): BoosterLesson[] {
-  return getAllWeekPacks().flatMap((pack) => pack.booster_lessons ?? []);
+  const additions = (boostersAddendumRaw as { booster_lessons_additions?: BoosterLesson[] }).booster_lessons_additions ?? [];
+  return [...getAllWeekPacks().flatMap((pack) => pack.booster_lessons ?? []), ...additions];
 }
 
 // Finds the emergency_card_builder payload wherever it lives in the program

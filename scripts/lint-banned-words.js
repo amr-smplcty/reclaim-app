@@ -50,6 +50,13 @@ const ALLOWLISTED_PHRASES = [
   // full surrounding phrase (not the bare word "therapy") so this stays
   // narrow to this one usage rather than allowlisting the word everywhere.
   'twelve-step rooms to modern therapy',
+  // content/week4.json Day 4 — the identity-based-change lesson quotes the OLD
+  // self-label ("the identity underneath (*I'm an addict fighting urges*)
+  // stays intact...") precisely to reject it in favor of a becoming-identity.
+  // That's the CLINICAL_SPEC §10 point being made, NOT the app labeling the
+  // user an addict — the same narrow contextual allowlist as the citations
+  // above (INC-5: content is never edited to satisfy a lint).
+  "I'm an addict fighting urges",
 ].map(normalize);
 
 const BANNED_TERMS = [
@@ -64,6 +71,11 @@ const BANNED_TERMS = [
   { label: 'rewire / heal / repair your brain', pattern: /\b(rewire|repair|heal)\b[^.]{0,20}\bbrain\b/i },
   { label: 'HIPAA compliant', pattern: /\bhipaa compliant\b/i },
   { label: 'recommended by doctors/therapists', pattern: /\brecommended by (doctors|therapists)\b/i },
+  // CLINICAL_SPEC §10 identity framing: never "addict" / "porn addict" /
+  // "recovering addict" as an identity descriptor of the user. Word-boundaried
+  // so it never matches "addiction"/"addictive" (the condition, used freely in
+  // clinical framing) — only the identity-label noun (addict, addicts).
+  { label: 'user-identity label: addict / porn addict / recovering addict (CLINICAL_SPEC §10)', pattern: /\b(porn |recovering )?addicts?\b/i },
 ];
 
 function walk(dir, files) {
