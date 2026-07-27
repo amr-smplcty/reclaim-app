@@ -1,0 +1,16 @@
+{
+  "content_version": "1.7.1",
+  "notes_for_engineering": "Booster addendum — merge these two entries into the existing booster_lessons rotation (from week6.json). No other changes. Copy clinician-review-pending.",
+  "booster_lessons_additions": [
+    {
+      "id": "booster_seesaw",
+      "title": "Two minutes: the seesaw",
+      "body_md": "A concept worth keeping from Dr. Anna Lembke's *Dopamine Nation*: pleasure and pain work like a seesaw in the brain — press hard on the pleasure side, and the balance tips back with an equal weight of pain: the restlessness, the flatness, the wanting-more after the high fades. Chase intense, cheap pleasure often enough and the seesaw's resting point itself shifts — ordinary life starts to sit on the pain side, feeling gray by default.\n\nYou've been running the reversal for weeks now: fewer artificial spikes, more ordinary rewards — movement, connection, finished work, real rest. That's not deprivation. That's the seesaw slowly re-leveling, and ordinary Tuesdays getting their color back.\n\n**This week's rep:** notice one ordinary pleasure that's gotten stronger since you started — coffee, a walk, a laugh, sleep. That's the recalibration, working."
+    },
+    {
+      "id": "booster_selfbinding",
+      "title": "Two minutes: self-binding (you already do it)",
+      "body_md": "The practice you built in Week 2 — phone in the kitchen, blockers with friction, planted risk windows — has a name in the clinical literature. Dr. Anna Lembke calls it *self-binding*: deliberately placing barriers between yourself and the thing, chosen by your strongest self to protect your weakest moment. Odysseus tying himself to the mast before the sirens, not during.\n\nThe insight worth re-hearing: self-binding isn't an admission of weakness — it's the opposite. It's the acknowledgment that willpower is a moment-to-moment resource and *architecture beats moments*. The strongest people in any recovery aren't the ones who win the most 11pm battles. They're the ones whose evenings stopped scheduling battles at all.\n\n**This week's rep:** walk your bindings once — phone's overnight home, blocker friction, wind-down alarm. Re-tie anything that's come loose. Thirty seconds, in daylight, before it's ever needed."
+    }
+  ]
+}

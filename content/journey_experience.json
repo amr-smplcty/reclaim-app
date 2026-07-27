@@ -1,0 +1,78 @@
+{
+  "content_version": "1.7.0",
+  "notes_for_engineering": "Journey experience pack — ceremonial/navigational copy layer. (1) beginning_sequence renders once, after first successful paywall continuation (subscription or trial started), before W1D1 is first shown; swipe/tap-through screens in the calm design language, thin progress dots, no skip on screen 1, skippable from screen 2 onward via a subtle 'Skip' that jumps to the final screen. Screen 4 embeds the journey map component in preview state. (2) weekly_intros: an interstitial card shown once, the first time the user opens the Day 1 session of each week (weeks 2-6; week 1's intro IS the beginning sequence, so w1 has no separate interstitial). Dismissing it marks it seen; it remains re-readable from the journey map by tapping the week node. (3) journey_map: labels for the 6 week nodes + maintenance node; states: completed / current (with day dots) / upcoming (title visible, content locked shows lock-free 'starts after Week N' copy — no padlock iconography, locks read as paywall not progression). Entry points: tapping the 'Week X · Day Y' header on Today, and a Journey section in Progress. (4) welcome_back: shown as a single line atop Today when 3+ consecutive days have no completed session and no check-in; rotate variants; never stacks with other banners; disappears on any completion. All copy clinician-review-pending; do not edit wording in code.",
+  "beginning_sequence": [
+    {
+      "id": "begin_1",
+      "title": "You just did the hard part",
+      "body": "Most people who struggle with this never tell anyone, never measure it, and never make a plan. You just did all three in one sitting.\n\nThat wasn't a small thing. Deciding to face this — with a method instead of another midnight promise — is the step that everything else builds on.\n\nSo before Day 1: a two-minute tour of what you've actually signed up for.",
+      "cta": "Show me"
+    },
+    {
+      "id": "begin_2",
+      "title": "How this works",
+      "body": "This is a 6-week program built on four approaches from published clinical research: CBT (map and re-engineer your pattern), mindfulness (outlast urges instead of obeying them), ACT (put your energy into your values, not the tug-of-war), and motivational science (keep your own reasons in the driver's seat).\n\nThe shape: about ten minutes a day — one short lesson, one exercise, one evening check-in. Each week builds on the last. Nothing here is filler; every day exists because research or clinical practice put it there.",
+      "cta": "What should I expect?"
+    },
+    {
+      "id": "begin_3",
+      "title": "The honest expectations",
+      "body": "Some days will feel easy. Some won't — that's not the program failing; difficulty is part of the design, the way sore muscles are part of training.\n\nUrges will still come, especially early. You'll learn to ride them. If a slip ever happens, there's a protocol for that too — a debrief, not a shame spiral. Nothing you build here can be un-built by one bad night.\n\nYour progress has a scoreboard: the screening score you just took. You'll re-measure every two weeks and watch the trend — that number, not perfection, is what winning looks like.",
+      "cta": "Show me the road"
+    },
+    {
+      "id": "begin_4",
+      "title": "Your six weeks",
+      "body": "Here's the whole road. You only ever need to walk today's ten minutes of it.",
+      "shows_journey_map": true,
+      "cta": "Begin Day 1"
+    }
+  ],
+  "weekly_intros": {
+    "week_2": {
+      "title": "Week 2 — Know Your Pattern",
+      "body": "Last week you decided and committed. This week you become an expert on your own loop: when it starts, what feeds it, and the chain it runs on.\n\nExpect detective work — mapping your triggers, reconstructing real episodes, and re-engineering your environment so fewer battles ever start. By Sunday you'll hold something most people never have: a written map of exactly how this happens to you, and where it's weakest.",
+      "cta": "Start Week 2"
+    },
+    "week_3": {
+      "title": "Week 3 — Ride the Urge",
+      "body": "You know the pattern. Now you learn what to do when an urge is actually here.\n\nThis is the most skills-heavy week: urge surfing, defusing the mind's sales pitches, dropping the tug-of-war rope. You'll practice while calm — the way anything worth trusting under pressure gets practiced. By the end, you'll have written your own urge script: exact instructions from your calmest self to your hardest moment.",
+      "cta": "Start Week 3"
+    },
+    "week_4": {
+      "title": "Week 4 — Live Your Values",
+      "body": "The first three weeks were about the problem. From here on, it's about the life.\n\nThis week you choose the two values worth organizing this season around, turn them into small daily actions, and learn the program's biggest reframe: your urges have been pointing at what you actually need all along. Expect this week to feel different — less about resisting something, more about building someone.",
+      "cta": "Start Week 4"
+    },
+    "week_5": {
+      "title": "Week 5 — Rebuild the Life",
+      "body": "Skills protect you in the moment. Infrastructure protects you all day.\n\nThis week you audit and reinforce the five pillars everything stands on — sleep, movement, connection, purpose, play — and plant defenses directly into your risk windows. It's the most practical week of the program: by Sunday, your calendar itself will be working for you.",
+      "cta": "Start Week 5"
+    },
+    "week_6": {
+      "title": "Week 6 — Stay Free",
+      "body": "The final week is about permanence.\n\nYou'll forecast the storms of the next 90 days, build your early-warning system, assemble your complete relapse-prevention plan, and compress six weeks of work into one Emergency Card for your hardest minute. Then: your maintenance rhythm, and graduation. Finish strong — this week's work is what you keep forever.",
+      "cta": "Start Week 6"
+    }
+  },
+  "journey_map": {
+    "heading": "Your journey",
+    "nodes": [
+      {"week": 1, "title": "Understand & Commit", "subtitle": "Why, what, and your signature"},
+      {"week": 2, "title": "Know Your Pattern", "subtitle": "Triggers, chains, environment"},
+      {"week": 3, "title": "Ride the Urge", "subtitle": "Surf, defuse, outlast"},
+      {"week": 4, "title": "Live Your Values", "subtitle": "Direction, action, identity"},
+      {"week": 5, "title": "Rebuild the Life", "subtitle": "Sleep, movement, connection, play"},
+      {"week": 6, "title": "Stay Free", "subtitle": "Plan, card, graduation"}
+    ],
+    "maintenance_node": {"title": "Maintenance", "subtitle": "Lighter, steady, yours"},
+    "upcoming_label": "Starts after Week {n}",
+    "current_label": "You are here",
+    "completed_label": "Complete"
+  },
+  "welcome_back": [
+    "Good to see you. The program waited — no catching up needed, today's session is right here.",
+    "Welcome back. Life happens; the road doesn't move. Pick up exactly where you left off.",
+    "You came back — that's the whole skill. Today's ten minutes are ready when you are."
+  ]
+}

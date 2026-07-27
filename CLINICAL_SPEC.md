@@ -147,3 +147,17 @@ Content authored separately (by product owner + Claude, clinician-reviewed), ver
 - One licensed clinician (psychologist/therapist familiar with CSBD/behavioral addiction) reviews: assessment implementation, all Week 1–6 lesson copy, safety flows — before public launch. Budget $300–500 freelance.
 - Cite sources in-app ("Based on published research" → expandable reference list: Bőthe et al. 2020/2021; Crosby & Twohig 2016; ICD-11 CSBD).
 - Re-review content on any claim-level change.
+
+## 10. Identity framing principles (recovery-identity research)
+
+Evidence basis: Social Identity Model of Recovery (Best et al., 2016) and related findings — favoring a recovery identity over an addiction identity predicts lower relapse via higher self-efficacy (Buckingham et al., 2013); expectancy evaluations directly drive behavior. Rules for ALL program, product, and marketing copy:
+
+1. **No backward-facing identity labels, ever:** never "addict," "porn addict," "recovering addict" as identity descriptors of the user (already in LEGAL_COMPLIANCE §2 for claims; this extends it to identity framing). The user is "a person taking back control / building a life" — identity language points at who they're becoming, not what they were.
+2. **Prepare, don't predict:** lapse-preparedness content (doctrine, debrief, letters) uses fire-drill framing — trained because unplanned-for lapses do the most damage, never because a lapse is expected of THIS user. Avoid unqualified "you will slip" constructions; prefer "if it ever happens" and agency-preserving qualifiers alongside any normalization ("most people…" statements must sit next to explicit non-inevitability).
+3. **Self-efficacy is protected:** copy never asserts the user's likely failure; confidence-building is clinical strategy, not cheerleading (readiness ruler, coach lines, "zero no longer exists," identity votes are the sanctioned mechanisms).
+4. **Identity has an exit:** recovery identity is scaffolding, not destination — maintenance copy frames the subject shrinking to "a small, well-guarded room in a very large house." The program never installs a permanent recovering-person identity.
+5. **Clinician-review question (standing):** the normalization dose in W1D6/W6D1 "most people slip" passages — reviewer to calibrate between AVE-preparedness benefit and expectancy risk.
+
+## 11. External framework alignment: Dopamine Nation (Lembke, 2021)
+
+Adopted concepts (attributed, in boosters and future content): pleasure-pain balance / baseline reset (aligns with W5D1), self-binding as the name for W2D4's friction practice, radical honesty (aligns with W6D4). NOT adopted: fixed-duration abstinence-trial ("dopamine fast") as central method — conflicts with the score-trend, no-streak clinical architecture. Marketing may reference concepts with attribution; never imply author endorsement.

@@ -106,6 +106,14 @@ Opened via tab or SOS. Must load instantly (all assets bundled offline).
   6. **No leaderboards or user-vs-user competition in v1** — competition is with your past self only (falling score, growing landscape).
 - **Commitment Goals (opt-in module):** graduated goal ladder (7-day goal ×3 completions → 14 → 30 → 90) with a self-funded **Reward Jar**: user names a personal reward, pledges a daily amount, app tracks committed savings toward it (no real money custody — it's a tracked pledge the user honors themselves). Goal completion = "unlock" celebration + prompt to claim the reward. Goals are **process-weighted** (daily lesson + check-in + clean day; a lapse with a completed debrief still counts partial credit). A lapse **delays** the unlock date and triggers the lapse debrief — it never zeroes the jar or the ladder tier. Design rules in CLINICAL_SPEC §9.
 
+### 5.7 Journey experience layer (ceremony + orientation)
+Research basis: commitment-ceremony onboarding and chapter-framed journeys are the strongest documented retention patterns in habit apps (customized/ceremonial onboarding measurably doubles retention in the category); the no-shame return is equally documented as churn-critical. Structure adopted, storybook tone rejected (adult clinical voice per CLAUDE.md).
+1. **Beginning sequence:** 4 ceremonial screens rendered once, after first successful paywall continuation, before W1D1 — congratulate the decision, how the program works (four pillars), honest expectations, journey-map reveal → "Begin Day 1". Copy from content/journey_experience.json; skippable from screen 2 via subtle Skip.
+2. **Weekly kickoffs:** one interstitial card the first time each week's Day 1 opens (weeks 2–6; Week 1's intro is the beginning sequence). Re-readable from the journey map.
+3. **Journey Map:** calm 6-node path + maintenance node — completed / current (day dots) / upcoming (titles visible; no padlock iconography — locked-looking UI reads as paywall, not progression). Entry: tapping the "Week X · Day Y" Today header, and a Journey section in Progress. Doubles as the "where am I" answer everywhere.
+4. **No-shame return:** after 3+ days without any completion, one warm line atop Today (rotating variants from content JSON), never stacked with other banners, gone on any completion. Never guilt language.
+All copy in this layer lives in content/journey_experience.json (authored, clinician-reviewable) — never improvised in code.
+
 ### 5.6 Settings
 - Subscription management (RevenueCat), notification times (daily check-in time, risky-hours reminder), FaceID app lock (privacy is a feature — many users hide this app), discreet app icon option, export data, **delete account + all data** (one flow, required).
 
