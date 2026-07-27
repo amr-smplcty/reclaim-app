@@ -3,7 +3,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { Spacing } from '@/theme/tokens';
 
 // Full-screen safety interrupt (CLINICAL_SPEC §6) — never gated behind
@@ -13,7 +13,7 @@ export default function SafetyResourcesScreen() {
   const isCrisis = type !== 'illegal_content';
 
   return (
-    <ThemedView style={styles.container}>
+    <SafeAreaScreen style={styles.container} edges={['top', 'bottom']}>
       <ThemedText type="title" style={styles.title}>
         {isCrisis ? "You're not alone" : 'Get help'}
       </ThemedText>
@@ -41,7 +41,7 @@ export default function SafetyResourcesScreen() {
         </ThemedText>
       )}
       <PrimaryButton label="Continue" onPress={() => router.back()} />
-    </ThemedView>
+    </SafeAreaScreen>
   );
 }
 

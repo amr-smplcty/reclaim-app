@@ -142,7 +142,14 @@ export default function LessonScreen() {
         ))}
 
         <View style={[styles.card, { width }]}>
-          <ScrollView contentContainerStyle={styles.cardContent}>
+          {/* Reflection card's own vertical scroll: auto-insets for the keyboard
+              so the input stays visible, and a tap outside dismisses. The outer
+              horizontal pager is left untouched (fix-device-qa-1). */}
+          <ScrollView
+            contentContainerStyle={styles.cardContent}
+            keyboardShouldPersistTaps="handled"
+            automaticallyAdjustKeyboardInsets
+          >
             <ThemedText type="subtitle" style={styles.reflectionPrompt}>
               {lesson.reflection.prompt}
             </ThemedText>

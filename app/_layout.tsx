@@ -2,9 +2,11 @@ import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AppLockGate } from '@/features/lock/AppLockGate';
+import { KeyboardToolbar } from '@/components/keyboard-toolbar';
 import { useNotificationScheduler } from '@/features/notifications/useNotificationScheduler';
 import { configureRevenueCat } from '@/lib/revenuecat/client';
 import { useSubscriptionStore } from '@/features/paywall/useSubscriptionStore';
@@ -34,18 +36,22 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={colorScheme === 'light' ? DefaultTheme : DarkTheme}>
-        <AppLockGate>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(onboarding)" />
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="(program)" />
-            <Stack.Screen name="(toolkit)" />
-            <Stack.Screen name="(modals)" options={{ presentation: 'modal' }} />
-          </Stack>
-        </AppLockGate>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <SafeAreaProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider value={colorScheme === 'light' ? DefaultTheme : DarkTheme}>
+          <AppLockGate>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(onboarding)" />
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="(program)" />
+              <Stack.Screen name="(toolkit)" />
+              <Stack.Screen name="(modals)" options={{ presentation: 'modal' }} />
+            </Stack>
+          </AppLockGate>
+          {/* Global iOS "Done" bar above the keyboard — one mount covers every input. */}
+          <KeyboardToolbar />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </SafeAreaProvider>
   );
 }

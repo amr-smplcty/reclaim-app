@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import { CompletionBadge } from '@/components/completion-badge';
@@ -333,12 +333,17 @@ export default function ExerciseScreen() {
   }
 
   return (
-    <ThemedView style={styles.screen}>
-      <ThemedText type="title" style={styles.title}>
-        {exercise.title}
-      </ThemedText>
-      {body}
-    </ThemedView>
+    // Native header handles the top inset; KeyboardAvoidingView keeps the
+    // focused free-text field and its submit button visible above the keyboard
+    // (fix-device-qa-1). Dismissal is handled globally by <KeyboardToolbar/>.
+    <KeyboardAvoidingView style={styles.screen} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <ThemedView style={styles.screen}>
+        <ThemedText type="title" style={styles.title}>
+          {exercise.title}
+        </ThemedText>
+        {body}
+      </ThemedView>
+    </KeyboardAvoidingView>
   );
 }
 

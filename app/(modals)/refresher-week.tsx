@@ -7,6 +7,7 @@ import { MarkdownBody } from '@/components/markdown-body';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing, radius } from '@/theme/tokens';
 import { getProgramModules } from '@/lib/content/week';
@@ -29,7 +30,7 @@ export default function RefresherWeekScreen() {
   const allReviewed = days.length > 0 && reviewedCount === days.length;
 
   return (
-    <ThemedView style={styles.container}>
+    <SafeAreaScreen style={styles.container} edges={['bottom']}>
       <View style={styles.closeRow}>
         <Pressable
           onPress={() => router.back()}
@@ -113,7 +114,7 @@ export default function RefresherWeekScreen() {
           );
         })}
       </ScrollView>
-    </ThemedView>
+    </SafeAreaScreen>
   );
 }
 

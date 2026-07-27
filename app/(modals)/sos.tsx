@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
-import { ThemedView } from '@/components/themed-view';
+import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { ToolkitHome } from '@/features/toolkit/ToolkitHome';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/theme/tokens';
@@ -13,7 +13,9 @@ export default function SosScreen() {
   const theme = useTheme();
 
   return (
-    <ThemedView style={styles.container}>
+    // Card modal clears the status bar on iOS; the bottom edge inset keeps the
+    // Toolkit's content/CTAs above the home indicator (fix-device-qa-1).
+    <SafeAreaScreen style={styles.container} edges={['bottom']}>
       <View style={styles.closeRow}>
         <Pressable
           onPress={() => router.back()}
@@ -26,7 +28,7 @@ export default function SosScreen() {
         </Pressable>
       </View>
       <ToolkitHome />
-    </ThemedView>
+    </SafeAreaScreen>
   );
 }
 

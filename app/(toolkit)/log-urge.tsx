@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from '@/components/keyboard-aware-scroll-view';
 import { router } from 'expo-router';
 
 import { ChoiceChip } from '@/components/choice-chip';
@@ -74,7 +75,7 @@ export default function LogUrgeScreen() {
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <KeyboardAwareScrollView style={styles.container} contentContainerStyle={styles.content}>
       <ThemedText type="title" style={styles.title}>
         Log the urge
       </ThemedText>
@@ -137,7 +138,7 @@ export default function LogUrgeScreen() {
       ) : null}
 
       <PrimaryButton label="Save" onPress={handleSubmit} disabled={!canSubmit} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 

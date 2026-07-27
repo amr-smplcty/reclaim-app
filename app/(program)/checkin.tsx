@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from '@/components/keyboard-aware-scroll-view';
 import { router } from 'expo-router';
 
 import { ChoiceChip } from '@/components/choice-chip';
@@ -107,7 +108,7 @@ export default function CheckinScreen() {
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <KeyboardAwareScrollView style={styles.container} contentContainerStyle={styles.content}>
       <ThemedText type="title" style={styles.title}>
         Evening check-in
       </ThemedText>
@@ -184,7 +185,7 @@ export default function CheckinScreen() {
       />
 
       <PrimaryButton label="Save" onPress={handleSubmit} disabled={!canSubmit} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 
