@@ -6,6 +6,7 @@ import { ChoiceChip } from '@/components/choice-chip';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { useTheme } from '@/hooks/use-theme';
 import { getPpcs6Assessment } from '@/lib/content';
 import { getPpcs6Band, PPCS6_SCORE_MAX } from '@/features/assessment/scoring';
@@ -69,7 +70,7 @@ export default function ReassessmentScreen() {
       shouldOfferRefresherWeek(useAssessmentHistoryStore.getState().entries) && !offerDecisions[result.entryId];
 
     return (
-      <ThemedView style={styles.resultContainer}>
+      <SafeAreaScreen style={styles.resultContainer} edges={['bottom']}>
         <ThemedText type="small" themeColor="textSecondary">
           Your trend snapshot
         </ThemedText>
@@ -118,12 +119,13 @@ export default function ReassessmentScreen() {
         ) : null}
 
         <PrimaryButton label="Done" onPress={() => router.back()} />
-      </ThemedView>
+      </SafeAreaScreen>
     );
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <SafeAreaScreen edges={['bottom']}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <ThemedText type="title" style={styles.title}>
         Quick trend check
       </ThemedText>
@@ -153,7 +155,8 @@ export default function ReassessmentScreen() {
       ))}
 
       <PrimaryButton label="Submit" onPress={handleSubmit} disabled={!canSubmit} />
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaScreen>
   );
 }
 

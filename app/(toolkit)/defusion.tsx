@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, TextInput } from 'react-native';
 import { router } from 'expo-router';
 
 import { CompletionBadge } from '@/components/completion-badge';
@@ -59,7 +59,7 @@ export default function DefusionScreen() {
 
   if (step === 'input') {
     return (
-      <ThemedView style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ThemedText type="title" style={styles.title}>
           What's the thought?
         </ThemedText>
@@ -73,7 +73,7 @@ export default function DefusionScreen() {
           accessibilityLabel="The thought"
         />
         <PrimaryButton label="Next" onPress={handleThoughtSubmit} disabled={thought.trim().length === 0} />
-      </ThemedView>
+      </KeyboardAvoidingView>
     );
   }
 

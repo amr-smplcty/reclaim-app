@@ -3,7 +3,7 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/theme/tokens';
 import { useProgramStore } from '@/features/program/useProgramStore';
@@ -25,7 +25,7 @@ export default function EmergencyCardScreen() {
   const visible = visibleEmergencyCardSections(compiled);
 
   return (
-    <ThemedView style={styles.container}>
+    <SafeAreaScreen style={styles.container} edges={['bottom']}>
       <View style={styles.closeRow}>
         <Pressable
           onPress={() => router.back()}
@@ -50,7 +50,7 @@ export default function EmergencyCardScreen() {
           <EmergencyCardView sections={visible} />
         )}
       </ScrollView>
-    </ThemedView>
+    </SafeAreaScreen>
   );
 }
 

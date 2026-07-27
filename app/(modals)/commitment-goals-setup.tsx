@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { useTheme } from '@/hooks/use-theme';
 import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsStore';
 import { Spacing } from '@/theme/tokens';
@@ -28,10 +28,11 @@ export default function CommitmentGoalsSetupScreen() {
   }
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title" style={styles.title}>
-        Start a Commitment Goal
-      </ThemedText>
+    <SafeAreaScreen edges={['bottom']}>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <ThemedText type="title" style={styles.title}>
+          Start a Commitment Goal
+        </ThemedText>
       <ThemedText type="default" themeColor="textSecondary" style={styles.subtitle}>
         This is you paying yourself. Name something you want, pledge a
         little toward it each day you show up, and watch it add up.
@@ -62,10 +63,11 @@ export default function CommitmentGoalsSetupScreen() {
         accessibilityLabel="Daily pledge amount"
       />
 
-      <View style={styles.footer}>
-        <PrimaryButton label="Start my goal" onPress={handleStart} disabled={!canSubmit} />
-      </View>
-    </ThemedView>
+        <View style={styles.footer}>
+          <PrimaryButton label="Start my goal" onPress={handleStart} disabled={!canSubmit} />
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaScreen>
   );
 }
 

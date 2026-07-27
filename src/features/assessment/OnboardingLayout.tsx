@@ -1,9 +1,9 @@
-import { Pressable, StyleSheet, View, type ViewStyle } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View, type ViewStyle } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing } from '@/theme/tokens';
 import { type OnboardingStepId } from '@/features/assessment/useOnboardingStore';
@@ -25,8 +25,14 @@ export function OnboardingLayout({ step, children, showBack = true, contentStyle
   const canGoBack = showBack && step !== 'welcome' && router.canGoBack();
 
   return (
-    <ThemedView style={styles.container}>
-      <View style={styles.headerRow}>
+    // Onboarding screens have no native header (headerShown: false), so they
+    // must inset the status bar / home indicator themselves — otherwise the
+    // system clock overlaps the section header (fix-device-qa-1 / INC-18).
+    // KeyboardAvoidingView keeps free-text steps (age, motivation "other",
+    // account email) and their Next/CTA visible above the keyboard.
+    <SafeAreaScreen edges={['top', 'bottom']}>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <View style={styles.headerRow}>
         {canGoBack ? (
           <Pressable
             onPress={() => router.back()}
@@ -64,8 +70,9 @@ export function OnboardingLayout({ step, children, showBack = true, contentStyle
           </View>
         ) : null}
       </View>
-      <View style={[styles.content, contentStyle]}>{children}</View>
-    </ThemedView>
+        <View style={[styles.content, contentStyle]}>{children}</View>
+      </KeyboardAvoidingView>
+    </SafeAreaScreen>
   );
 }
 

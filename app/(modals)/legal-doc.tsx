@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { LEGAL_DOCS } from '@/lib/legal/content';
 import { Spacing } from '@/theme/tokens';
 
@@ -12,7 +13,7 @@ export default function LegalDocScreen() {
   const doc = LEGAL_DOCS[type === 'privacy' ? 'privacy' : 'tou'];
 
   return (
-    <ThemedView style={styles.container}>
+    <SafeAreaScreen style={styles.container} edges={['bottom']}>
       <ThemedText type="title" style={styles.title}>
         {doc.title}
       </ThemedText>
@@ -35,7 +36,7 @@ export default function LegalDocScreen() {
         ))}
       </ScrollView>
       <PrimaryButton label="Close" onPress={() => router.back()} />
-    </ThemedView>
+    </SafeAreaScreen>
   );
 }
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from '@/components/keyboard-aware-scroll-view';
 import { router, type Href } from 'expo-router';
 
 import { ChoiceChip } from '@/components/choice-chip';
@@ -97,7 +98,7 @@ export default function LapseDebriefScreen() {
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <KeyboardAwareScrollView style={styles.container} contentContainerStyle={styles.content}>
       <ThemedText type="title" style={styles.title}>
         It happened
       </ThemedText>
@@ -192,7 +193,7 @@ export default function LapseDebriefScreen() {
       />
 
       <PrimaryButton label="Save" onPress={handleSubmit} disabled={!canSubmit} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 

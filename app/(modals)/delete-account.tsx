@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, TextInput } from 'react-native';
+import { Pressable, StyleSheet, TextInput } from 'react-native';
+import { KeyboardAwareScrollView } from '@/components/keyboard-aware-scroll-view';
 import { router } from 'expo-router';
 
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { useTheme } from '@/hooks/use-theme';
 import { getCurrentUserId } from '@/lib/supabase/auth';
 import { deleteAccountAndAllData } from '@/features/settings/deleteAccount';
@@ -37,8 +38,8 @@ export default function DeleteAccountScreen() {
   }
 
   return (
-    <ThemedView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
+    <SafeAreaScreen style={styles.container} edges={['bottom']}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.content}>
         <ThemedText type="title" style={styles.title}>
           Delete account and all data
         </ThemedText>
@@ -79,8 +80,8 @@ export default function DeleteAccountScreen() {
         <ThemedText type="default" themeColor="accent" onPress={() => router.back()} style={styles.cancel}>
           Cancel
         </ThemedText>
-      </ScrollView>
-    </ThemedView>
+      </KeyboardAwareScrollView>
+    </SafeAreaScreen>
   );
 }
 
