@@ -104,6 +104,12 @@
 - **Fix:** removed `expo-av`; installed `expo-audio` (the supported SDK-57 replacement) + its `expo-asset` peer; built the previously-absent audio integration point (`src/lib/audio/guidedAudio.ts`, INC-2 availability-checked + graceful, wired into Urge Surf, degrades to visual-only with no `audio_url` or no native module); ran `npx expo install --fix` to realign all 28 drifted packages; removed the three other unused native deps. `expo-doctor` went from 2 failing checks to **20/20 clean**.
 - **Prevention rule:** **`npx expo-doctor` clean is part of the Definition of Done (now in CLAUDE.md) — it catches SDK-incompatible/unmaintained packages that JS-level checks (tests, typecheck, `verify:bundle`) structurally cannot, because those never compile native code. Any change that adds, removes, or bumps a native module requires a real build (EAS or local prebuild), not just a Metro bundle export, before it's considered verified. Dead native dependencies are not harmless — an unused-but-uncompilable native package fails the build exactly as a used one would; remove native deps you're not using.**
 
+### INC-17 · Free-tier Supabase project auto-paused → deploy failed with 404 "status INACTIVE"
+- **Symptom:** `supabase functions deploy delete-account` failed with a 404 and a `status INACTIVE` message. Nothing was wrong with the function, the CLI, the link, or the credentials.
+- **Root cause:** the Supabase project is on the free tier, which **auto-pauses a project after ~1 week of inactivity**. A paused project rejects API/CLI operations (deploys, auth, REST/sync) until it is manually restored. This was pure infrastructure state, entirely unrelated to the code being deployed.
+- **Fix:** restored the project from the Supabase dashboard (the paused project shows a "Restore"/"Resume" prompt); the identical deploy command then succeeded immediately (`Deployed Functions on project rqubgzbqawjelkdcpsum: delete-account`).
+- **Prevention rule:** **Before diagnosing any Supabase connection, auth, sync, or deploy failure, check the project's status in the dashboard first — a free-tier project auto-pauses after ~1 week idle, and every operation fails with confusing errors (404 / INACTIVE / connection refused) until it is restored. Don't chase a code/credential bug before ruling out a paused project. (Permanent fix is BACKLOG: upgrade off the free tier before real users exist — see below.)**
+
 ## Standing prevention rules (the distilled list for prompt-writing)
 
 1. Native-module UI: availability-check + graceful fallback, always (INC-2).
@@ -121,3 +127,4 @@
 13. A `tick()`-based test that's flaky only under full-suite `npm test`, not standalone, gets switched to `waitFor()` — never just more `tick()` calls (INC-14).
 14. A "command not found" binary gets fixed via `.claude/settings.json`'s `env.PATH`, never via an `export PATH=` prefix or absolute-path substitution on every command (INC-15).
 15. `npx expo-doctor` clean is part of the Definition of Done; any native-module add/remove/bump requires a real build (EAS/prebuild), not just `verify:bundle` — JS gates can't compile native code. Remove unused native deps (INC-16).
+16. Before diagnosing any Supabase failure (connection/auth/sync/deploy), check the project isn't auto-paused — free-tier projects pause after ~1 week idle and fail every operation until restored (INC-17).

@@ -12,6 +12,7 @@
 | 4 | Record (or TTS-generate) the Urge Surf guided audio from the authored narration script (content/week2.json `toolkit_scripts.urge_surf.narration_script`); drop the file's URL into `toolkit_scripts.urge_surf.audio_url`. The playback integration point now exists (`src/lib/audio/guidedAudio.ts`, expo-audio, INC-2 graceful) and is wired into Urge Surf — it plays automatically once `audio_url` is present, no code change needed; this item is now just the content (audio file) | Epic 5 TODO(content) / Week 2 pack | L |
 | 5 | App icon/splash are still placeholder assets — replace with real designed art before any public build. (Bundle ID half resolved: `com.smplctyanalytics.reclaim` confirmed and set in app.json/EAS, Epic 3) | Epic 1 report | TF |
 | 6 | Apple Developer organization enrollment as Simplifico LLC (pending D-U-N-S) → unblocks Epic 3, TestFlight | Business track | E3 |
+| 62 | **Upgrade Supabase off the free tier before real users exist.** Free-tier projects auto-pause after ~1 week idle (see INCIDENTS.md INC-17 — it silently broke the delete-account deploy). In production this would break auth, sync, and Edge Functions (including delete-account) for real users with confusing errors until someone manually restored it — unacceptable for a paid app. Move to a paid plan (no auto-pause) before launch | fix-40 deploy / INC-17 | L |
 
 ## 🟡 Engineering debt (correct behavior exists; wiring or robustness pending)
 
