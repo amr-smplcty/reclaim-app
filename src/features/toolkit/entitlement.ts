@@ -2,10 +2,11 @@ import type { Href } from 'expo-router';
 
 export type ToolId = 'urge_surf' | 'breather' | 'defusion' | 'shift_environment' | 'ten_minute_shift';
 
-// Ethical floor (PRODUCT_SPEC §6): never paywall someone mid-crisis. Real
-// entitlement comes from RevenueCat once Epic 3 (blocked on Apple Developer
-// enrollment) lands — until then callers pass a stand-in `hasProEntitlement`.
-const FREE_FOREVER_TOOLS: ToolId[] = ['urge_surf', 'breather'];
+// Ethical floor (PRODUCT_SPEC §6): never paywall someone mid-crisis. These
+// two work regardless of subscription, so they double as the always-safe
+// fallback action for the Emergency Card's Tools section (BACKLOG #50) —
+// exported for that single source of truth.
+export const FREE_FOREVER_TOOLS: ToolId[] = ['urge_surf', 'breather'];
 
 export function isFreeForeverTool(tool: ToolId): boolean {
   return FREE_FOREVER_TOOLS.includes(tool);

@@ -1,6 +1,7 @@
 import {
   compileEmergencyCardSections,
   parseToolIdsFromRanking,
+  resolveEmergencyCardToolIds,
   visibleEmergencyCardSections,
 } from '@/features/program/emergencyCard';
 import type { EmergencyCardSourceSpec } from '@/types/program';
@@ -30,6 +31,24 @@ describe('parseToolIdsFromRanking — free-text tool_ranking to real ToolIds', (
 
   it('returns an empty list rather than throwing on unparseable text', () => {
     expect(parseToolIdsFromRanking('honestly not sure, whatever works', 2)).toEqual([]);
+  });
+});
+
+describe('resolveEmergencyCardToolIds — never-empty guarantee (BACKLOG #50)', () => {
+  it('returns the parsed tools when the ranking parses to at least one', () => {
+    expect(resolveEmergencyCardToolIds('Defusion, then Surf', 2)).toEqual(['defusion', 'urge_surf']);
+  });
+
+  it('falls back to the always-free tools (Urge Surf + Breather) when the free text is unparseable', () => {
+    expect(resolveEmergencyCardToolIds('honestly not sure, whatever works', 2)).toEqual(['urge_surf', 'breather']);
+  });
+
+  it('falls back when there is no ranking text at all (nothing saved yet)', () => {
+    expect(resolveEmergencyCardToolIds('', 2)).toEqual(['urge_surf', 'breather']);
+  });
+
+  it('never returns an empty array — an Emergency Card must never render without an action', () => {
+    expect(resolveEmergencyCardToolIds('gibberish that names no tool', 2).length).toBeGreaterThan(0);
   });
 });
 
@@ -93,8 +112,18 @@ describe('compileEmergencyCardSections — real Week 6 Day 5 shape', () => {
     compiled.forEach((section) => {
       expect(section.content).toBe('Not yet completed.');
     });
-    // action_buttons section still gets a (empty) toolIds array, never undefined-crashes a renderer.
-    expect(compiled.find((s) => s.source === 'tool_ranking')?.toolIds).toEqual([]);
+    // action_buttons section falls back to the always-free tools rather than
+    // rendering zero buttons (BACKLOG #50) — an Emergency Card must never
+    // render without an action, even when nothing is saved yet.
+    expect(compiled.find((s) => s.source === 'tool_ranking')?.toolIds).toEqual(['urge_surf', 'breather']);
+  });
+
+  it('falls back the Tools section to the always-free tools when the saved ranking is unparseable', () => {
+    const compiled = compileEmergencyCardSections(defaultOrder, undefined, {
+      ...fullOutputs,
+      tool_ranking: 'whatever gets me through, honestly',
+    });
+    expect(compiled.find((s) => s.source === 'tool_ranking')?.toolIds).toEqual(['urge_surf', 'breather']);
   });
 
   it('handles a partially-saved program — some sections real, some missing', () => {
