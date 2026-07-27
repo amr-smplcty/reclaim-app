@@ -1,4 +1,4 @@
-import type { ToolId } from '@/features/toolkit/entitlement';
+import { FREE_FOREVER_TOOLS, type ToolId } from '@/features/toolkit/entitlement';
 import { summarizeExerciseOutput } from '@/features/program/exerciseHelpers';
 import type { EmergencyCardSectionState, EmergencyCardSourceSpec, ProfileBuilderOutput } from '@/types/program';
 
@@ -44,6 +44,18 @@ export function parseToolIdsFromRanking(text: string, maxItems: number): ToolId[
     .sort((a, b) => a.index - b.index)
     .slice(0, maxItems)
     .map((f) => f.tool);
+}
+
+// The Tools section's ToolIds, WITH the never-empty guarantee (BACKLOG #50):
+// an Emergency Card must never render an action_buttons section without an
+// action. When the user's free-text ranking parses to no known tool — an
+// unusual wording, or nothing saved yet — fall back to the always-free tools
+// (Urge Surf + Breather). Those work regardless of subscription, so they're a
+// safe in-crisis action for any user (PRODUCT_SPEC §6 ethical floor), and
+// deriving from FREE_FOREVER_TOOLS keeps that list the single source of truth.
+export function resolveEmergencyCardToolIds(rankingText: string, maxItems: number): ToolId[] {
+  const parsed = parseToolIdsFromRanking(rankingText, maxItems);
+  return parsed.length > 0 ? parsed : FREE_FOREVER_TOOLS.slice(0, maxItems);
 }
 
 // A list-shaped output (guided_list's {items}) reads as its first
@@ -100,7 +112,7 @@ export function compileEmergencyCardSections(
         : contentForSource(spec.source, outputs, spec.max_items);
       const toolIds =
         spec.render === 'action_buttons'
-          ? parseToolIdsFromRanking(String(outputs[spec.source] ?? ''), spec.max_items ?? 2)
+          ? resolveEmergencyCardToolIds(String(outputs[spec.source] ?? ''), spec.max_items ?? 2)
           : undefined;
 
       return {

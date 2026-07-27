@@ -55,4 +55,20 @@ describe('EmergencyCardScreen — Week 6 Day 5 / BACKLOG #27', () => {
     expect(getByText('If it happened: my letter')).toBeTruthy();
     expect(queryByText('Hey — that was a data point, not a verdict.')).toBeNull();
   });
+
+  it('renders the always-free tool buttons (not zero buttons, not raw text) when the ranking is unparseable — BACKLOG #50', async () => {
+    // A user who described their tools in wording the parser can't recover.
+    useProgramStore.getState().saveExerciseOutput('tool_ranking', 'whatever gets me through the moment, honestly');
+    useProgramStore.getState().saveExerciseOutput('emergency_card', {
+      sections: [{ source: 'tool_ranking', hidden: false }],
+    });
+
+    const { getByText, queryByText } = await render(<EmergencyCardScreen />);
+
+    // Exactly the two always-free tools render as real, tappable buttons...
+    expect(getByText('Urge Surf')).toBeTruthy();
+    expect(getByText('90-Second Breather')).toBeTruthy();
+    // ...and the raw unparseable free text is NOT shown as a dead text block.
+    expect(queryByText('whatever gets me through the moment, honestly')).toBeNull();
+  });
 });
