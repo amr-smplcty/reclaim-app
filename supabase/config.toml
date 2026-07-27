@@ -1,0 +1,10 @@
+# Minimal Supabase CLI config. `project_id` is the local project name; the
+# remote project is resolved from the linked ref (supabase/.temp, created by
+# `supabase link` in Task 0), so it is not repeated here.
+project_id = "reclaim-app"
+
+# delete-account (BACKLOG #40): verify_jwt stays ON (the default) so an
+# unauthenticated call is rejected at the edge before the function body runs —
+# the function then re-derives the caller's user id from that same JWT.
+[functions.delete-account]
+verify_jwt = true

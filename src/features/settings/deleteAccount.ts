@@ -30,11 +30,18 @@ export async function deleteAllLocalData(): Promise<void> {
 
 // Best-effort remote deletion (LEGAL_COMPLIANCE §5.6/§5.7), same pattern as
 // the rest of this codebase's Supabase writes: never blocks or throws,
-// console.warns on failure. NOTE: this deletes the user's rows in every
-// table the client can reach under RLS, and signs the session out — it does
-// NOT delete the auth.users row itself, which requires a service-role key
-// (Supabase never lets an anon client delete its own auth user). Tracked in
-// BACKLOG as a real gap until a server-side (Edge Function) deletion exists.
+// console.warns on failure.
+//
+// The `delete-account` Edge Function (supabase/functions/) is the authoritative
+// remote step (closes BACKLOG #40): with its service-role key it deletes the
+// user's rows AND the auth.users row itself — the one thing an anon client can
+// never do. We still run the client-side row deletes first as defense-in-depth
+// (they succeed under the user's own RLS delete policies even if the function
+// is unreachable), so a user on an old app build, or before the function is
+// deployed, still gets their table rows cleared and the session ended. When
+// the function isn't deployed yet, its invoke fails gracefully and the gap
+// (the lingering auth.users row) is logged, exactly as before — deletion still
+// completes locally.
 export async function deleteAccountRemotely(userId: string): Promise<void> {
   const { error: legalError } = await supabase.from('legal_acceptances').delete().eq('user_id', userId);
   if (legalError) {
@@ -44,6 +51,21 @@ export async function deleteAccountRemotely(userId: string): Promise<void> {
   const { error: assessmentError } = await supabase.from('assessment_history').delete().eq('user_id', userId);
   if (assessmentError) {
     console.warn('Failed to delete assessment_history remotely:', assessmentError.message);
+  }
+
+  // The authoritative server-side step: deletes the auth.users row via the
+  // Edge Function's service-role key. Invoked while the session still exists
+  // so its JWT is forwarded for authentication — must run BEFORE signOut.
+  const { error: functionError } = await supabase.functions.invoke('delete-account', { method: 'POST' });
+  if (functionError) {
+    // Function-not-yet-deployed (or any transient failure) is non-fatal:
+    // current behavior is preserved (rows deleted above, session ended
+    // below, local data wiped by the caller), and the residual auth.users
+    // row is logged as the known gap until the function is live.
+    console.warn(
+      'delete-account Edge Function unavailable — auth.users row may persist until it is deployed:',
+      functionError.message
+    );
   }
 
   const { error: signOutError } = await supabase.auth.signOut();
