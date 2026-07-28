@@ -9,16 +9,21 @@ export function scoreScaleFraction(score: number): number {
 }
 
 // Bands A/B sit below the clinical cutoff (CLAUDE.md rule 3: PPCS-6 cutoff
-// ≥20); C/D are at or above it. Only 3 semantic tokens exist, so C and D
-// share "destructive" — both already crossed the same threshold.
+// ≥20); C/D are at or above it. Per DESIGN_SYSTEM Guardrail 2 ("no error-red
+// for user behaviour"), a person's honest starting score is not an error
+// state, so C/D use `caution` (warm ochre — "this is data worth attention"),
+// never `destructive`/red, which would read as shame at the results reveal.
+// Color never carries the meaning alone (DESIGN_SYSTEM §10): the band label
+// and its plain-language framing distinguish B (below cutoff, emerging) from
+// C/D (at/above it). `destructive` stays reserved for irreversible data
+// actions only (delete account/journal).
 export function bandColorToken(band: Ppcs6Band): ThemeColor {
   switch (band) {
     case 'A':
       return 'success';
     case 'B':
-      return 'caution';
     case 'C':
     case 'D':
-      return 'destructive';
+      return 'caution';
   }
 }

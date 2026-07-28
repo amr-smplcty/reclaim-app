@@ -25,8 +25,16 @@ describe('bandColorToken', () => {
     expect(bandColorToken('B')).toBe('caution');
   });
 
-  it('uses danger for band C and D (at/above the clinical cutoff)', () => {
-    expect(bandColorToken('C')).toBe('destructive');
-    expect(bandColorToken('D')).toBe('destructive');
+  // DESIGN_SYSTEM Guardrail 2: a starting score is not an error, so C/D use
+  // caution (not destructive/red). Band label + framing carry the distinction.
+  it('uses caution for bands C and D (at/above the clinical cutoff), never destructive', () => {
+    expect(bandColorToken('C')).toBe('caution');
+    expect(bandColorToken('D')).toBe('caution');
+  });
+
+  it('never colors an assessment band with destructive (reserved for data actions)', () => {
+    for (const band of ['A', 'B', 'C', 'D'] as const) {
+      expect(bandColorToken(band)).not.toBe('destructive');
+    }
   });
 });
