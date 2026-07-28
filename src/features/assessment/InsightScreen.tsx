@@ -6,7 +6,7 @@ import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { insightForStep } from '@/features/assessment/onboardingInsights';
 import type { OnboardingStepId } from '@/features/assessment/useOnboardingStore';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 interface Props {
   step: OnboardingStepId;
@@ -38,8 +38,8 @@ export function InsightScreen({ step }: Props) {
 }
 
 const styles = StyleSheet.create({
-  content: { justifyContent: 'center', gap: Spacing.four },
-  title: { marginBottom: Spacing.two },
-  body: { marginBottom: Spacing.three },
-  citation: { marginBottom: Spacing.four },
+  content: { justifyContent: 'center', gap: space.xl },
+  title: { marginBottom: space.sm },
+  body: { marginBottom: space.base },
+  citation: { marginBottom: space.xl },
 });

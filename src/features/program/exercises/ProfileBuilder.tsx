@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import { assembleProfileSections } from '@/features/program/exerciseHelpers';
 import type { ProfileBuilderOutput, ProfileBuilderPayload } from '@/types/program';
 
@@ -56,9 +56,9 @@ export function ProfileBuilder({ payload, sourceOutputs, onSubmit }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { paddingBottom: Spacing.six },
-  hint: { marginBottom: Spacing.four },
-  section: { marginBottom: Spacing.four },
-  sectionTitle: { marginBottom: Spacing.two },
+  container: { paddingBottom: space.xxxl },
+  hint: { marginBottom: space.xl },
+  section: { marginBottom: space.xl },
+  sectionTitle: { marginBottom: space.sm },
   input: { borderWidth: 1, borderRadius: 10, padding: 12, minHeight: 70, fontSize: 16, textAlignVertical: 'top' },
 });

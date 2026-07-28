@@ -12,7 +12,7 @@ import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { describeDelta } from '@/features/toolkit/suggestion';
 import { trackUrgeToolUsed } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 type Step = 'input' | 'reframe1' | 'reframe2' | 'closing' | 'rate';
 
@@ -116,8 +116,8 @@ export default function DefusionScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four, alignItems: 'center', justifyContent: 'center', gap: Spacing.five },
-  title: { marginBottom: Spacing.two },
+  container: { flex: 1, padding: space.xl, alignItems: 'center', justifyContent: 'center', gap: space.xxl },
+  title: { marginBottom: space.sm },
   input: {
     borderWidth: 1,
     borderRadius: 10,
@@ -128,5 +128,5 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   centered: { textAlign: 'center' },
-  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: Spacing.five, padding: Spacing.four },
+  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: space.xxl, padding: space.xl },
 });

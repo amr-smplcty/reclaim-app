@@ -12,7 +12,7 @@ import { useSettingsStore } from '@/features/settings/useSettingsStore';
 import { TimeStepperRow } from '@/features/settings/TimeStepperRow';
 import { shareDataExport } from '@/features/settings/exportData';
 import { useSubscriptionStore } from '@/features/paywall/useSubscriptionStore';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // Settings (PRODUCT_SPEC §5.6), reachable from the Today header.
 export default function SettingsScreen() {
@@ -97,7 +97,7 @@ export default function SettingsScreen() {
           accessibilityRole="button"
           accessibilityLabel="Close"
           hitSlop={8}
-          style={[styles.closeButton, { backgroundColor: theme.surface }]}
+          style={[styles.closeButton, { backgroundColor: theme.surfaceRaised }]}
         >
           <Ionicons name="close" size={20} color={theme.textPrimary} />
         </Pressable>
@@ -165,7 +165,7 @@ export default function SettingsScreen() {
           <Row label={exporting ? 'Preparing export…' : 'Export my data'} onPress={handleExport} disabled={exporting} />
           <Row
             label="Delete account and all data"
-            themeColor="danger"
+            themeColor="destructive"
             onPress={() => router.push('/(modals)/delete-account')}
           />
         </Section>
@@ -223,7 +223,7 @@ function Row({
   label: string;
   onPress: () => void;
   disabled?: boolean;
-  themeColor?: 'danger';
+  themeColor?: 'destructive';
 }) {
   return (
     <ThemedText
@@ -241,16 +241,16 @@ function Row({
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  closeRow: { alignItems: 'flex-end', padding: Spacing.four, paddingBottom: 0 },
+  closeRow: { alignItems: 'flex-end', padding: space.xl, paddingBottom: 0 },
   closeButton: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
-  content: { padding: Spacing.four, paddingBottom: Spacing.six },
-  title: { marginBottom: Spacing.four },
-  section: { marginBottom: Spacing.five },
-  sectionTitle: { marginBottom: Spacing.two, letterSpacing: 0.5 },
-  sectionNote: { marginBottom: Spacing.two },
-  row: { paddingVertical: Spacing.two },
-  lockRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: Spacing.two },
-  rowLabel: { flex: 1, gap: 2, paddingRight: Spacing.three },
-  unavailableNote: { marginTop: Spacing.half },
+  content: { padding: space.xl, paddingBottom: space.xxxl },
+  title: { marginBottom: space.xl },
+  section: { marginBottom: space.xxl },
+  sectionTitle: { marginBottom: space.sm, letterSpacing: 0.5 },
+  sectionNote: { marginBottom: space.sm },
+  row: { paddingVertical: space.sm },
+  lockRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: space.sm },
+  rowLabel: { flex: 1, gap: 2, paddingRight: space.base },
+  unavailableNote: { marginTop: space.xxs },
   disabled: { opacity: 0.5 },
 });

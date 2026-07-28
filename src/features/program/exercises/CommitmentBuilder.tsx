@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import { resolveCommitmentTemplate } from '@/features/program/exerciseHelpers';
 import type { CommitmentBuilderOutput, CommitmentBuilderPayload } from '@/types/program';
 
@@ -55,7 +55,7 @@ export function CommitmentBuilder({ payload, outputs, lapseLetter, onSubmit }: P
       {payload.max_words !== undefined ? (
         <ThemedText
           type="small"
-          themeColor={overWordLimit ? 'danger' : 'textSecondary'}
+          themeColor={overWordLimit ? 'destructive' : 'textSecondary'}
           style={styles.wordCount}
         >
           {words} / {payload.max_words} words
@@ -96,8 +96,8 @@ export function CommitmentBuilder({ payload, outputs, lapseLetter, onSubmit }: P
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { paddingBottom: Spacing.six },
-  hint: { marginBottom: Spacing.two },
+  container: { paddingBottom: space.xxxl },
+  hint: { marginBottom: space.sm },
   statementInput: {
     borderWidth: 1,
     borderRadius: 10,
@@ -105,11 +105,11 @@ const styles = StyleSheet.create({
     minHeight: 160,
     fontSize: 16,
     textAlignVertical: 'top',
-    marginBottom: Spacing.two,
+    marginBottom: space.sm,
   },
-  wordCount: { marginBottom: Spacing.four, textAlign: 'right' },
-  referenceBlock: { borderWidth: 1, borderRadius: 10, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.one },
+  wordCount: { marginBottom: space.xl, textAlign: 'right' },
+  referenceBlock: { borderWidth: 1, borderRadius: 10, padding: space.base, marginBottom: space.xl, gap: space.xs },
   referenceLabel: { fontWeight: '600' },
-  signaturePrompt: { marginBottom: Spacing.two },
-  signatureInput: { borderWidth: 1, borderRadius: 10, padding: 14, fontSize: 16, marginBottom: Spacing.four },
+  signaturePrompt: { marginBottom: space.sm },
+  signatureInput: { borderWidth: 1, borderRadius: 10, padding: 14, fontSize: 16, marginBottom: space.xl },
 });

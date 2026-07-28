@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { NumberScale } from '@/features/program/exercises/NumberScale';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 interface Props {
   onSubmit: (postIntensity: number) => void;
@@ -27,6 +27,6 @@ export function PostToolRating({ onSubmit }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { gap: Spacing.four },
-  prompt: { marginBottom: Spacing.one },
+  container: { gap: space.xl },
+  prompt: { marginBottom: space.xs },
 });

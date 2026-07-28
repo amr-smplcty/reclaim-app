@@ -7,7 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore, type EscalationAnswer } from '@/features/assessment/useOnboardingStore';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // Escalation (yes/no/unsure) is named explicitly in CLINICAL_SPEC §2.4 — no
 // content JSON needed for these 3 fixed options.
@@ -50,6 +50,6 @@ export default function ContextEscalationScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: { marginBottom: Spacing.four },
+  title: { marginBottom: space.xl },
   footer: { flex: 1, justifyContent: 'flex-end' },
 });

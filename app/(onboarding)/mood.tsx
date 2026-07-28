@@ -10,7 +10,7 @@ import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getContentPack } from '@/lib/content';
 import { isMoodElevated, scoreGad2, scorePhq2 } from '@/features/assessment/scoring';
 import { hasCompleteScreenerResponses } from '@/features/assessment/assessmentValidity';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 const { phq2, gad2, mood_stem: moodStem } = getContentPack().assessments;
 
@@ -107,9 +107,9 @@ export default function MoodScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: { marginBottom: Spacing.four },
-  block: { marginBottom: Spacing.four },
-  prompt: { marginBottom: Spacing.two },
-  optionsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.one },
-  footer: { paddingTop: Spacing.three },
+  title: { marginBottom: space.xl },
+  block: { marginBottom: space.xl },
+  prompt: { marginBottom: space.sm },
+  optionsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: space.xs },
+  footer: { paddingTop: space.base },
 });

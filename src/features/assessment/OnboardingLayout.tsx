@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/themed-text';
 import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import { type OnboardingStepId } from '@/features/assessment/useOnboardingStore';
 import { SECTION_LABEL, SECTION_ORDER, sectionProgressFor } from '@/features/assessment/onboardingSections';
 
@@ -61,7 +61,7 @@ export function OnboardingLayout({ step, children, showBack = true, contentStyle
                   >
                     {SECTION_LABEL[section]}
                   </ThemedText>
-                  <View style={[styles.track, { backgroundColor: theme.surface }]}>
+                  <View style={[styles.track, { backgroundColor: theme.surfaceRaised }]}>
                     <View style={[styles.fill, { backgroundColor: theme.accent, width: `${fill * 100}%` }]} />
                   </View>
                 </View>
@@ -81,14 +81,14 @@ const styles = StyleSheet.create({
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: Spacing.four,
-    paddingTop: Spacing.four,
-    gap: Spacing.three,
+    paddingHorizontal: space.xl,
+    paddingTop: space.xl,
+    gap: space.base,
   },
   backSpacer: { width: 24 },
-  sections: { flex: 1, flexDirection: 'row', gap: Spacing.three },
-  sectionItem: { flex: 1, gap: Spacing.one },
+  sections: { flex: 1, flexDirection: 'row', gap: space.base },
+  sectionItem: { flex: 1, gap: space.xs },
   track: { height: 4, borderRadius: 2, overflow: 'hidden' },
   fill: { height: 4, borderRadius: 2 },
-  content: { flex: 1, padding: Spacing.four },
+  content: { flex: 1, padding: space.xl },
 });

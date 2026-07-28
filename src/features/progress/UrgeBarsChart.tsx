@@ -4,7 +4,7 @@ import { Rect, Svg } from 'react-native-svg';
 import { ThemedText } from '@/components/themed-text';
 import { useTheme } from '@/hooks/use-theme';
 import { buildWeeklyBars } from '@/features/progress/chartData';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 interface Props {
   urgeLogs: Array<{ timestamp: string; intensity: number }>;
@@ -49,5 +49,5 @@ export function UrgeBarsChart({ urgeLogs, weeksToShow = 6, width = 320, height =
 }
 
 const styles = StyleSheet.create({
-  empty: { justifyContent: 'center', alignItems: 'center', paddingHorizontal: Spacing.four },
+  empty: { justifyContent: 'center', alignItems: 'center', paddingHorizontal: space.xl },
 });

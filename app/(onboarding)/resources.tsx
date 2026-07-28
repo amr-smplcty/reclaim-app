@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // Terminal screen for under-18 users (PRODUCT_SPEC §4, CLINICAL_SPEC §6) — exits
 // the program flow entirely, no path back in, per "do not deliver the program
@@ -27,7 +27,7 @@ export default function ResourcesScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four, justifyContent: 'center', gap: Spacing.three },
-  title: { marginBottom: Spacing.two },
-  spacing: { marginTop: Spacing.three },
+  container: { flex: 1, padding: space.xl, justifyContent: 'center', gap: space.base },
+  title: { marginBottom: space.sm },
+  spacing: { marginTop: space.base },
 });

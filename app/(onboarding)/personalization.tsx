@@ -6,7 +6,7 @@ import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getIntakeContent } from '@/lib/content';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // PRODUCT_SPEC §4 step 8 — "Your plan: 6 weeks, ~10 min/day, focused on [top motivations]."
 export default function PersonalizationScreen() {
@@ -32,6 +32,6 @@ export default function PersonalizationScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { justifyContent: 'center', gap: Spacing.four },
-  title: { marginBottom: Spacing.two },
+  content: { justifyContent: 'center', gap: space.xl },
+  title: { marginBottom: space.sm },
 });

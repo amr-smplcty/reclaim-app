@@ -16,7 +16,7 @@ import { resolveShiftListSeed } from '@/features/program/shiftList';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { describeDelta, shouldOfferUrgeSurfEscalation } from '@/features/toolkit/suggestion';
 import { trackUrgeToolUsed } from '@/lib/analytics/events';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { GuidedListOutput } from '@/types/program';
 
 const TOTAL_SECONDS = 600;
@@ -157,9 +157,9 @@ export default function TenMinuteShiftScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four, justifyContent: 'center', gap: Spacing.four },
-  title: { marginBottom: Spacing.one },
-  hint: { marginBottom: Spacing.three },
+  container: { flex: 1, padding: space.xl, justifyContent: 'center', gap: space.xl },
+  title: { marginBottom: space.xs },
+  hint: { marginBottom: space.base },
   centered: { textAlign: 'center' },
-  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: Spacing.four, padding: Spacing.four },
+  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: space.xl, padding: space.xl },
 });

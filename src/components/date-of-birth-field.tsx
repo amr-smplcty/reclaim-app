@@ -4,7 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { buildDateFromParts } from '@/features/assessment/dobInput';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 interface Props {
   value: Date | null;
@@ -113,7 +113,7 @@ function ManualDobFields({ onChange }: { onChange: (date: Date | null) => void }
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', gap: Spacing.two },
+  row: { flexDirection: 'row', gap: space.sm },
   input: { borderWidth: 1, borderRadius: 10, paddingVertical: 12, paddingHorizontal: 14, width: 64, fontSize: 16 },
   yearInput: { width: 90 },
 });

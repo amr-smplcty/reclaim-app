@@ -7,7 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { useTheme } from '@/hooks/use-theme';
 import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsStore';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // Commitment Goals opt-in setup (CLINICAL_SPEC §9 rule 1: opt-in only,
 // never part of the default program). "This is you paying yourself" framing
@@ -72,10 +72,10 @@ export default function CommitmentGoalsSetupScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four },
-  title: { marginBottom: Spacing.two },
-  subtitle: { marginBottom: Spacing.five },
-  label: { marginBottom: Spacing.two },
-  input: { borderWidth: 1, borderRadius: 10, padding: 12, fontSize: 16, marginBottom: Spacing.four },
+  container: { flex: 1, padding: space.xl },
+  title: { marginBottom: space.sm },
+  subtitle: { marginBottom: space.xxl },
+  label: { marginBottom: space.sm },
+  input: { borderWidth: 1, borderRadius: 10, padding: 12, fontSize: 16, marginBottom: space.xl },
   footer: { flex: 1, justifyContent: 'flex-end' },
 });

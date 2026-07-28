@@ -7,7 +7,7 @@ import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getPpcs6Assessment } from '@/lib/content';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 const ppcs6 = getPpcs6Assessment();
 
@@ -83,9 +83,9 @@ export default function Ppcs6Screen() {
 }
 
 const styles = StyleSheet.create({
-  backRow: { height: 20, marginBottom: Spacing.one },
-  badge: { marginBottom: Spacing.three, fontWeight: '600' },
-  definition: { marginBottom: Spacing.three },
+  backRow: { height: 20, marginBottom: space.xs },
+  badge: { marginBottom: space.base, fontWeight: '600' },
+  definition: { marginBottom: space.base },
   timeframe: { fontWeight: '600' },
-  prompt: { marginTop: Spacing.two, marginBottom: Spacing.four },
+  prompt: { marginTop: space.sm, marginBottom: space.xl },
 });

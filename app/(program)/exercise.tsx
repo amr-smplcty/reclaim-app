@@ -10,7 +10,7 @@ import { getProgramModules } from '@/lib/content/week';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { useRefresherStore } from '@/features/program/useRefresherStore';
 import { dayKey, findProgramDay, type ProgramPosition } from '@/features/program/progression';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import { ChainBuilder } from '@/features/program/exercises/ChainBuilder';
 import { ChecklistCommit } from '@/features/program/exercises/ChecklistCommit';
 import { CommitmentBuilder } from '@/features/program/exercises/CommitmentBuilder';
@@ -348,8 +348,8 @@ export default function ExerciseScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four },
-  screen: { flex: 1, padding: Spacing.four },
-  title: { marginBottom: Spacing.three },
-  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: Spacing.five, padding: Spacing.four },
+  container: { flex: 1, padding: space.xl },
+  screen: { flex: 1, padding: space.xl },
+  title: { marginBottom: space.base },
+  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: space.xxl, padding: space.xl },
 });

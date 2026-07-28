@@ -14,7 +14,7 @@ import { annualSavingsPercent, type SubscriptionPackageView } from '@/features/p
 import { isRevenueCatAvailable } from '@/lib/revenuecat/availability';
 import { trackPaywallViewed } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing, radius } from '@/theme/tokens';
+import { space, radius } from '@/theme/tokens';
 
 // Order matters (INC-8a/INC-8b prevention rules): navigate away from the
 // onboarding stack *before* resetting its shared store. Every onboarding
@@ -162,7 +162,7 @@ function RealPaywall() {
         ) : null}
 
         {error ? (
-          <ThemedText type="small" themeColor="danger" style={styles.error}>
+          <ThemedText type="small" themeColor="destructive" style={styles.error}>
             {error}
           </ThemedText>
         ) : null}
@@ -241,7 +241,7 @@ function PlanCard({
         styles.planCard,
         {
           borderColor: selected ? theme.accent : theme.border,
-          backgroundColor: selected ? theme.accentTint : theme.surface,
+          backgroundColor: selected ? theme.accentSubtle : theme.surfaceRaised,
         },
       ]}
     >
@@ -272,18 +272,18 @@ function PlanCard({
 const styles = StyleSheet.create({
   content: { justifyContent: 'flex-start' },
   loadingContent: { justifyContent: 'center', alignItems: 'center' },
-  scroll: { gap: Spacing.three, paddingBottom: Spacing.six },
-  title: { marginBottom: Spacing.one },
-  subtitle: { marginBottom: Spacing.three },
-  planCard: { borderWidth: 1, borderRadius: radius.card, padding: Spacing.three, gap: 2 },
+  scroll: { gap: space.base, paddingBottom: space.xxxl },
+  title: { marginBottom: space.xs },
+  subtitle: { marginBottom: space.base },
+  planCard: { borderWidth: 1, borderRadius: radius.lg, padding: space.base, gap: 2 },
   planHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   planTitle: { fontWeight: '700' },
-  badge: { paddingHorizontal: Spacing.two, paddingVertical: 2, borderRadius: radius.chip },
+  badge: { paddingHorizontal: space.sm, paddingVertical: 2, borderRadius: radius.sm },
   badgeText: { fontWeight: '700' },
   trialNote: { marginTop: 2 },
-  error: { marginTop: Spacing.one },
-  restoreButton: { alignItems: 'center', paddingVertical: Spacing.two },
-  disclosure: { marginTop: Spacing.two },
-  legalRow: { flexDirection: 'row', justifyContent: 'center', gap: Spacing.four, marginTop: Spacing.one },
+  error: { marginTop: space.xs },
+  restoreButton: { alignItems: 'center', paddingVertical: space.sm },
+  disclosure: { marginTop: space.sm },
+  legalRow: { flexDirection: 'row', justifyContent: 'center', gap: space.xl, marginTop: space.xs },
   legalLink: { textDecorationLine: 'underline' },
 });

@@ -5,7 +5,7 @@ import { ThemedText } from '@/components/themed-text';
 import { useTheme } from '@/hooks/use-theme';
 import { formatTimeOfDay, stepHour, stepMinute } from '@/features/settings/timeOfDay';
 import type { TimeOfDay } from '@/features/settings/useSettingsStore';
-import { Spacing, radius } from '@/theme/tokens';
+import { space, radius } from '@/theme/tokens';
 
 interface Props {
   label: string;
@@ -58,7 +58,7 @@ function Stepper({
         accessibilityRole="button"
         accessibilityLabel={`Decrease ${accessibilityLabel}`}
         hitSlop={8}
-        style={[styles.stepperButton, { backgroundColor: theme.surface }]}
+        style={[styles.stepperButton, { backgroundColor: theme.surfaceRaised }]}
       >
         <Ionicons name="chevron-down" size={16} color={theme.textPrimary} />
       </Pressable>
@@ -67,7 +67,7 @@ function Stepper({
         accessibilityRole="button"
         accessibilityLabel={`Increase ${accessibilityLabel}`}
         hitSlop={8}
-        style={[styles.stepperButton, { backgroundColor: theme.surface }]}
+        style={[styles.stepperButton, { backgroundColor: theme.surfaceRaised }]}
       >
         <Ionicons name="chevron-up" size={16} color={theme.textPrimary} />
       </Pressable>
@@ -76,14 +76,14 @@ function Stepper({
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: Spacing.two },
-  controls: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
+  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: space.sm },
+  controls: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   value: { minWidth: 84, textAlign: 'center', fontWeight: '600' },
-  stepperPair: { flexDirection: 'row', gap: Spacing.half },
+  stepperPair: { flexDirection: 'row', gap: space.xxs },
   stepperButton: {
     width: 28,
     height: 28,
-    borderRadius: radius.chip,
+    borderRadius: radius.sm,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -14,7 +14,7 @@ import { useToolkitStore, type LapseFailureMode, type Trigger } from '@/features
 import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsStore';
 import { trackLapseLogged } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { GuidedListOutput } from '@/types/program';
 
 const BEFORE_CHIPS: Array<{ id: Trigger; label: string }> = [
@@ -111,7 +111,7 @@ export default function LapseDebriefScreen() {
           onPress={() => router.push('/(modals)/emergency-card' as Href)}
           accessibilityRole="button"
           accessibilityLabel="Open your Emergency Card"
-          style={[styles.emergencyCardLink, { borderColor: theme.accent, backgroundColor: theme.accentTint }]}
+          style={[styles.emergencyCardLink, { borderColor: theme.accent, backgroundColor: theme.accentSubtle }]}
         >
           <ThemedText type="default" themeColor="accent" style={styles.letterLabel}>
             Open your Emergency Card
@@ -199,13 +199,13 @@ export default function LapseDebriefScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: Spacing.four, paddingBottom: Spacing.six },
-  title: { marginBottom: Spacing.two },
-  intro: { marginBottom: Spacing.four },
-  letterBlock: { borderWidth: 1, borderRadius: 10, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.one },
-  emergencyCardLink: { borderWidth: 1, borderRadius: 10, padding: Spacing.three, marginBottom: Spacing.four, alignItems: 'center' },
+  content: { padding: space.xl, paddingBottom: space.xxxl },
+  title: { marginBottom: space.sm },
+  intro: { marginBottom: space.xl },
+  letterBlock: { borderWidth: 1, borderRadius: 10, padding: space.base, marginBottom: space.xl, gap: space.xs },
+  emergencyCardLink: { borderWidth: 1, borderRadius: 10, padding: space.base, marginBottom: space.xl, alignItems: 'center' },
   letterLabel: { fontWeight: '700' },
-  prompt: { marginTop: Spacing.three, marginBottom: Spacing.two },
+  prompt: { marginTop: space.base, marginBottom: space.sm },
   input: {
     borderWidth: 1,
     borderRadius: 10,
@@ -213,8 +213,8 @@ const styles = StyleSheet.create({
     minHeight: 70,
     fontSize: 16,
     textAlignVertical: 'top',
-    marginBottom: Spacing.two,
+    marginBottom: space.sm,
   },
-  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: Spacing.three, padding: Spacing.four },
+  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: space.base, padding: space.xl },
   centered: { textAlign: 'center' },
 });

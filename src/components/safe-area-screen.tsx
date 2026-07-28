@@ -10,14 +10,14 @@ interface Props extends ViewProps {
   // indicator. Defaults to the full set — pass a narrower set where a native
   // header or modal card already handles the top.
   edges?: readonly Edge[];
-  type?: 'bg' | 'surface';
+  type?: 'surface' | 'surfaceRaised';
 }
 
 // Themed safe-area root for screens that have NO native header (onboarding,
 // modals). Screens inside the tabs/program/toolkit native stacks don't need
 // this — React Navigation's header already insets the top, and the tab bar
 // insets the bottom (fix-device-qa-1 / INC-18).
-export function SafeAreaScreen({ edges = ['top', 'bottom'], type = 'bg', style, ...rest }: Props) {
+export function SafeAreaScreen({ edges = ['top', 'bottom'], type = 'surface', style, ...rest }: Props) {
   const theme = useTheme();
   return <SafeAreaView edges={edges} style={[styles.flex, { backgroundColor: theme[type] }, style]} {...rest} />;
 }

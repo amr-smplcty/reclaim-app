@@ -1,10 +1,12 @@
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { Stack, ThemeProvider } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { navDarkTheme, navLightTheme } from '@/theme/navigation';
 import { AppLockGate } from '@/features/lock/AppLockGate';
 import { KeyboardToolbar } from '@/components/keyboard-toolbar';
 import { useNotificationScheduler } from '@/features/notifications/useNotificationScheduler';
@@ -38,7 +40,11 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider value={colorScheme === 'light' ? DefaultTheme : DarkTheme}>
+        {/* Dark is the designed-first mode: anything but an explicit light
+            appearance resolves to the dark Driftwood theme. */}
+        <ThemeProvider value={colorScheme === 'light' ? navLightTheme : navDarkTheme}>
+          {/* Status bar adapts to the resolved appearance. */}
+          <StatusBar style={colorScheme === 'light' ? 'dark' : 'light'} />
           <AppLockGate>
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name="(onboarding)" />

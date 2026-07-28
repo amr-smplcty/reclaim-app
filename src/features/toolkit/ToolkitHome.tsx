@@ -11,7 +11,7 @@ import { canUseTool, type ToolId } from '@/features/toolkit/entitlement';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { useSubscriptionStore } from '@/features/paywall/useSubscriptionStore';
 import { useTheme } from '@/hooks/use-theme';
-import { colors, radius, Spacing } from '@/theme/tokens';
+import { radius, space } from '@/theme/tokens';
 
 const TOOLS: Array<{ id: ToolId; title: string; subtitle: string; route: Href }> = [
   { id: 'urge_surf', title: 'Urge Surf', subtitle: '3-minute guided wave', route: '/(toolkit)/urge-surf' as Href },
@@ -79,20 +79,20 @@ export function ToolkitHome() {
               style={({ pressed }) => [
                 styles.toolCard,
                 {
-                  backgroundColor: isSuggested ? theme.accent : theme.surface,
+                  backgroundColor: isSuggested ? theme.accent : theme.surfaceRaised,
                   borderColor: theme.border,
                   opacity: enabled ? (pressed ? 0.85 : 1) : 0.4,
                 },
               ]}
             >
               <View style={styles.toolText}>
-                <ThemedText type="subtitle" style={isSuggested ? styles.onAccent : undefined}>
+                <ThemedText type="subtitle" style={isSuggested ? { color: theme.onAccent } : undefined}>
                   {tool.title}
                 </ThemedText>
                 <ThemedText
                   type="small"
                   themeColor={isSuggested ? undefined : 'textSecondary'}
-                  style={isSuggested ? styles.onAccent : undefined}
+                  style={isSuggested ? { color: theme.onAccent } : undefined}
                 >
                   {tool.subtitle}
                 </ThemedText>
@@ -122,22 +122,21 @@ export function ToolkitHome() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: Spacing.four, paddingBottom: Spacing.six },
-  heading: { marginBottom: Spacing.two },
-  subheading: { marginBottom: Spacing.three },
-  suggestion: { marginBottom: Spacing.four, fontWeight: '600' },
-  toolList: { marginBottom: Spacing.five },
+  content: { padding: space.xl, paddingBottom: space.xxxl },
+  heading: { marginBottom: space.sm },
+  subheading: { marginBottom: space.base },
+  suggestion: { marginBottom: space.xl, fontWeight: '600' },
+  toolList: { marginBottom: space.xxl },
   toolCard: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderWidth: 1,
-    borderRadius: radius.card,
-    padding: Spacing.three,
-    marginBottom: Spacing.three,
+    borderRadius: radius.lg,
+    padding: space.base,
+    marginBottom: space.base,
   },
   toolText: { flex: 1, gap: 2 },
-  onAccent: { color: colors.bg },
-  footer: { gap: Spacing.three, alignItems: 'stretch' },
-  lapseButton: { alignItems: 'center', paddingVertical: Spacing.two },
+  footer: { gap: space.base, alignItems: 'stretch' },
+  lapseButton: { alignItems: 'center', paddingVertical: space.sm },
 });

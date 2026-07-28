@@ -19,7 +19,7 @@ import { useRefresherStore } from '@/features/program/useRefresherStore';
 import { trackReassessmentCompleted } from '@/lib/analytics/events';
 import { getCurrentUserId } from '@/lib/supabase/auth';
 import { recordAssessmentRemotely } from '@/lib/assessment/sync';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 const ppcs6 = getPpcs6Assessment();
 
@@ -77,7 +77,7 @@ export default function ReassessmentScreen() {
         <ThemedText type="title" style={styles.score}>
           {result.score} / {PPCS6_SCORE_MAX} · {bandInfo.label}
         </ThemedText>
-        <View style={[styles.scaleTrack, { backgroundColor: theme.surface }]}>
+        <View style={[styles.scaleTrack, { backgroundColor: theme.surfaceRaised }]}>
           <View
             style={[styles.scaleFill, { backgroundColor: bandColor, width: `${scoreScaleFraction(result.score) * 100}%` }]}
           />
@@ -89,7 +89,7 @@ export default function ReassessmentScreen() {
         ) : null}
 
         {offerRefresher ? (
-          <ThemedView style={[styles.refresherOffer, { borderColor: theme.accent, backgroundColor: theme.accentTint }]}>
+          <ThemedView style={[styles.refresherOffer, { borderColor: theme.accent, backgroundColor: theme.accentSubtle }]}>
             <ThemedText type="default" themeColor="accent" style={styles.refresherTitle}>
               Want a refresher week?
             </ThemedText>
@@ -162,21 +162,21 @@ export default function ReassessmentScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: Spacing.four, paddingBottom: Spacing.six },
-  title: { marginBottom: Spacing.two },
-  instruction: { marginBottom: Spacing.two, fontWeight: '600' },
-  note: { marginBottom: Spacing.four },
-  block: { marginBottom: Spacing.four },
-  prompt: { marginBottom: Spacing.two },
-  optionsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.one },
-  resultContainer: { flex: 1, justifyContent: 'center', padding: Spacing.four, gap: Spacing.two },
-  score: { marginBottom: Spacing.two },
-  scaleTrack: { height: 8, borderRadius: 4, overflow: 'hidden', marginBottom: Spacing.three },
+  content: { padding: space.xl, paddingBottom: space.xxxl },
+  title: { marginBottom: space.sm },
+  instruction: { marginBottom: space.sm, fontWeight: '600' },
+  note: { marginBottom: space.xl },
+  block: { marginBottom: space.xl },
+  prompt: { marginBottom: space.sm },
+  optionsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: space.xs },
+  resultContainer: { flex: 1, justifyContent: 'center', padding: space.xl, gap: space.sm },
+  score: { marginBottom: space.sm },
+  scaleTrack: { height: 8, borderRadius: 4, overflow: 'hidden', marginBottom: space.base },
   scaleFill: { height: 8, borderRadius: 4 },
-  delta: { marginBottom: Spacing.four },
-  refresherOffer: { borderWidth: 1, borderRadius: 12, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.two },
+  delta: { marginBottom: space.xl },
+  refresherOffer: { borderWidth: 1, borderRadius: 12, padding: space.base, marginBottom: space.xl, gap: space.sm },
   refresherTitle: { fontWeight: '700' },
   refresherBody: {},
-  refresherActions: { gap: Spacing.two, alignItems: 'stretch' },
-  declineButton: { alignItems: 'center', paddingVertical: Spacing.two },
+  refresherActions: { gap: space.sm, alignItems: 'stretch' },
+  declineButton: { alignItems: 'center', paddingVertical: space.sm },
 });

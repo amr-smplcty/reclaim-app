@@ -8,7 +8,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsStore';
 import { requiredCreditDays } from '@/features/progress/commitmentGoals';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // Commitment Goals (CLINICAL_SPEC §9, PRODUCT_SPEC §5.5) — opt-in only,
 // offered starting end of Week 1 (never before). Calm, saving-toward-a-
@@ -54,7 +54,7 @@ export function CommitmentGoalsSection() {
       <ThemedText type="subtitle" style={styles.cardTitle}>
         Saving toward: {rewardName}
       </ThemedText>
-      <View style={[styles.track, { backgroundColor: theme.surface }]}>
+      <View style={[styles.track, { backgroundColor: theme.surfaceRaised }]}>
         <View style={[styles.fill, { backgroundColor: theme.accent, width: `${progressFraction * 100}%` }]} />
       </View>
       <ThemedText type="small" themeColor="textSecondary" style={styles.progressLabel}>
@@ -71,12 +71,12 @@ export function CommitmentGoalsSection() {
 }
 
 const styles = StyleSheet.create({
-  card: { gap: Spacing.two, marginBottom: Spacing.four },
-  cardTitle: { marginBottom: Spacing.one },
-  cardBody: { marginBottom: Spacing.three },
+  card: { gap: space.sm, marginBottom: space.xl },
+  cardTitle: { marginBottom: space.xs },
+  cardBody: { marginBottom: space.base },
   tierLabel: { fontWeight: '700' },
-  track: { height: 8, borderRadius: 4, overflow: 'hidden', marginTop: Spacing.one },
+  track: { height: 8, borderRadius: 4, overflow: 'hidden', marginTop: space.xs },
   fill: { height: 8, borderRadius: 4 },
-  progressLabel: { marginBottom: Spacing.one },
-  jarTotal: { fontWeight: '700', marginBottom: Spacing.two },
+  progressLabel: { marginBottom: space.xs },
+  jarTotal: { fontWeight: '700', marginBottom: space.sm },
 });

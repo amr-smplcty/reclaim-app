@@ -7,7 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing, radius } from '@/theme/tokens';
+import { space, radius } from '@/theme/tokens';
 import type { RiskWindowPlannerOutput, RiskWindowPlannerPayload } from '@/types/program';
 import { allWindowsPlanted, buildPlannedOutput, buildWorksheetOutput } from '@/features/program/riskWindowPlanner';
 
@@ -102,10 +102,10 @@ export function RiskWindowPlanner({ payload, windows, plantOptions, onSubmit }: 
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { paddingBottom: Spacing.six },
-  notice: { marginBottom: Spacing.three },
-  windowCard: { borderWidth: 1, borderRadius: radius.card, padding: Spacing.three, marginBottom: Spacing.three, gap: Spacing.two },
-  windowLabel: { marginBottom: Spacing.one },
+  container: { paddingBottom: space.xxxl },
+  notice: { marginBottom: space.base },
+  windowCard: { borderWidth: 1, borderRadius: radius.lg, padding: space.base, marginBottom: space.base, gap: space.sm },
+  windowLabel: { marginBottom: space.xs },
   chipRow: { flexDirection: 'row' },
   input: { borderWidth: 1, borderRadius: 10, padding: 10, fontSize: 16 },
 });

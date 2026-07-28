@@ -9,7 +9,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { authenticateForUnlock, isAppLockAvailable } from '@/features/lock/localAuth';
 import { useLockStore } from '@/features/lock/useLockStore';
 import { useSettingsStore } from '@/features/settings/useSettingsStore';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // Wraps the whole app (app/_layout.tsx) so the lock screen can intercept any
 // screen — cold start starts locked (useLockStore's own initial state), and
@@ -73,8 +73,8 @@ export function AppLockGate({ children }: { children: React.ReactNode }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: Spacing.four, gap: Spacing.two },
-  icon: { marginBottom: Spacing.two },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: space.xl, gap: space.sm },
+  icon: { marginBottom: space.sm },
   title: { textAlign: 'center' },
-  subtitle: { textAlign: 'center', marginBottom: Spacing.three },
+  subtitle: { textAlign: 'center', marginBottom: space.base },
 });

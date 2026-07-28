@@ -4,7 +4,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 export default function WelcomeScreen() {
   return (
@@ -22,7 +22,7 @@ export default function WelcomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { justifyContent: 'flex-end', gap: Spacing.five },
-  title: { marginBottom: Spacing.two },
-  contract: { marginBottom: Spacing.four },
+  content: { justifyContent: 'flex-end', gap: space.xxl },
+  title: { marginBottom: space.sm },
+  contract: { marginBottom: space.xl },
 });

@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { LetterWriteOutput, LetterWritePayload } from '@/types/program';
 
 interface Props {
@@ -52,8 +52,8 @@ export function LetterWrite({ payload, prefillValue, onSubmit }: Props) {
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { paddingBottom: Spacing.six },
-  prompt: { marginBottom: Spacing.two },
+  container: { paddingBottom: space.xxxl },
+  prompt: { marginBottom: space.sm },
   input: { borderWidth: 1, borderRadius: 10, padding: 14, minHeight: 160, fontSize: 16, textAlignVertical: 'top' },
-  counter: { marginTop: Spacing.two, marginBottom: Spacing.four },
+  counter: { marginTop: space.sm, marginBottom: space.xl },
 });

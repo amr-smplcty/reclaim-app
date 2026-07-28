@@ -6,7 +6,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { MultiSelectWriteOutput, MultiSelectWritePayload } from '@/types/program';
 
 interface Props {
@@ -73,8 +73,8 @@ export function MultiSelectWrite({ payload, options, onSubmit }: Props) {
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { paddingBottom: Spacing.six },
-  hint: { marginBottom: Spacing.two },
-  prompt: { marginTop: Spacing.four, marginBottom: Spacing.two },
-  input: { borderWidth: 1, borderRadius: 10, padding: 14, minHeight: 90, fontSize: 16, textAlignVertical: 'top', marginBottom: Spacing.four },
+  container: { paddingBottom: space.xxxl },
+  hint: { marginBottom: space.sm },
+  prompt: { marginTop: space.xl, marginBottom: space.sm },
+  input: { borderWidth: 1, borderRadius: 10, padding: 14, minHeight: 90, fontSize: 16, textAlignVertical: 'top', marginBottom: space.xl },
 });

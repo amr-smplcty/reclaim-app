@@ -221,3 +221,20 @@ Rules: the journey map **disappears post-course** — maintenance home is a diff
 - `prefers-reduced-motion` disables breathing scale and celebration; both fall back to crossfade.
 - VoiceOver: growth sprig is announced as "N activities completed", never as a streak or a score.
 - Notification copy contains no identifying words — verify against the live lock-screen preview on screen 31.
+
+---
+
+## 11. Implementation deviations
+
+Adopted in **Epic 15 (branch `epic-15-driftwood`)**. These three points intentionally override the spec above; they are recorded here so this file stays the authoritative source. Where a deviation and an earlier section conflict, **this section wins.**
+
+1. **Score is retained alongside the band (overrides Guardrail 8, "bands, not scores").**
+   The PPCS-6 total (6–42, cutoff 20) is a validated instrument and its downward trend is the product's core progress measure (CLINICAL_SPEC §2). Rather than suppress the number, the results and progress surfaces present the **band as the plain-language headline** and the **number as supporting detail beneath the scale** — never a bare number, never rankable "beat your score" framing. The score and the trend chart are kept, not removed. Implemented on the onboarding Results screen (`app/(onboarding)/results.tsx`) and the Progress tab trend (`src/features/progress/PpcsTrendChart.tsx`).
+
+2. **Tab 4 is "Progress", not "You" (overrides §7 Navigation and the §8 Batch-5 tab set).**
+   The fourth tab holds the score trend, the journey map, and Commitment Goals (CLINICAL_SPEC §2/§9, PRODUCT_SPEC §5). It keeps the label **Progress**. Implemented in `app/(tabs)/_layout.tsx` and `app/(tabs)/progress.tsx`.
+
+3. **The journey map persists into maintenance (overrides §8 Batch-5, "the journey map disappears post-course").**
+   Per PRODUCT_SPEC §5.7 and CLINICAL_SPEC §4, the journey map remains after the six-week course and gains a **maintenance node** rather than vanishing; maintenance home is quieter but still carries the map. Implemented in `src/features/journey/journeyMap.ts` (persistent `maintenance` node) and `app/(modals)/journey-map.tsx`.
+
+**Note (not a deviation, flagged for follow-up):** `bandColorToken` (`src/features/assessment/resultsVisual.ts`) colors PPCS-6 bands C/D with `destructive`. This is the pre-Driftwood behavior preserved unchanged through the Epic 15 token rename (`danger` → `destructive`); it sits in tension with Guardrail 2 ("no error-red for user behaviour") and is logged in BACKLOG for a clinical-review decision rather than silently recolored.

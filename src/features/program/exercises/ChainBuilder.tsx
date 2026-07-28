@@ -6,7 +6,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { ChainBuilderOutput, ChainBuilderPayload } from '@/types/program';
 
 interface Props {
@@ -105,19 +105,19 @@ export function ChainBuilder({ payload, onSubmit }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { paddingBottom: Spacing.six },
-  hint: { marginBottom: Spacing.three },
+  container: { paddingBottom: space.xxxl },
+  hint: { marginBottom: space.base },
   linkRow: {
     borderBottomWidth: 1,
-    paddingVertical: Spacing.two,
-    marginBottom: Spacing.one,
+    paddingVertical: space.sm,
+    marginBottom: space.xs,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: Spacing.two,
+    gap: space.sm,
   },
   linkText: { flex: 1 },
-  addRow: { gap: Spacing.two, marginBottom: Spacing.four },
+  addRow: { gap: space.sm, marginBottom: space.xl },
   input: { borderWidth: 1, borderRadius: 10, padding: 12, fontSize: 16 },
-  prompt: { marginBottom: Spacing.three },
+  prompt: { marginBottom: space.base },
 });

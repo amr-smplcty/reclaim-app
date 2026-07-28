@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { ToolkitHome } from '@/features/toolkit/ToolkitHome';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // SOS opens the exact same Toolkit as the tab (CLAUDE.md: reachable in ≤2
 // taps from every screen, must load instantly).
@@ -22,7 +22,7 @@ export default function SosScreen() {
           accessibilityRole="button"
           accessibilityLabel="Close"
           hitSlop={8}
-          style={[styles.closeButton, { backgroundColor: theme.surface }]}
+          style={[styles.closeButton, { backgroundColor: theme.surfaceRaised }]}
         >
           <Ionicons name="close" size={20} color={theme.textPrimary} />
         </Pressable>
@@ -34,6 +34,6 @@ export default function SosScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  closeRow: { alignItems: 'flex-end', padding: Spacing.four, paddingBottom: 0 },
+  closeRow: { alignItems: 'flex-end', padding: space.xl, paddingBottom: 0 },
   closeButton: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
 });

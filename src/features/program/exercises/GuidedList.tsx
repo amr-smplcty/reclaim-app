@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardAllFreeText } from '@/lib/safety/guard';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { GuidedListOutput, GuidedListPayload } from '@/types/program';
 import { EditableList } from '@/features/program/exercises/EditableList';
 
@@ -43,7 +43,7 @@ export function GuidedList({ payload, onSubmit, initialItems }: Props) {
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { paddingBottom: Spacing.six },
-  prompt: { marginBottom: Spacing.one },
-  hint: { marginBottom: Spacing.three },
+  container: { paddingBottom: space.xxxl },
+  prompt: { marginBottom: space.xs },
+  hint: { marginBottom: space.base },
 });

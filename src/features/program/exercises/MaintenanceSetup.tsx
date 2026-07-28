@@ -5,7 +5,7 @@ import { ChoiceChip } from '@/components/choice-chip';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { MaintenancePlanOutput, MaintenanceSetupPayload } from '@/types/program';
 
 interface Props {
@@ -81,9 +81,9 @@ export function MaintenanceSetup({ payload, onSubmit }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { paddingBottom: Spacing.six, gap: Spacing.four },
-  prompt: { marginBottom: Spacing.one },
-  hint: { marginBottom: Spacing.two },
-  toggleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: Spacing.three },
+  container: { paddingBottom: space.xxxl, gap: space.xl },
+  prompt: { marginBottom: space.xs },
+  hint: { marginBottom: space.sm },
+  toggleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: space.base },
   toggleLabel: { flex: 1, gap: 2 },
 });

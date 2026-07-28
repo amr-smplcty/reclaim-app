@@ -6,7 +6,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import { EditableList } from '@/features/program/exercises/EditableList';
 import type { ChecklistCommitOutput, ChecklistCommitPayload } from '@/types/program';
 
@@ -71,10 +71,10 @@ export function ChecklistCommit({ payload, onSubmit }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { paddingBottom: Spacing.six },
-  sectionTitle: { marginBottom: Spacing.two },
-  item: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two, borderBottomWidth: 1, paddingVertical: Spacing.two },
+  container: { paddingBottom: space.xxxl },
+  sectionTitle: { marginBottom: space.sm },
+  item: { flexDirection: 'row', alignItems: 'center', gap: space.sm, borderBottomWidth: 1, paddingVertical: space.sm },
   itemLabel: { flex: 1 },
-  commitTitle: { marginTop: Spacing.four, marginBottom: Spacing.one },
-  hint: { marginBottom: Spacing.two },
+  commitTitle: { marginTop: space.xl, marginBottom: space.xs },
+  hint: { marginBottom: space.sm },
 });

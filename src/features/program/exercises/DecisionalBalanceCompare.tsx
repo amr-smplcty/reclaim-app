@@ -5,7 +5,7 @@ import { ChoiceChip } from '@/components/choice-chip';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardAllFreeText } from '@/lib/safety/guard';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import { collectComparisonLines } from '@/features/program/exerciseHelpers';
 import { EditableList } from '@/features/program/exercises/EditableList';
 import type {
@@ -84,8 +84,8 @@ export function DecisionalBalanceCompare({ payload, benefits, costs, onSubmit }:
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { paddingBottom: Spacing.six },
-  column: { marginBottom: Spacing.four },
-  columnTitle: { marginBottom: Spacing.two },
-  line: { marginBottom: Spacing.one },
+  container: { paddingBottom: space.xxxl },
+  column: { marginBottom: space.xl },
+  columnTitle: { marginBottom: space.sm },
+  line: { marginBottom: space.xs },
 });

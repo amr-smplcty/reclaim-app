@@ -9,7 +9,7 @@ import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { calculateAge, isMinor } from '@/features/assessment/scoring';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // Age gate (PRODUCT_SPEC §4 step 2 / CLINICAL_SPEC §6 minor detection) — under-18
 // exits to resources and never enters the program in v1. Input method is a
@@ -65,8 +65,8 @@ export default function AgeScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: { marginBottom: Spacing.two },
-  subtitle: { marginBottom: Spacing.five },
-  error: { marginTop: Spacing.two },
+  title: { marginBottom: space.sm },
+  subtitle: { marginBottom: space.xxl },
+  error: { marginTop: space.sm },
   spacer: { flex: 1 },
 });

@@ -8,7 +8,7 @@ import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { getIntakeContent } from '@/lib/content';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 const { prior_quit_attempts: options } = getIntakeContent();
 
@@ -40,6 +40,6 @@ export default function ContextQuitsScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: { marginBottom: Spacing.four },
-  footer: { paddingTop: Spacing.three },
+  title: { marginBottom: space.xl },
+  footer: { paddingTop: space.base },
 });

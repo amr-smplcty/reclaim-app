@@ -6,7 +6,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing, radius } from '@/theme/tokens';
+import { space, radius } from '@/theme/tokens';
 import { compileEmergencyCardSections } from '@/features/program/emergencyCard';
 import type { EmergencyCardBuilderPayload, EmergencyCardOutput, EmergencyCardSectionState } from '@/types/program';
 
@@ -113,11 +113,11 @@ export function EmergencyCardBuilder({ payload, sourceOutputs, onSubmit }: Props
 }
 
 const styles = StyleSheet.create({
-  container: { paddingBottom: Spacing.six, gap: Spacing.three },
-  hint: { marginBottom: Spacing.one },
-  row: { borderWidth: 1, borderRadius: radius.card, padding: Spacing.three, gap: Spacing.one },
+  container: { paddingBottom: space.xxxl, gap: space.base },
+  hint: { marginBottom: space.xs },
+  row: { borderWidth: 1, borderRadius: radius.lg, padding: space.base, gap: space.xs },
   rowHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   rowTitle: { flex: 1 },
-  rowControls: { flexDirection: 'row', gap: Spacing.two },
+  rowControls: { flexDirection: 'row', gap: space.sm },
   iconButton: { padding: 4 },
 });

@@ -8,7 +8,7 @@ import { useProgramStore } from '@/features/program/useProgramStore';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { assembleJournalTimeline, groupTimelineByDay } from '@/features/journal/timeline';
 import { JournalEntryCard } from '@/features/journal/JournalEntryCard';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 function formatDateLabel(dateKey: string): string {
   const date = new Date(`${dateKey}T00:00:00`);
@@ -78,9 +78,9 @@ export default function JournalScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: Spacing.four, paddingBottom: Spacing.six },
-  title: { marginBottom: Spacing.four },
-  group: { marginBottom: Spacing.four },
-  dateLabel: { marginBottom: Spacing.two },
-  emptyContainer: { flex: 1, padding: Spacing.four, justifyContent: 'center', gap: Spacing.two },
+  content: { padding: space.xl, paddingBottom: space.xxxl },
+  title: { marginBottom: space.xl },
+  group: { marginBottom: space.xl },
+  dateLabel: { marginBottom: space.sm },
+  emptyContainer: { flex: 1, padding: space.xl, justifyContent: 'center', gap: space.sm },
 });

@@ -6,7 +6,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { useSettingsStore } from '@/features/settings/useSettingsStore';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { evaluateRiskyWindowEligibility, riskyWindowReminderCopy } from '@/lib/notifications/riskyWindow';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // PRODUCT_SPEC §7 — "offer opt-in supportive ping 30 min before the modal
 // hour" once a real time cluster exists (>=5 real urge events). A gentle,
@@ -30,7 +30,7 @@ export function RiskyWindowOffer() {
   const copy = riskyWindowReminderCopy(eligibility.window);
 
   return (
-    <ThemedView style={[styles.card, { borderColor: theme.accent, backgroundColor: theme.accentTint }]}>
+    <ThemedView style={[styles.card, { borderColor: theme.accent, backgroundColor: theme.accentSubtle }]}>
       <ThemedText type="default" style={styles.title}>
         {copy.title}
       </ThemedText>
@@ -64,8 +64,8 @@ export function RiskyWindowOffer() {
 }
 
 const styles = StyleSheet.create({
-  card: { borderWidth: 1, borderRadius: 12, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.two },
+  card: { borderWidth: 1, borderRadius: 12, padding: space.base, marginBottom: space.xl, gap: space.sm },
   title: { fontWeight: '600' },
   subtitle: {},
-  row: { flexDirection: 'row', gap: Spacing.four, marginTop: Spacing.one },
+  row: { flexDirection: 'row', gap: space.xl, marginTop: space.xs },
 });

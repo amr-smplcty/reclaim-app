@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { JournalTimelineItem } from '@/features/journal/timeline';
 
 const ICONS: Record<JournalTimelineItem['type'], keyof typeof Ionicons.glyphMap> = {
@@ -68,7 +68,7 @@ export function JournalEntryCard({ item }: Props) {
 }
 
 const styles = StyleSheet.create({
-  card: { borderWidth: 1, borderRadius: 12, padding: Spacing.three, marginBottom: Spacing.three, gap: Spacing.one },
-  header: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two, marginBottom: Spacing.one },
+  card: { borderWidth: 1, borderRadius: 12, padding: space.base, marginBottom: space.base, gap: space.xs },
+  header: { flexDirection: 'row', alignItems: 'center', gap: space.sm, marginBottom: space.xs },
   label: { flex: 1, fontWeight: '700' },
 });

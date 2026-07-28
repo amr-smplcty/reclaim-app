@@ -24,7 +24,7 @@ import { useProgramStore } from '@/features/program/useProgramStore';
 import { dayKey, findProgramDay } from '@/features/program/progression';
 import { splitLessonIntoCards } from '@/features/program/lessonCards';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // Lesson player (PRODUCT_SPEC §5.2) — swipeable cards, one thought per card
 // (split from body_md at paragraph breaks), thin progress bar on top, the
@@ -97,7 +97,7 @@ export default function LessonScreen() {
   return (
     <ThemedView style={styles.screen}>
       <View style={styles.header}>
-        <View style={[styles.progressTrack, { backgroundColor: theme.surface }]}>
+        <View style={[styles.progressTrack, { backgroundColor: theme.surfaceRaised }]}>
           <View
             style={[
               styles.progressFill,
@@ -186,24 +186,24 @@ export default function LessonScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four },
+  container: { flex: 1, padding: space.xl },
   screen: { flex: 1 },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: Spacing.three,
-    paddingHorizontal: Spacing.four,
-    paddingTop: Spacing.four,
+    gap: space.base,
+    paddingHorizontal: space.xl,
+    paddingTop: space.xl,
   },
   progressTrack: { flex: 1, height: 4, borderRadius: 2, overflow: 'hidden' },
   progressFill: { height: 4, borderRadius: 2 },
   pager: { flex: 1 },
   card: { flex: 1, justifyContent: 'space-between' },
-  cardContent: { flexGrow: 1, padding: Spacing.four },
-  title: { marginBottom: Spacing.one },
-  readTime: { marginBottom: Spacing.four },
-  reflectionPrompt: { marginBottom: Spacing.three },
-  footer: { paddingHorizontal: Spacing.four, paddingBottom: Spacing.four },
+  cardContent: { flexGrow: 1, padding: space.xl },
+  title: { marginBottom: space.xs },
+  readTime: { marginBottom: space.xl },
+  reflectionPrompt: { marginBottom: space.base },
+  footer: { paddingHorizontal: space.xl, paddingBottom: space.xl },
   input: {
     borderWidth: 1,
     borderRadius: 10,
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     minHeight: 100,
     fontSize: 16,
     textAlignVertical: 'top',
-    marginBottom: Spacing.four,
+    marginBottom: space.xl,
   },
-  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: Spacing.five, padding: Spacing.four },
+  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: space.xxl, padding: space.xl },
 });

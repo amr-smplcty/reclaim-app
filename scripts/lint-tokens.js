@@ -11,7 +11,12 @@ const ROOT = path.resolve(__dirname, '..');
 const SCAN_DIRS = ['app', 'src'];
 const EXCLUDE_PATH_SEGMENTS = ['node_modules', path.join('src', 'theme', 'tokens.ts')];
 const INCLUDE_EXTENSIONS = ['.ts', '.tsx'];
-const HEX_COLOR_PATTERN = /#[0-9A-Fa-f]{3,8}\b/g;
+// Raw color literals of any form must live only in src/theme/tokens.ts:
+// hex (#rgb…#rrggbbaa) and functional rgb()/rgba()/hsl()/hsla() (Driftwood
+// introduced rgba() overlays in the token file — keep them from leaking out).
+const COLOR_LITERAL_PATTERN = /#[0-9A-Fa-f]{3,8}\b|\b(?:rgba?|hsla?)\s*\(/g;
+// Back-compat export name kept for the token unit test.
+const HEX_COLOR_PATTERN = COLOR_LITERAL_PATTERN;
 
 function walk(dir, files) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {

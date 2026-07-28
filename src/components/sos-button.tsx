@@ -16,10 +16,11 @@ export function SosButton() {
       onPress={() => router.push('/(modals)/sos')}
       accessibilityRole="button"
       accessibilityLabel="Open SOS urge support tools"
-      hitSlop={8}
+      // Crisis target deliberately enlarged past the 44pt minimum (§10).
+      hitSlop={{ top: 14, bottom: 14, left: 14, right: 14 }}
       style={({ pressed }) => [
         styles.button,
-        { backgroundColor: theme.surface, borderColor: theme.caution, opacity: pressed ? 0.7 : 1 },
+        { backgroundColor: theme.surfaceRaised, borderColor: theme.caution, opacity: pressed ? 0.7 : 1 },
       ]}
     >
       <ThemedText type="small" themeColor="caution" style={styles.label}>
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: radius.chip,
+    borderRadius: radius.sm,
     borderWidth: 1,
     marginRight: 12,
   },

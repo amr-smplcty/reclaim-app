@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ChoiceChip } from '@/components/choice-chip';
 import { ThemedText } from '@/components/themed-text';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 interface Props {
   items: string[];
@@ -57,7 +57,7 @@ export function EditableList({ items, onChange, suggestions = [], addPlaceholder
           onPress={() => addItem(draft)}
           accessibilityRole="button"
           accessibilityLabel="Add item"
-          style={[styles.addButton, { backgroundColor: theme.surface }]}
+          style={[styles.addButton, { backgroundColor: theme.surfaceRaised }]}
         >
           <Ionicons name="add" size={20} color={theme.accent} />
         </Pressable>
@@ -83,8 +83,8 @@ export function EditableList({ items, onChange, suggestions = [], addPlaceholder
 }
 
 const styles = StyleSheet.create({
-  suggestions: { marginBottom: Spacing.two },
-  addRow: { flexDirection: 'row', gap: Spacing.two, marginBottom: Spacing.three, alignItems: 'center' },
+  suggestions: { marginBottom: space.sm },
+  addRow: { flexDirection: 'row', gap: space.sm, marginBottom: space.base, alignItems: 'center' },
   input: { flex: 1, borderWidth: 1, borderRadius: 10, padding: 12, fontSize: 16 },
   addButton: { width: 44, height: 44, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   itemRow: {
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    paddingVertical: Spacing.two,
+    paddingVertical: space.sm,
   },
-  itemText: { flex: 1, marginRight: Spacing.two },
+  itemText: { flex: 1, marginRight: space.sm },
 });
