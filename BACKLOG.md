@@ -79,7 +79,6 @@
 | # | Item | Source | Gate |
 |---|------|--------|------|
 | 63 | **True New York serif face.** Lesson body + ceremony Display use `Georgia` as the reliably-available iOS system serif standing in for New York (DESIGN_SYSTEM §3 notes Newsreader stands in for New York in the HTML). Real New York needs either a bundled font file (expo-font) or a native `.AppleSystemUIFontSerif` descriptor RN can't currently reference directly; swap `fontFamilies.serif` in tokens.ts once the face ships | Epic 15 / DESIGN_SYSTEM §3 | P |
-| 64 | **Band C/D result color vs Guardrail 2.** `bandColorToken` (`resultsVisual.ts`) colors PPCS-6 bands C/D with `destructive` (red). Epic 15 preserved this behavior unchanged through the `danger`→`destructive` rename, but it conflicts with Driftwood Guardrail 2 ("no error-red for user behaviour"). Needs a clinical-review decision: recolor C/D to `caution` (ochre "this is data") or keep. Recorded as a deliberate non-deviation in DESIGN_SYSTEM §11 | Epic 15 / DESIGN_SYSTEM Guardrail 2 vs §11 | L |
 | 65 | **Live lock-screen notification preview (Screen 31).** DESIGN_SYSTEM §8 Batch-5 + §10 require a live preview of the actual scheduled notification so users verify nothing identifying appears. This needs notification-content wiring (logic), not just layout — deferred | DESIGN_SYSTEM §8/§10 | TF |
 | 66 | **Late-night Home variant (Screen 13b).** After ~11pm, Home demotes the lesson and promotes the toolkit (DESIGN_SYSTEM §8 Batch-2). This is a content/logic branch (time-of-day → different card ordering), not just styling — deferred | DESIGN_SYSTEM §8 Batch-2 | P |
 | 67 | **Per-screen state-matrix polish pass.** Epic 15 upgraded the shared primitives (button variants/states, selection chip, text scale, growth visual, tab bar) to the Components spec and migrated all 33 screens to Driftwood tokens/light-dark. Remaining per-screen refinements are visual-only but sizeable: input focus-ring/error states everywhere, skeleton loading states (surfaceSunken blocks, 1200ms shimmer), bottom-sheet drag handles, toast component, and empty/error state components per §7. Track as a dedicated polish epic | Epic 15 / DESIGN_SYSTEM §7 | P |
@@ -88,6 +87,7 @@
 
 | Item | Resolved by |
 |------|-------------|
+| #64 Band C/D result color vs Guardrail 2 (`destructive`/red for a starting score) | Resolved in favor of Guardrail 2 (fix-driftwood-followups): C/D recolored `destructive`→`caution` in `resultsVisual.ts`; band label + framing carry the distinction, `destructive` kept for data actions only; DESIGN_SYSTEM §11 note updated |
 | Supabase client crashed at import with no .env | Fixed in Epic 2b run |
 | Banned-words lint false positive on CBT/ACT proper nouns | Lint allowlist + LEGAL_COMPLIANCE §2.1 exception codified |
 | PPCS-6 component tags mismatched item order | Remapped in PPCS-6 fill task |
