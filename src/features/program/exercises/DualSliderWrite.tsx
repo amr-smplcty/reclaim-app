@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { DualSliderWriteOutput, DualSliderWritePayload } from '@/types/program';
 import { NumberScale } from '@/features/program/exercises/NumberScale';
 
@@ -72,10 +72,10 @@ export function DualSliderWrite({ payload, onSubmit }: Props) {
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { paddingBottom: Spacing.six },
-  sliderBlock: { marginBottom: Spacing.four },
-  sliderLabel: { marginBottom: Spacing.two },
-  writeBlock: { marginBottom: Spacing.four },
-  prompt: { marginBottom: Spacing.two },
+  container: { paddingBottom: space.xxxl },
+  sliderBlock: { marginBottom: space.xl },
+  sliderLabel: { marginBottom: space.sm },
+  writeBlock: { marginBottom: space.xl },
+  prompt: { marginBottom: space.sm },
   input: { borderWidth: 1, borderRadius: 10, padding: 14, minHeight: 80, fontSize: 16, textAlignVertical: 'top' },
 });

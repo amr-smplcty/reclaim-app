@@ -12,7 +12,7 @@ import { PostToolRating } from '@/features/toolkit/PostToolRating';
 import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { describeDelta } from '@/features/toolkit/suggestion';
 import { trackUrgeToolUsed } from '@/lib/analytics/events';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 const { total_seconds: totalSeconds, cycle_seconds: cycleSeconds } = getContentPack().toolkit.breather;
 const CYCLE_LENGTH = cycleSeconds.inhale + cycleSeconds.hold_in + cycleSeconds.exhale + cycleSeconds.hold_out;
@@ -91,6 +91,6 @@ export default function BreatherScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four, alignItems: 'center', justifyContent: 'center', gap: Spacing.four },
-  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: Spacing.five, padding: Spacing.four },
+  container: { flex: 1, padding: space.xl, alignItems: 'center', justifyContent: 'center', gap: space.xl },
+  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: space.xxl, padding: space.xl },
 });

@@ -6,7 +6,7 @@ import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
 import { useOnboardingStore } from '@/features/assessment/useOnboardingStore';
 import { requestNotificationPermission } from '@/lib/notifications/availability';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // PRODUCT_SPEC §4 step 9 — permission primer, then the OS prompt. Actual
 // reminder scheduling (daily/risky-window/re-assessment, PRODUCT_SPEC §7,
@@ -37,7 +37,7 @@ export default function NotificationsScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { justifyContent: 'center', gap: Spacing.four },
-  title: { marginBottom: Spacing.two },
-  subtitle: { marginBottom: Spacing.two },
+  content: { justifyContent: 'center', gap: space.xl },
+  title: { marginBottom: space.sm },
+  subtitle: { marginBottom: space.sm },
 });

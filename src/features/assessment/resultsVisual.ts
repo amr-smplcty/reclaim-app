@@ -10,7 +10,7 @@ export function scoreScaleFraction(score: number): number {
 
 // Bands A/B sit below the clinical cutoff (CLAUDE.md rule 3: PPCS-6 cutoff
 // ≥20); C/D are at or above it. Only 3 semantic tokens exist, so C and D
-// share "danger" — both already crossed the same threshold.
+// share "destructive" — both already crossed the same threshold.
 export function bandColorToken(band: Ppcs6Band): ThemeColor {
   switch (band) {
     case 'A':
@@ -19,6 +19,6 @@ export function bandColorToken(band: Ppcs6Band): ThemeColor {
       return 'caution';
     case 'C':
     case 'D':
-      return 'danger';
+      return 'destructive';
   }
 }

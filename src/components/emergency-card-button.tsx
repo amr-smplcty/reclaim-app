@@ -24,7 +24,7 @@ export function EmergencyCardButton() {
       hitSlop={8}
       style={({ pressed }) => [
         styles.button,
-        { backgroundColor: theme.accentTint, borderColor: theme.accent, opacity: pressed ? 0.7 : 1 },
+        { backgroundColor: theme.accentSubtle, borderColor: theme.accent, opacity: pressed ? 0.7 : 1 },
       ]}
     >
       <ThemedText type="small" themeColor="accent" style={styles.label}>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: radius.chip,
+    borderRadius: radius.sm,
     borderWidth: 1,
     marginLeft: 12,
   },

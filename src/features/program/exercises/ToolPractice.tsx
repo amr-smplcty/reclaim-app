@@ -7,7 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
 import { TOOL_LABELS, TOOL_ROUTES } from '@/features/toolkit/entitlement';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { ToolPracticeOutput, ToolPracticePayload } from '@/types/program';
 
 interface Props {
@@ -76,8 +76,8 @@ export function ToolPractice({ payload, onSubmit }: Props) {
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { flex: 1, justifyContent: 'center', paddingBottom: Spacing.six, gap: Spacing.four },
-  intro: { marginBottom: Spacing.two },
-  prompt: { marginBottom: Spacing.two },
+  container: { flex: 1, justifyContent: 'center', paddingBottom: space.xxxl, gap: space.xl },
+  intro: { marginBottom: space.sm },
+  prompt: { marginBottom: space.sm },
   input: { borderWidth: 1, borderRadius: 10, padding: 14, minHeight: 100, fontSize: 16, textAlignVertical: 'top' },
 });

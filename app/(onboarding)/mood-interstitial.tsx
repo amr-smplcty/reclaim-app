@@ -4,7 +4,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { goNextFrom } from '@/features/assessment/navigation';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // Non-blocking supportive interstitial when PHQ-2/GAD-2 ≥3 (CLINICAL_SPEC §3).
 // Copy is verbatim from the spec.
@@ -27,7 +27,7 @@ export default function MoodInterstitialScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four, justifyContent: 'center', gap: Spacing.three },
-  title: { marginBottom: Spacing.two },
-  resourcesLink: { marginTop: Spacing.two, marginBottom: Spacing.four },
+  container: { flex: 1, padding: space.xl, justifyContent: 'center', gap: space.base },
+  title: { marginBottom: space.sm },
+  resourcesLink: { marginTop: space.sm, marginBottom: space.xl },
 });

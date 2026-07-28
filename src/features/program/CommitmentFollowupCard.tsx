@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { ChoiceChip } from '@/components/choice-chip';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { CommitmentFollowupAnswer } from '@/types/program';
 
 interface Props {
@@ -38,8 +38,8 @@ export function CommitmentFollowupCard({ commitments, onAnswer }: Props) {
 }
 
 const styles = StyleSheet.create({
-  card: { borderRadius: 12, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.one },
-  title: { marginBottom: Spacing.one },
-  question: { marginTop: Spacing.two, marginBottom: Spacing.two },
-  answerRow: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.two },
+  card: { borderRadius: 12, padding: space.base, marginBottom: space.xl, gap: space.xs },
+  title: { marginBottom: space.xs },
+  question: { marginTop: space.sm, marginBottom: space.sm },
+  answerRow: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
 });

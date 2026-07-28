@@ -18,7 +18,7 @@ import { dayKey } from '@/features/program/progression';
 import { dateKeyOf } from '@/features/progress/dailyCreditReconciliation';
 import { trackCheckinCompleted } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { CommittedActionPlannerOutput } from '@/types/program';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -191,13 +191,13 @@ export default function CheckinScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: Spacing.four, paddingBottom: Spacing.six },
-  title: { marginBottom: Spacing.three },
-  prompt: { marginTop: Spacing.four, marginBottom: Spacing.two },
-  row: { flexDirection: 'row', gap: Spacing.two },
-  hint: { marginTop: Spacing.two, marginBottom: Spacing.one },
-  actionRow: { marginTop: Spacing.two, gap: Spacing.one },
-  actionLabel: { marginBottom: Spacing.half },
+  content: { padding: space.xl, paddingBottom: space.xxxl },
+  title: { marginBottom: space.base },
+  prompt: { marginTop: space.xl, marginBottom: space.sm },
+  row: { flexDirection: 'row', gap: space.sm },
+  hint: { marginTop: space.sm, marginBottom: space.xs },
+  actionRow: { marginTop: space.sm, gap: space.xs },
+  actionLabel: { marginBottom: space.xxs },
   input: {
     borderWidth: 1,
     borderRadius: 10,
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     minHeight: 120,
     fontSize: 16,
     textAlignVertical: 'top',
-    marginBottom: Spacing.four,
+    marginBottom: space.xl,
   },
-  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: Spacing.five, padding: Spacing.four },
+  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: space.xxl, padding: space.xl },
 });

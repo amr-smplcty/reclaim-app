@@ -10,7 +10,7 @@ import { JourneyMap } from '@/features/journey/JourneyMapView';
 import { useJourneyStore } from '@/features/journey/useJourneyStore';
 import { getJourneyContent } from '@/lib/content/journey';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // Beginning sequence (PRODUCT_SPEC §5.7) — 4 ceremonial screens, shown once
 // after the first successful paywall continuation, before W1D1. Tap-through
@@ -47,7 +47,7 @@ export default function BeginningScreen() {
           {screens.map((s, i) => (
             <View
               key={s.id}
-              style={[styles.dot, { backgroundColor: i === index ? theme.accent : theme.surface }]}
+              style={[styles.dot, { backgroundColor: i === index ? theme.accent : theme.surfaceRaised }]}
             />
           ))}
         </View>
@@ -86,14 +86,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: Spacing.four,
-    paddingTop: Spacing.three,
+    paddingHorizontal: space.xl,
+    paddingTop: space.base,
   },
-  dots: { flexDirection: 'row', gap: Spacing.one },
+  dots: { flexDirection: 'row', gap: space.xs },
   dot: { width: 8, height: 8, borderRadius: 4 },
   skipSpacer: { width: 32 },
-  content: { padding: Spacing.four, gap: Spacing.two, paddingBottom: Spacing.five },
-  title: { marginBottom: Spacing.one },
-  mapPreview: { marginTop: Spacing.three },
-  footer: { padding: Spacing.four, paddingTop: Spacing.two },
+  content: { padding: space.xl, gap: space.sm, paddingBottom: space.xxl },
+  title: { marginBottom: space.xs },
+  mapPreview: { marginTop: space.base },
+  footer: { padding: space.xl, paddingTop: space.sm },
 });

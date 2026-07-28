@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing, radius } from '@/theme/tokens';
+import { space, radius } from '@/theme/tokens';
 import { TOOL_LABELS, TOOL_ROUTES } from '@/features/toolkit/entitlement';
 import type { EmergencyCardCompiledSection } from '@/features/program/emergencyCard';
 
@@ -76,7 +76,7 @@ export function EmergencyCardView({ sections }: Props) {
                       accessibilityLabel={TOOL_LABELS[toolId]}
                       style={[styles.toolButton, { backgroundColor: theme.accent }]}
                     >
-                      <ThemedText type="default" style={{ color: theme.bg, fontWeight: '700' }}>
+                      <ThemedText type="default" style={{ color: theme.surface, fontWeight: '700' }}>
                         {TOOL_LABELS[toolId]}
                       </ThemedText>
                     </Pressable>
@@ -95,7 +95,7 @@ export function EmergencyCardView({ sections }: Props) {
           return (
             <ThemedView
               key={section.source}
-              style={[styles.section, styles.contactSection, { borderColor: theme.accent, backgroundColor: theme.accentTint }]}
+              style={[styles.section, styles.contactSection, { borderColor: theme.accent, backgroundColor: theme.accentSubtle }]}
             >
               <ThemedText type="subtitle" themeColor="accent" style={styles.sectionTitle}>
                 {section.title}
@@ -121,12 +121,12 @@ export function EmergencyCardView({ sections }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { gap: Spacing.three },
-  section: { borderWidth: 1, borderRadius: radius.card, padding: Spacing.three, gap: Spacing.two },
+  container: { gap: space.base },
+  section: { borderWidth: 1, borderRadius: radius.lg, padding: space.base, gap: space.sm },
   contactSection: { borderWidth: 1.5 },
   sectionTitle: {},
-  sectionBody: { marginTop: Spacing.one },
+  sectionBody: { marginTop: space.xs },
   collapsedHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  toolRow: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.two },
-  toolButton: { borderRadius: radius.button, paddingVertical: 12, paddingHorizontal: 16 },
+  toolRow: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
+  toolButton: { borderRadius: radius.md, paddingVertical: 12, paddingHorizontal: 16 },
 });

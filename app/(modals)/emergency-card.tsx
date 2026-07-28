@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/themed-text';
 import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { getEmergencyCardBuilderPayload } from '@/lib/content/week';
 import { compileEmergencyCardSections, visibleEmergencyCardSections } from '@/features/program/emergencyCard';
@@ -32,7 +32,7 @@ export default function EmergencyCardScreen() {
           accessibilityRole="button"
           accessibilityLabel="Close"
           hitSlop={8}
-          style={[styles.closeButton, { backgroundColor: theme.surface }]}
+          style={[styles.closeButton, { backgroundColor: theme.surfaceRaised }]}
         >
           <Ionicons name="close" size={20} color={theme.textPrimary} />
         </Pressable>
@@ -56,8 +56,8 @@ export default function EmergencyCardScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  closeRow: { alignItems: 'flex-end', padding: Spacing.four, paddingBottom: 0 },
+  closeRow: { alignItems: 'flex-end', padding: space.xl, paddingBottom: 0 },
   closeButton: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
-  content: { padding: Spacing.four, paddingTop: Spacing.two, paddingBottom: Spacing.six },
-  heading: { marginBottom: Spacing.three },
+  content: { padding: space.xl, paddingTop: space.sm, paddingBottom: space.xxxl },
+  heading: { marginBottom: space.base },
 });

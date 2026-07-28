@@ -4,7 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { SafeAreaScreen } from '@/components/safe-area-screen';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // Full-screen safety interrupt (CLINICAL_SPEC §6) — never gated behind
 // subscription, shown immediately wherever crisis/illegal-content language is typed.
@@ -46,8 +46,8 @@ export default function SafetyResourcesScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four, justifyContent: 'center', gap: Spacing.three },
-  title: { marginBottom: Spacing.two },
+  container: { flex: 1, padding: space.xl, justifyContent: 'center', gap: space.base },
+  title: { marginBottom: space.sm },
   resource: { fontWeight: '700' },
-  spacing: { marginTop: Spacing.two },
+  spacing: { marginTop: space.sm },
 });

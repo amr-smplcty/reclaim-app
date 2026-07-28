@@ -8,7 +8,7 @@ import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { useTheme } from '@/hooks/use-theme';
 import { getCurrentUserId } from '@/lib/supabase/auth';
 import { deleteAccountAndAllData } from '@/features/settings/deleteAccount';
-import { Spacing, colors, radius } from '@/theme/tokens';
+import { space, radius } from '@/theme/tokens';
 
 const CONFIRMATION_PHRASE = 'DELETE';
 
@@ -61,7 +61,7 @@ export default function DeleteAccountScreen() {
           accessibilityLabel="Type DELETE to confirm"
         />
         {error ? (
-          <ThemedText type="small" themeColor="danger" style={styles.error}>
+          <ThemedText type="small" themeColor="destructive" style={styles.error}>
             {error}
           </ThemedText>
         ) : null}
@@ -71,9 +71,9 @@ export default function DeleteAccountScreen() {
           accessibilityRole="button"
           accessibilityLabel="Permanently delete my account and data"
           accessibilityState={{ disabled: !canDelete }}
-          style={[styles.deleteButton, { backgroundColor: theme.danger, opacity: canDelete ? 1 : 0.4 }]}
+          style={[styles.deleteButton, { backgroundColor: theme.destructive, opacity: canDelete ? 1 : 0.4 }]}
         >
-          <ThemedText type="link" style={styles.deleteLabel}>
+          <ThemedText type="link" style={[styles.deleteLabel, { color: theme.onAccent }]}>
             {deleting ? 'Deleting…' : 'Permanently delete'}
           </ThemedText>
         </Pressable>
@@ -87,13 +87,13 @@ export default function DeleteAccountScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: Spacing.four, paddingBottom: Spacing.six },
-  title: { marginBottom: Spacing.two },
-  body: { marginBottom: Spacing.four },
-  instruction: { marginBottom: Spacing.two, fontWeight: '600' },
-  input: { borderWidth: 1, borderRadius: 10, padding: 14, fontSize: 16, marginBottom: Spacing.three },
-  error: { marginBottom: Spacing.three },
-  deleteButton: { paddingVertical: 16, borderRadius: radius.button, alignItems: 'center', marginBottom: Spacing.three },
-  deleteLabel: { color: colors.bg, fontWeight: '700' },
+  content: { padding: space.xl, paddingBottom: space.xxxl },
+  title: { marginBottom: space.sm },
+  body: { marginBottom: space.xl },
+  instruction: { marginBottom: space.sm, fontWeight: '600' },
+  input: { borderWidth: 1, borderRadius: 10, padding: 14, fontSize: 16, marginBottom: space.base },
+  error: { marginBottom: space.base },
+  deleteButton: { paddingVertical: 16, borderRadius: radius.md, alignItems: 'center', marginBottom: space.base },
+  deleteLabel: { fontWeight: '700' },
   cancel: { textAlign: 'center' },
 });

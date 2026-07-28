@@ -16,7 +16,7 @@ import { describeDelta } from '@/features/toolkit/suggestion';
 import { playGuidedAudio } from '@/lib/audio/guidedAudio';
 import { trackUrgeToolUsed } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { CommitmentBuilderOutput, UrgeSurfBeat } from '@/types/program';
 
 // Week 2's authored script (content/program.json's earlier interim text
@@ -119,9 +119,9 @@ export default function UrgeSurfScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four, alignItems: 'center', justifyContent: 'center', gap: Spacing.five },
-  prompt: { textAlign: 'center', paddingHorizontal: Spacing.three },
-  scriptBlock: { borderWidth: 1, borderRadius: 10, padding: Spacing.three, gap: Spacing.one, alignSelf: 'stretch' },
+  container: { flex: 1, padding: space.xl, alignItems: 'center', justifyContent: 'center', gap: space.xxl },
+  prompt: { textAlign: 'center', paddingHorizontal: space.base },
+  scriptBlock: { borderWidth: 1, borderRadius: 10, padding: space.base, gap: space.xs, alignSelf: 'stretch' },
   scriptLabel: { fontWeight: '700' },
-  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: Spacing.five, padding: Spacing.four },
+  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: space.xxl, padding: space.xl },
 });

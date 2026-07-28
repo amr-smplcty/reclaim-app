@@ -9,7 +9,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing, radius } from '@/theme/tokens';
+import { space, radius } from '@/theme/tokens';
 import { getProgramModules } from '@/lib/content/week';
 import { assembleRefresherWeekFromModules } from '@/features/program/refresher';
 import { useRefresherStore } from '@/features/program/useRefresherStore';
@@ -37,7 +37,7 @@ export default function RefresherWeekScreen() {
           accessibilityRole="button"
           accessibilityLabel="Close"
           hitSlop={8}
-          style={[styles.closeButton, { backgroundColor: theme.surface }]}
+          style={[styles.closeButton, { backgroundColor: theme.surfaceRaised }]}
         >
           <Ionicons name="close" size={20} color={theme.textPrimary} />
         </Pressable>
@@ -51,7 +51,7 @@ export default function RefresherWeekScreen() {
         </ThemedText>
 
         {allReviewed ? (
-          <ThemedView style={[styles.doneBanner, { borderColor: theme.accent, backgroundColor: theme.accentTint }]}>
+          <ThemedView style={[styles.doneBanner, { borderColor: theme.accent, backgroundColor: theme.accentSubtle }]}>
             <ThemedText type="default" themeColor="accent">
               Refresher complete.
             </ThemedText>
@@ -120,19 +120,19 @@ export default function RefresherWeekScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  closeRow: { alignItems: 'flex-end', padding: Spacing.four, paddingBottom: 0 },
+  closeRow: { alignItems: 'flex-end', padding: space.xl, paddingBottom: 0 },
   closeButton: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
-  content: { padding: Spacing.four, paddingTop: Spacing.two, paddingBottom: Spacing.six, gap: Spacing.three },
-  heading: { marginBottom: Spacing.one },
-  intro: { marginBottom: Spacing.two },
-  progressNote: { marginBottom: Spacing.two },
-  doneBanner: { borderWidth: 1, borderRadius: 12, padding: Spacing.three, marginBottom: Spacing.two, alignItems: 'center' },
-  dayCard: { borderWidth: 1, borderRadius: radius.card, padding: Spacing.three, gap: Spacing.two },
+  content: { padding: space.xl, paddingTop: space.sm, paddingBottom: space.xxxl, gap: space.base },
+  heading: { marginBottom: space.xs },
+  intro: { marginBottom: space.sm },
+  progressNote: { marginBottom: space.sm },
+  doneBanner: { borderWidth: 1, borderRadius: 12, padding: space.base, marginBottom: space.sm, alignItems: 'center' },
+  dayCard: { borderWidth: 1, borderRadius: radius.lg, padding: space.base, gap: space.sm },
   dayHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   dayHeaderText: { flex: 1 },
-  dayBody: { gap: Spacing.two },
+  dayBody: { gap: space.sm },
   exerciseLabel: { fontWeight: '700' },
-  dayActions: { gap: Spacing.two, alignItems: 'stretch' },
-  markReviewedButton: { paddingVertical: Spacing.two, alignItems: 'center' },
+  dayActions: { gap: space.sm, alignItems: 'stretch' },
+  markReviewedButton: { paddingVertical: space.sm, alignItems: 'center' },
   markReviewedLabel: { fontWeight: '600' },
 });

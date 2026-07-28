@@ -25,7 +25,7 @@ import { useJourneyStore } from '@/features/journey/useJourneyStore';
 import { shouldShowBeginningSequence, shouldShowWeeklyIntro } from '@/features/journey/journeyMap';
 import { fastForwardCurrentDay } from '@/features/dev/devFastForward';
 import { useAppStore } from '@/stores/useAppStore';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { CommitmentBuilderOutput } from '@/types/program';
 
 // Today (PRODUCT_SPEC §5.1) — daily card stack. Progression advances on
@@ -138,7 +138,7 @@ export default function TodayScreen() {
             onPress={() => router.push('/(modals)/refresher-week' as Href)}
             accessibilityRole="button"
             accessibilityLabel="Continue your refresher week"
-            style={[styles.refresherLink, { borderColor: theme.accent, backgroundColor: theme.accentTint }]}
+            style={[styles.refresherLink, { borderColor: theme.accent, backgroundColor: theme.accentSubtle }]}
           >
             <ThemedText type="default" themeColor="accent">
               Continue your refresher week
@@ -225,7 +225,7 @@ export default function TodayScreen() {
             <ThemedText type="small" themeColor="textSecondary" style={styles.sessionArcLabel}>
               Today's session · ~10 min · {sessionProgress.completedCount} of {sessionProgress.totalCount} done
             </ThemedText>
-            <View style={[styles.sessionArcTrack, { backgroundColor: theme.surface }]}>
+            <View style={[styles.sessionArcTrack, { backgroundColor: theme.surfaceRaised }]}>
               <View
                 style={[
                   styles.sessionArcFill,
@@ -260,19 +260,19 @@ export default function TodayScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: Spacing.four, paddingBottom: Spacing.six },
-  heading: { marginTop: Spacing.one, marginBottom: Spacing.two },
-  subheading: { marginBottom: Spacing.four },
-  pinnedCard: { borderRadius: 12, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.one },
-  devFastForward: { marginBottom: Spacing.three },
+  content: { padding: space.xl, paddingBottom: space.xxxl },
+  heading: { marginTop: space.xs, marginBottom: space.sm },
+  subheading: { marginBottom: space.xl },
+  pinnedCard: { borderRadius: 12, padding: space.base, marginBottom: space.xl, gap: space.xs },
+  devFastForward: { marginBottom: space.base },
   pinnedLabel: { fontWeight: '700' },
-  emptyState: { gap: Spacing.two, paddingVertical: Spacing.five },
-  sessionArc: { marginBottom: Spacing.three, gap: Spacing.one },
+  emptyState: { gap: space.sm, paddingVertical: space.xxl },
+  sessionArc: { marginBottom: space.base, gap: space.xs },
   sessionArcLabel: {},
   sessionArcTrack: { height: 4, borderRadius: 2, overflow: 'hidden' },
   sessionArcFill: { height: 4, borderRadius: 2 },
-  cadenceNote: { marginBottom: Spacing.three },
-  boosterCard: { borderWidth: 1, borderRadius: 12, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.one },
-  boosterTitle: { marginBottom: Spacing.one },
-  refresherLink: { borderWidth: 1, borderRadius: 12, padding: Spacing.three, marginTop: Spacing.three, gap: 2 },
+  cadenceNote: { marginBottom: space.base },
+  boosterCard: { borderWidth: 1, borderRadius: 12, padding: space.base, marginBottom: space.xl, gap: space.xs },
+  boosterTitle: { marginBottom: space.xs },
+  refresherLink: { borderWidth: 1, borderRadius: 12, padding: space.base, marginTop: space.base, gap: 2 },
 });

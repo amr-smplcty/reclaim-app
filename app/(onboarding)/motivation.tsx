@@ -12,7 +12,7 @@ import { getIntakeContent, getCrisisPatterns } from '@/lib/content';
 import { detectSafetySignal } from '@/lib/safety/detect';
 import { trackCrisisLanguageDetected, trackIllegalContentDisclosed } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 const { motivations } = getIntakeContent();
 
@@ -88,8 +88,8 @@ export default function MotivationScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: { marginBottom: Spacing.two },
-  subtitle: { marginBottom: Spacing.four },
+  title: { marginBottom: space.sm },
+  subtitle: { marginBottom: space.xl },
   input: { borderWidth: 1, borderRadius: 10, padding: 14, minHeight: 80, fontSize: 16, textAlignVertical: 'top' },
-  footer: { paddingTop: Spacing.three },
+  footer: { paddingTop: space.base },
 });

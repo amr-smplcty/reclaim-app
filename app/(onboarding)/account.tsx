@@ -20,7 +20,7 @@ import { recordLegalAcceptance } from '@/lib/legal/acceptance';
 import { recordAssessmentRemotely } from '@/lib/assessment/sync';
 import { useAssessmentHistoryStore } from '@/features/assessment/useAssessmentHistoryStore';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 const CONNECTION_ERROR_MESSAGE = "Can't reach the server right now. Check your connection and try again.";
 
@@ -162,7 +162,7 @@ export default function AccountScreen() {
             { borderColor: theme.border, backgroundColor: agreedToLegal ? theme.accent : 'transparent' },
           ]}
         >
-          {agreedToLegal ? <Ionicons name="checkmark" size={16} color={theme.bg} /> : null}
+          {agreedToLegal ? <Ionicons name="checkmark" size={16} color={theme.surface} /> : null}
         </Pressable>
         <ThemedText type="small" themeColor="textSecondary" style={styles.checkboxLabel}>
           I agree to the{' '}
@@ -199,15 +199,15 @@ export default function AccountScreen() {
 
 const styles = StyleSheet.create({
   content: { justifyContent: 'center' },
-  title: { marginBottom: Spacing.two },
-  subtitle: { marginBottom: Spacing.five },
-  appleButton: { height: 50, marginBottom: Spacing.four },
-  appleUnavailable: { textAlign: 'center', marginBottom: Spacing.four },
-  devBypass: { alignItems: 'center', marginTop: Spacing.three },
+  title: { marginBottom: space.sm },
+  subtitle: { marginBottom: space.xxl },
+  appleButton: { height: 50, marginBottom: space.xl },
+  appleUnavailable: { textAlign: 'center', marginBottom: space.xl },
+  devBypass: { alignItems: 'center', marginTop: space.base },
   disabled: { opacity: 0.4 },
-  or: { textAlign: 'center', marginBottom: Spacing.three },
-  input: { borderWidth: 1, borderRadius: 10, padding: 14, fontSize: 16, marginBottom: Spacing.three },
-  checkboxRow: { flexDirection: 'row', alignItems: 'flex-start', gap: Spacing.two, marginBottom: Spacing.three },
+  or: { textAlign: 'center', marginBottom: space.base },
+  input: { borderWidth: 1, borderRadius: 10, padding: 14, fontSize: 16, marginBottom: space.base },
+  checkboxRow: { flexDirection: 'row', alignItems: 'flex-start', gap: space.sm, marginBottom: space.base },
   checkboxBox: {
     width: 22,
     height: 22,
@@ -218,5 +218,5 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   checkboxLabel: { flex: 1 },
-  error: { marginBottom: Spacing.three },
+  error: { marginBottom: space.base },
 });

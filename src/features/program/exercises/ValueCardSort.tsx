@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing, radius } from '@/theme/tokens';
+import { space, radius } from '@/theme/tokens';
 import type { ValueCardSortOutput, ValueCardSortPayload } from '@/types/program';
 import {
   applyKeepDecision,
@@ -77,7 +77,7 @@ export function ValueCardSort({ payload, onSubmit }: Props) {
             accessibilityLabel="Keep"
             style={[styles.decisionButton, { backgroundColor: theme.accent, borderColor: theme.accent }]}
           >
-            <ThemedText type="default" style={{ color: theme.bg, fontWeight: '700' }}>
+            <ThemedText type="default" style={{ color: theme.surface, fontWeight: '700' }}>
               Keep
             </ThemedText>
           </Pressable>
@@ -139,12 +139,12 @@ export function ValueCardSort({ payload, onSubmit }: Props) {
             accessibilityState={{ selected: isRanked }}
             style={[
               styles.rankRow,
-              { borderColor: isRanked ? theme.accent : theme.border, backgroundColor: isRanked ? theme.accentTint : 'transparent' },
+              { borderColor: isRanked ? theme.accent : theme.border, backgroundColor: isRanked ? theme.accentSubtle : 'transparent' },
             ]}
           >
             {isRanked ? (
               <View style={[styles.rankBadge, { backgroundColor: theme.accent }]}>
-                <ThemedText type="small" style={{ color: theme.bg, fontWeight: '700' }}>
+                <ThemedText type="small" style={{ color: theme.surface, fontWeight: '700' }}>
                   {rank + 1}
                 </ThemedText>
               </View>
@@ -162,31 +162,31 @@ export function ValueCardSort({ payload, onSubmit }: Props) {
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { flex: 1, paddingBottom: Spacing.six },
-  progress: { marginBottom: Spacing.three, textAlign: 'center' },
-  card: { borderWidth: 1, borderRadius: radius.card, padding: Spacing.five, gap: Spacing.two, marginBottom: Spacing.five },
-  cardLabel: { marginBottom: Spacing.one },
-  decisionRow: { flexDirection: 'row', gap: Spacing.two },
+  container: { flex: 1, paddingBottom: space.xxxl },
+  progress: { marginBottom: space.base, textAlign: 'center' },
+  card: { borderWidth: 1, borderRadius: radius.lg, padding: space.xxl, gap: space.sm, marginBottom: space.xxl },
+  cardLabel: { marginBottom: space.xs },
+  decisionRow: { flexDirection: 'row', gap: space.sm },
   decisionButton: {
     flex: 1,
     borderWidth: 1,
-    borderRadius: radius.button,
+    borderRadius: radius.md,
     paddingVertical: 16,
     alignItems: 'center',
   },
-  emptyTitle: { marginBottom: Spacing.two },
-  emptyBody: { marginBottom: Spacing.four },
-  rankTitle: { marginBottom: Spacing.one },
-  rankHint: { marginBottom: Spacing.three },
-  confirmItem: { paddingVertical: Spacing.two },
+  emptyTitle: { marginBottom: space.sm },
+  emptyBody: { marginBottom: space.xl },
+  rankTitle: { marginBottom: space.xs },
+  rankHint: { marginBottom: space.base },
+  confirmItem: { paddingVertical: space.sm },
   rankRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: Spacing.three,
+    gap: space.base,
     borderWidth: 1,
-    borderRadius: radius.chip,
-    padding: Spacing.two,
-    marginBottom: Spacing.two,
+    borderRadius: radius.sm,
+    padding: space.sm,
+    marginBottom: space.sm,
   },
   rankBadge: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   rankBadgeEmpty: { borderWidth: 1 },

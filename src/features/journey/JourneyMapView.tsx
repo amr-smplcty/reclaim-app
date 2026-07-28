@@ -5,7 +5,7 @@ import { MarkdownBody } from '@/components/markdown-body';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing, radius } from '@/theme/tokens';
+import { space, radius } from '@/theme/tokens';
 import { useProgramStore } from '@/features/program/useProgramStore';
 import { getJourneyContent, getWeeklyIntro } from '@/lib/content/journey';
 import {
@@ -111,7 +111,7 @@ function WeekNode({
             {Array.from({ length: node.dayDots.total }, (_, i) => (
               <View
                 key={i}
-                style={[styles.dot, { backgroundColor: i < node.dayDots!.currentDay ? dotColor : theme.surface }]}
+                style={[styles.dot, { backgroundColor: i < node.dayDots!.currentDay ? dotColor : theme.surfaceRaised }]}
               />
             ))}
           </View>
@@ -156,13 +156,13 @@ function MaintenanceNode({
 }
 
 const styles = StyleSheet.create({
-  container: { gap: Spacing.two },
-  heading: { marginBottom: Spacing.one },
-  node: { borderWidth: 1, borderRadius: radius.card, padding: Spacing.three, gap: Spacing.one },
+  container: { gap: space.sm },
+  heading: { marginBottom: space.xs },
+  node: { borderWidth: 1, borderRadius: radius.lg, padding: space.base, gap: space.xs },
   nodeHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   nodeTitleCol: { flex: 1, gap: 2 },
   nodeTitle: { fontWeight: '600' },
-  dotsRow: { flexDirection: 'row', gap: Spacing.one, marginTop: Spacing.two },
+  dotsRow: { flexDirection: 'row', gap: space.xs, marginTop: space.sm },
   dot: { width: 8, height: 8, borderRadius: 4 },
-  introBody: { marginTop: Spacing.two },
+  introBody: { marginTop: space.sm },
 });

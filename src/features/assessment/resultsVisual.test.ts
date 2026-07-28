@@ -26,7 +26,7 @@ describe('bandColorToken', () => {
   });
 
   it('uses danger for band C and D (at/above the clinical cutoff)', () => {
-    expect(bandColorToken('C')).toBe('danger');
-    expect(bandColorToken('D')).toBe('danger');
+    expect(bandColorToken('C')).toBe('destructive');
+    expect(bandColorToken('D')).toBe('destructive');
   });
 });

@@ -72,6 +72,18 @@
 | 58 | Earn-in daily stakes upgrade (CLINICAL_SPEC §9 item 4b, v1.2): affordable monthly amount + named reward, divided into daily stakes that move into the Reward Jar on session completion; missed-day stakes never earned. Not built in v1 (v1's Commitment Goals ladder is process-weighted credit only, no per-day stake mechanic) | CLINICAL_SPEC §9 | v1.2 |
 | 59 | Real-money deposit contracts (CLINICAL_SPEC §9 item 6 / PRODUCT_SPEC §10 roadmap item 4b): external payment flow, charity forfeiture on failed process goals, cool-off period + hardship cancellation. Requires legal + App Store compliance review first | CLINICAL_SPEC §9 / PRODUCT_SPEC §10 | post-v1, legal-gated |
 
+## 🎨 Design system — Epic 15 (Driftwood) follow-ups
+
+> Epic 15 adopted the Driftwood token system: rebuilt `src/theme/tokens.ts` (light + dark palettes, type scale, spacing/radius/elevation/motion), introduced system-appearance light/dark theming, migrated every screen/component to the new tokens, wired motion (breathing/celebration + reduced-motion) and the §10 accessibility items. The items below are things in the design files that need **logic, content, or copy** changes — Epic 15 was presentation-only, so only the visual part was done and the rest is captured here.
+
+| # | Item | Source | Gate |
+|---|------|--------|------|
+| 63 | **True New York serif face.** Lesson body + ceremony Display use `Georgia` as the reliably-available iOS system serif standing in for New York (DESIGN_SYSTEM §3 notes Newsreader stands in for New York in the HTML). Real New York needs either a bundled font file (expo-font) or a native `.AppleSystemUIFontSerif` descriptor RN can't currently reference directly; swap `fontFamilies.serif` in tokens.ts once the face ships | Epic 15 / DESIGN_SYSTEM §3 | P |
+| 64 | **Band C/D result color vs Guardrail 2.** `bandColorToken` (`resultsVisual.ts`) colors PPCS-6 bands C/D with `destructive` (red). Epic 15 preserved this behavior unchanged through the `danger`→`destructive` rename, but it conflicts with Driftwood Guardrail 2 ("no error-red for user behaviour"). Needs a clinical-review decision: recolor C/D to `caution` (ochre "this is data") or keep. Recorded as a deliberate non-deviation in DESIGN_SYSTEM §11 | Epic 15 / DESIGN_SYSTEM Guardrail 2 vs §11 | L |
+| 65 | **Live lock-screen notification preview (Screen 31).** DESIGN_SYSTEM §8 Batch-5 + §10 require a live preview of the actual scheduled notification so users verify nothing identifying appears. This needs notification-content wiring (logic), not just layout — deferred | DESIGN_SYSTEM §8/§10 | TF |
+| 66 | **Late-night Home variant (Screen 13b).** After ~11pm, Home demotes the lesson and promotes the toolkit (DESIGN_SYSTEM §8 Batch-2). This is a content/logic branch (time-of-day → different card ordering), not just styling — deferred | DESIGN_SYSTEM §8 Batch-2 | P |
+| 67 | **Per-screen state-matrix polish pass.** Epic 15 upgraded the shared primitives (button variants/states, selection chip, text scale, growth visual, tab bar) to the Components spec and migrated all 33 screens to Driftwood tokens/light-dark. Remaining per-screen refinements are visual-only but sizeable: input focus-ring/error states everywhere, skeleton loading states (surfaceSunken blocks, 1200ms shimmer), bottom-sheet drag handles, toast component, and empty/error state components per §7. Track as a dedicated polish epic | Epic 15 / DESIGN_SYSTEM §7 | P |
+
 ## ✅ Resolved (kept for the record)
 
 | Item | Resolved by |

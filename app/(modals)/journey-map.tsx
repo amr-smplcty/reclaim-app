@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { JourneyMap } from '@/features/journey/JourneyMapView';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // The journey map as a modal, reached by tapping the "Week X · Day Y" header
 // on Today (PRODUCT_SPEC §5.7). Also rendered inline in Progress; this is the
@@ -21,7 +21,7 @@ export default function JourneyMapScreen() {
           accessibilityRole="button"
           accessibilityLabel="Close"
           hitSlop={8}
-          style={[styles.closeButton, { backgroundColor: theme.surface }]}
+          style={[styles.closeButton, { backgroundColor: theme.surfaceRaised }]}
         >
           <Ionicons name="close" size={20} color={theme.textPrimary} />
         </Pressable>
@@ -35,7 +35,7 @@ export default function JourneyMapScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  closeRow: { alignItems: 'flex-end', padding: Spacing.four, paddingBottom: 0 },
+  closeRow: { alignItems: 'flex-end', padding: space.xl, paddingBottom: 0 },
   closeButton: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
-  content: { padding: Spacing.four, paddingTop: Spacing.two },
+  content: { padding: space.xl, paddingTop: space.sm },
 });

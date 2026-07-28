@@ -6,7 +6,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { SafeAreaScreen } from '@/components/safe-area-screen';
 import { LEGAL_DOCS } from '@/lib/legal/content';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 export default function LegalDocScreen() {
   const { type } = useLocalSearchParams<{ type: 'tou' | 'privacy' }>();
@@ -41,11 +41,11 @@ export default function LegalDocScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four },
-  title: { marginBottom: Spacing.two },
-  draftBanner: { fontWeight: '700', marginBottom: Spacing.one },
-  version: { marginBottom: Spacing.three },
-  scroll: { flex: 1, marginBottom: Spacing.three },
-  section: { marginBottom: Spacing.four },
-  sectionHeading: { marginBottom: Spacing.one },
+  container: { flex: 1, padding: space.xl },
+  title: { marginBottom: space.sm },
+  draftBanner: { fontWeight: '700', marginBottom: space.xs },
+  version: { marginBottom: space.base },
+  scroll: { flex: 1, marginBottom: space.base },
+  section: { marginBottom: space.xl },
+  sectionHeading: { marginBottom: space.xs },
 });

@@ -6,7 +6,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing, radius } from '@/theme/tokens';
+import { space, radius } from '@/theme/tokens';
 import type { CommittedActionPlannerOutput, CommittedActionPlannerPayload, DayOfWeek } from '@/types/program';
 import { allActionsComplete, initializeActions, toggleDay } from '@/features/program/committedActionPlanner';
 
@@ -110,10 +110,10 @@ export function CommittedActionPlanner({ payload, values, onSubmit }: Props) {
                   accessibilityState={{ selected }}
                   style={[
                     styles.dayChip,
-                    { backgroundColor: selected ? theme.accent : theme.surface, borderColor: selected ? theme.accent : theme.border },
+                    { backgroundColor: selected ? theme.accent : theme.surfaceRaised, borderColor: selected ? theme.accent : theme.border },
                   ]}
                 >
-                  <ThemedText type="small" style={selected ? { color: theme.bg, fontWeight: '700' } : undefined}>
+                  <ThemedText type="small" style={selected ? { color: theme.surface, fontWeight: '700' } : undefined}>
                     {day.label}
                   </ThemedText>
                 </Pressable>
@@ -129,13 +129,13 @@ export function CommittedActionPlanner({ payload, values, onSubmit }: Props) {
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { paddingBottom: Spacing.six },
-  sizeNote: { marginBottom: Spacing.three },
-  card: { borderWidth: 1, borderRadius: radius.card, padding: Spacing.three, marginBottom: Spacing.three, gap: Spacing.one },
-  valueLabel: { marginBottom: Spacing.one },
-  fieldLabel: { marginTop: Spacing.two },
+  container: { paddingBottom: space.xxxl },
+  sizeNote: { marginBottom: space.base },
+  card: { borderWidth: 1, borderRadius: radius.lg, padding: space.base, marginBottom: space.base, gap: space.xs },
+  valueLabel: { marginBottom: space.xs },
+  fieldLabel: { marginTop: space.sm },
   input: { borderWidth: 1, borderRadius: 10, padding: 10, fontSize: 16 },
-  daysRow: { flexDirection: 'row', gap: Spacing.one },
-  dayChip: { width: 32, height: 32, borderRadius: radius.chip, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
-  emptyContainer: { flex: 1, justifyContent: 'center', padding: Spacing.four },
+  daysRow: { flexDirection: 'row', gap: space.xs },
+  dayChip: { width: 32, height: 32, borderRadius: radius.sm, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  emptyContainer: { flex: 1, justifyContent: 'center', padding: space.xl },
 });

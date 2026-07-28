@@ -7,7 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { IfThenBuilderOutput, IfThenBuilderPayload, IfThenPlan } from '@/types/program';
 
 interface Props {
@@ -96,11 +96,11 @@ export function IfThenBuilder({ payload, referenceSummaries, onSubmit }: Props) 
 }
 
 const styles = StyleSheet.create({
-  container: { paddingBottom: Spacing.six },
-  referenceBlock: { borderWidth: 1, borderRadius: 10, padding: Spacing.three, marginBottom: Spacing.four, gap: Spacing.one },
+  container: { paddingBottom: space.xxxl },
+  referenceBlock: { borderWidth: 1, borderRadius: 10, padding: space.base, marginBottom: space.xl, gap: space.xs },
   referenceLabel: { fontWeight: '700' },
-  planBlock: { marginBottom: Spacing.five },
-  planTitle: { marginBottom: Spacing.two },
-  label: { marginBottom: Spacing.one, marginTop: Spacing.two },
-  input: { borderWidth: 1, borderRadius: 10, padding: 12, fontSize: 16, marginBottom: Spacing.two },
+  planBlock: { marginBottom: space.xxl },
+  planTitle: { marginBottom: space.sm },
+  label: { marginBottom: space.xs, marginTop: space.sm },
+  input: { borderWidth: 1, borderRadius: 10, padding: 12, fontSize: 16, marginBottom: space.sm },
 });

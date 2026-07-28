@@ -9,7 +9,7 @@ import {
   GROWTH_STAGE_COUNT,
   type GrowthEvents,
 } from '@/features/progress/growthStage';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 interface Props {
   events: GrowthEvents;
@@ -25,7 +25,10 @@ const STAGE_LABELS = ['Seed', 'Sprout', 'Sapling', 'Young tree', 'Full tree', 'F
 // is a pure function of ever-growing counters (growthStage.ts).
 export function GrowthVisual({ events, width = 160, height = 160 }: Props) {
   const theme = useTheme();
-  const stage = computeGrowthStage(computeGrowthScore(events));
+  // Count of activities the user has completed — this is what accretes and
+  // what VoiceOver announces (never a streak, never a rankable score).
+  const activityCount = computeGrowthScore(events);
+  const stage = computeGrowthStage(activityCount);
 
   const groundY = height - 20;
   const trunkHeight = 10 + stage * 12;
@@ -34,8 +37,16 @@ export function GrowthVisual({ events, width = 160, height = 160 }: Props) {
   const isFlourishing = stage === GROWTH_STAGE_COUNT - 1;
 
   return (
-    <View style={styles.container}>
-      <Svg width={width} height={height} accessibilityLabel={`Growth visual: ${STAGE_LABELS[stage]}`}>
+    // DESIGN_SYSTEM.md §10: announce as "N activities completed", never as a
+    // streak or a score. The whole visual is one accessible element; the SVG
+    // and the stage caption are hidden from VoiceOver individually.
+    <View
+      style={styles.container}
+      accessible
+      accessibilityRole="image"
+      accessibilityLabel={`${activityCount} ${activityCount === 1 ? 'activity' : 'activities'} completed`}
+    >
+      <Svg width={width} height={height} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
         <Line x1={0} y1={groundY} x2={width} y2={groundY} stroke={theme.border} strokeWidth={1} />
         {stage > 0 ? (
           <Line x1={width / 2} y1={groundY} x2={width / 2} y2={trunkTopY} stroke={theme.textSecondary} strokeWidth={3} />
@@ -53,7 +64,13 @@ export function GrowthVisual({ events, width = 160, height = 160 }: Props) {
           </>
         ) : null}
       </Svg>
-      <ThemedText type="small" themeColor="textSecondary" style={styles.label}>
+      <ThemedText
+        type="small"
+        themeColor="textSecondary"
+        style={styles.label}
+        accessibilityElementsHidden
+        importantForAccessibility="no"
+      >
         {STAGE_LABELS[stage]}
       </ThemedText>
     </View>
@@ -61,6 +78,6 @@ export function GrowthVisual({ events, width = 160, height = 160 }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { alignItems: 'center', gap: Spacing.one },
+  container: { alignItems: 'center', gap: space.xs },
   label: { textAlign: 'center' },
 });

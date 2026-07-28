@@ -4,7 +4,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { OnboardingLayout } from '@/features/assessment/OnboardingLayout';
 import { goNextFrom } from '@/features/assessment/navigation';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // Wellness disclaimer interstitial (PRODUCT_SPEC §4 step 5) — exact text from
 // LEGAL_COMPLIANCE §6, verbatim, pending attorney sign-off. Do not reword.
@@ -28,6 +28,6 @@ export default function DisclaimerScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { justifyContent: 'center', gap: Spacing.four },
-  title: { marginBottom: Spacing.two },
+  content: { justifyContent: 'center', gap: space.xl },
+  title: { marginBottom: space.sm },
 });

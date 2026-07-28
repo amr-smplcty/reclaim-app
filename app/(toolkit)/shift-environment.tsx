@@ -12,7 +12,7 @@ import { useToolkitStore } from '@/features/toolkit/useToolkitStore';
 import { describeDelta } from '@/features/toolkit/suggestion';
 import { trackUrgeToolUsed } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // PRODUCT_SPEC §5.3's exact checklist: stand up, leave room, phone in
 // another room, cold water.
@@ -89,16 +89,16 @@ export default function ShiftEnvironmentScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: Spacing.four, justifyContent: 'center', gap: Spacing.five },
-  title: { marginBottom: Spacing.two },
-  list: { gap: Spacing.three },
+  container: { flex: 1, padding: space.xl, justifyContent: 'center', gap: space.xxl },
+  title: { marginBottom: space.sm },
+  list: { gap: space.base },
   item: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: Spacing.three,
+    gap: space.base,
     borderBottomWidth: 1,
-    paddingVertical: Spacing.three,
+    paddingVertical: space.base,
   },
   itemLabel: { flex: 1 },
-  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: Spacing.five, padding: Spacing.four },
+  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: space.xxl, padding: space.xl },
 });

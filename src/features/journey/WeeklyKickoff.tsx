@@ -4,7 +4,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { MarkdownBody } from '@/components/markdown-body';
 import { getWeeklyIntro } from '@/lib/content/journey';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 interface Props {
   week: number;
@@ -38,7 +38,7 @@ export function WeeklyKickoff({ week, onDismiss }: Props) {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: Spacing.four, gap: Spacing.two, paddingBottom: Spacing.five },
-  title: { marginBottom: Spacing.one },
-  footer: { padding: Spacing.four, paddingTop: Spacing.two },
+  content: { padding: space.xl, gap: space.sm, paddingBottom: space.xxl },
+  title: { marginBottom: space.xs },
+  footer: { padding: space.xl, paddingTop: space.sm },
 });

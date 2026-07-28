@@ -3,6 +3,7 @@ import { Animated, Easing, StyleSheet, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
 import { useTheme } from '@/hooks/use-theme';
+import { useReducedMotion } from '@/hooks/use-reduced-motion';
 
 const WAVE_WIDTH = 400;
 const WAVE_HEIGHT = 80;
@@ -12,9 +13,15 @@ const WAVE_PATH = `M0,${WAVE_HEIGHT / 2} C ${WAVE_WIDTH * 0.25},${WAVE_HEIGHT * 
 // side-by-side for a seamless infinite-scroll illusion, no per-frame redraw.
 export function WaveAnimation() {
   const theme = useTheme();
+  const reduced = useReducedMotion();
   const translateX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    // prefers-reduced-motion: hold the wave static (no scrolling loop).
+    if (reduced) {
+      translateX.setValue(0);
+      return;
+    }
     const loop = Animated.loop(
       Animated.timing(translateX, {
         toValue: -WAVE_WIDTH,
@@ -25,7 +32,7 @@ export function WaveAnimation() {
     );
     loop.start();
     return () => loop.stop();
-  }, [translateX]);
+  }, [translateX, reduced]);
 
   return (
     <View style={styles.container}>

@@ -15,7 +15,7 @@ import { evaluateRiskyWindowEligibility } from '@/lib/notifications/riskyWindow'
 import { resolveTopBanner } from '@/features/journey/banners';
 import { lastActivityTimestamp, selectWelcomeBackLine, shouldShowWelcomeBack } from '@/features/journey/welcomeBack';
 import { getJourneyContent } from '@/lib/content/journey';
-import { Spacing, radius } from '@/theme/tokens';
+import { space, radius } from '@/theme/tokens';
 
 // The single top-of-Today banner slot. Enforces the PRODUCT_SPEC §5.7
 // "never stacks" rule via banners.resolveTopBanner's priority order
@@ -88,7 +88,7 @@ export function TodayTopBanner() {
 }
 
 const styles = StyleSheet.create({
-  banner: { borderWidth: 1, borderRadius: radius.card, padding: Spacing.three, marginBottom: Spacing.four },
+  banner: { borderWidth: 1, borderRadius: radius.lg, padding: space.base, marginBottom: space.xl },
   bannerText: { fontWeight: '600' },
-  welcomeBack: { borderWidth: 1, borderRadius: radius.card, padding: Spacing.three, marginBottom: Spacing.four },
+  welcomeBack: { borderWidth: 1, borderRadius: radius.lg, padding: space.base, marginBottom: space.xl },
 });

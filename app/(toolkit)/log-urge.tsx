@@ -15,7 +15,7 @@ import { resolveTagOptions } from '@/features/program/urgeValueMap';
 import { getUrgeValueMapPayload } from '@/lib/content/week';
 import { trackUrgeLogged } from '@/lib/analytics/events';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { MultiSelectWriteOutput } from '@/types/program';
 
 const TRIGGERS: Array<{ id: Trigger; label: string }> = [
@@ -144,11 +144,11 @@ export default function LogUrgeScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: Spacing.four, paddingBottom: Spacing.six },
-  title: { marginBottom: Spacing.four },
-  prompt: { marginTop: Spacing.three, marginBottom: Spacing.two },
-  input: { borderWidth: 1, borderRadius: 10, padding: 12, fontSize: 16, marginBottom: Spacing.two },
+  content: { padding: space.xl, paddingBottom: space.xxxl },
+  title: { marginBottom: space.xl },
+  prompt: { marginTop: space.base, marginBottom: space.sm },
+  input: { borderWidth: 1, borderRadius: 10, padding: 12, fontSize: 16, marginBottom: space.sm },
   multiline: { minHeight: 80, textAlignVertical: 'top' },
-  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: Spacing.four, padding: Spacing.four },
+  completeContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: space.xl, padding: space.xl },
   centered: { textAlign: 'center' },
 });

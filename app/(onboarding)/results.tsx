@@ -13,7 +13,7 @@ import { useAssessmentHistoryStore } from '@/features/assessment/useAssessmentHi
 import { trackAssessmentCompleted } from '@/lib/analytics/events';
 import { getPpcs6Assessment } from '@/lib/content';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 const { citation_short: citationShort } = getPpcs6Assessment();
 
@@ -72,15 +72,22 @@ export default function ResultsScreen() {
 
   return (
     <OnboardingLayout step="results" contentStyle={styles.content}>
+      {/* Deviation (a) from DESIGN_SYSTEM guardrail 8: the PPCS-6 is a
+          validated instrument (CLINICAL_SPEC §2), so the number is kept — but
+          the BAND leads as the plain-language headline and the number sits
+          below as supporting detail, never a bare or rankable figure. */}
       <ThemedText type="small" themeColor="textSecondary">
         Your score
       </ThemedText>
       <ThemedText type="title" style={styles.score}>
-        {score} / {PPCS6_SCORE_MAX} · {bandInfo.label}
+        {bandInfo.label}
       </ThemedText>
-      <View style={[styles.scaleTrack, { backgroundColor: theme.surface }]}>
+      <View style={[styles.scaleTrack, { backgroundColor: theme.surfaceRaised }]}>
         <View style={[styles.scaleFill, { backgroundColor: bandColor, width: `${scoreScaleFraction(score) * 100}%` }]} />
       </View>
+      <ThemedText type="small" themeColor="textSecondary" style={styles.scoreDetail}>
+        {score} / {PPCS6_SCORE_MAX}
+      </ThemedText>
       <ThemedText type="default" style={styles.framing}>
         {bandInfo.framing}
       </ThemedText>
@@ -104,14 +111,15 @@ export default function ResultsScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { justifyContent: 'center', gap: Spacing.two },
-  title: { marginBottom: Spacing.two },
-  subtitle: { marginBottom: Spacing.four },
-  score: { marginBottom: Spacing.two },
-  scaleTrack: { height: 8, borderRadius: 4, overflow: 'hidden', marginBottom: Spacing.four },
+  content: { justifyContent: 'center', gap: space.sm },
+  title: { marginBottom: space.sm },
+  subtitle: { marginBottom: space.xl },
+  score: { marginBottom: space.sm },
+  scaleTrack: { height: 8, borderRadius: 4, overflow: 'hidden', marginBottom: space.sm },
   scaleFill: { height: 8, borderRadius: 4 },
-  framing: { marginBottom: Spacing.four },
-  chartPlaceholder: { marginBottom: Spacing.five, fontStyle: 'italic' },
-  resourcesLink: { marginBottom: Spacing.four },
-  legalFooter: { marginBottom: Spacing.four },
+  scoreDetail: { marginBottom: space.xl },
+  framing: { marginBottom: space.xl },
+  chartPlaceholder: { marginBottom: space.xxl, fontStyle: 'italic' },
+  resourcesLink: { marginBottom: space.xl },
+  legalFooter: { marginBottom: space.xl },
 });

@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 interface Props {
   steps: string[];
@@ -47,8 +47,8 @@ export function WorksheetFallback({ steps, onSubmit }: Props) {
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { paddingBottom: Spacing.six },
-  step: { marginBottom: Spacing.two },
+  container: { paddingBottom: space.xxxl },
+  step: { marginBottom: space.sm },
   input: {
     borderWidth: 1,
     borderRadius: 10,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     minHeight: 100,
     fontSize: 16,
     textAlignVertical: 'top',
-    marginTop: Spacing.three,
-    marginBottom: Spacing.four,
+    marginTop: space.base,
+    marginBottom: space.xl,
   },
 });

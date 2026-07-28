@@ -3,7 +3,7 @@ import { Keyboard, Platform, Pressable, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 // A global "Done" accessory that sits just above the keyboard (iOS). Mounted
 // once at the app root so EVERY text input gets a dismiss affordance without
@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
     right: 0,
     borderTopWidth: StyleSheet.hairlineWidth,
     alignItems: 'flex-end',
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.two,
+    paddingHorizontal: space.xl,
+    paddingVertical: space.sm,
   },
-  doneButton: { paddingHorizontal: Spacing.two, paddingVertical: Spacing.one },
+  doneButton: { paddingHorizontal: space.sm, paddingVertical: space.xs },
 });

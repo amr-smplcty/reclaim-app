@@ -4,7 +4,7 @@ import { Animated, StyleSheet } from 'react-native';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Spacing, motion } from '@/theme/tokens';
+import { space, motion } from '@/theme/tokens';
 
 interface Props {
   // Always the program's own authored copy (Week 6 Day 7's last exercise
@@ -24,7 +24,11 @@ export function GraduationMoment({ closingLine, onContinue }: Props) {
   const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.timing(opacity, { toValue: 1, duration: motion.duration, useNativeDriver: true }).start();
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: motion.durations.cardEnter,
+      useNativeDriver: true,
+    }).start();
   }, [opacity]);
 
   return (
@@ -43,8 +47,8 @@ export function GraduationMoment({ closingLine, onContinue }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: Spacing.five },
-  content: { alignItems: 'center', gap: Spacing.four },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: space.xxl },
+  content: { alignItems: 'center', gap: space.xl },
   heading: { textAlign: 'center' },
   body: { textAlign: 'center' },
 });

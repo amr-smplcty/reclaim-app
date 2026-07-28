@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { guardAllFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type { RatedInventoryOutput, RatedInventoryPayload } from '@/types/program';
 import { NumberScale } from '@/features/program/exercises/NumberScale';
 
@@ -62,8 +62,8 @@ export function RatedInventory({ payload, onSubmit }: Props) {
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { paddingBottom: Spacing.six },
-  areaBlock: { marginBottom: Spacing.four },
-  areaLabel: { marginBottom: Spacing.two },
-  input: { borderWidth: 1, borderRadius: 10, padding: 12, minHeight: 60, fontSize: 16, textAlignVertical: 'top', marginTop: Spacing.two },
+  container: { paddingBottom: space.xxxl },
+  areaBlock: { marginBottom: space.xl },
+  areaLabel: { marginBottom: space.sm },
+  input: { borderWidth: 1, borderRadius: 10, padding: 12, minHeight: 60, fontSize: 16, textAlignVertical: 'top', marginTop: space.sm },
 });

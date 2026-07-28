@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/themed-text';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 interface Props {
   title: string;
@@ -23,7 +23,7 @@ export function DailyCard({ title, subtitle, complete, onPress }: Props) {
       accessibilityState={{ checked: complete }}
       style={({ pressed }) => [
         styles.card,
-        { backgroundColor: theme.surface, borderColor: theme.border, opacity: pressed ? 0.85 : 1 },
+        { backgroundColor: theme.surfaceRaised, borderColor: theme.border, opacity: pressed ? 0.85 : 1 },
       ]}
     >
       <View style={styles.textBlock}>
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderWidth: 1,
     borderRadius: 12,
-    padding: Spacing.three,
-    marginBottom: Spacing.three,
+    padding: space.base,
+    marginBottom: space.base,
   },
-  textBlock: { flex: 1, marginRight: Spacing.two, gap: 2 },
+  textBlock: { flex: 1, marginRight: space.sm, gap: 2 },
 });

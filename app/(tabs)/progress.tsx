@@ -21,7 +21,7 @@ import { CommitmentGoalsSection } from '@/features/progress/CommitmentGoalsSecti
 import { useCommitmentGoalsStore } from '@/features/progress/useCommitmentGoalsStore';
 import { JourneyMap } from '@/features/journey/JourneyMapView';
 import { computeDayCreditInputForDate, dateKeyOf } from '@/features/progress/dailyCreditReconciliation';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 import type {
   CommitmentBuilderOutput,
   EmergencyCardOutput,
@@ -252,7 +252,7 @@ export default function ProgressScreen() {
           onPress={() => router.push('/(modals)/emergency-card' as Href)}
           accessibilityRole="button"
           accessibilityLabel="Open your Emergency Card"
-          style={[styles.emergencyCardCard, { borderColor: theme.accent, backgroundColor: theme.accentTint }]}
+          style={[styles.emergencyCardCard, { borderColor: theme.accent, backgroundColor: theme.accentSubtle }]}
         >
           <ThemedText type="subtitle" themeColor="accent">
             Your Emergency Card
@@ -299,20 +299,20 @@ function ProfileCard({ title, profile }: { title: string; profile: ProfileBuilde
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: Spacing.four, paddingBottom: Spacing.six },
-  subheading: { marginBottom: Spacing.three },
-  dueBanner: { borderWidth: 1, borderRadius: 12, padding: Spacing.three, marginBottom: Spacing.four },
+  content: { padding: space.xl, paddingBottom: space.xxxl },
+  subheading: { marginBottom: space.base },
+  dueBanner: { borderWidth: 1, borderRadius: 12, padding: space.base, marginBottom: space.xl },
   dueBannerText: { fontWeight: '600' },
-  dueSoon: { marginBottom: Spacing.four },
-  sectionTitle: { marginTop: Spacing.four, marginBottom: Spacing.two },
-  deltaText: { marginTop: Spacing.two },
-  consistencyText: { marginBottom: Spacing.one },
-  milestonesRow: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.two },
+  dueSoon: { marginBottom: space.xl },
+  sectionTitle: { marginTop: space.xl, marginBottom: space.sm },
+  deltaText: { marginTop: space.sm },
+  consistencyText: { marginBottom: space.xs },
+  milestonesRow: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
   milestoneChip: { borderWidth: 1, borderRadius: 999, paddingVertical: 6, paddingHorizontal: 12 },
-  insightText: { marginTop: Spacing.two },
-  profileCard: { gap: Spacing.three, marginTop: Spacing.four },
-  emergencyCardCard: { borderWidth: 1, borderRadius: 12, padding: Spacing.three, marginTop: Spacing.four, gap: Spacing.one },
-  profileTitle: { marginBottom: Spacing.one },
-  section: { gap: 2, marginBottom: Spacing.two },
+  insightText: { marginTop: space.sm },
+  profileCard: { gap: space.base, marginTop: space.xl },
+  emergencyCardCard: { borderWidth: 1, borderRadius: 12, padding: space.base, marginTop: space.xl, gap: space.xs },
+  profileTitle: { marginBottom: space.xs },
+  section: { gap: 2, marginBottom: space.sm },
   sectionLabel: { fontWeight: '700' },
 });

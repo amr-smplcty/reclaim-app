@@ -6,7 +6,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { buildTrendPoints } from '@/features/progress/chartData';
 import { PPCS6_CUTOFF, PPCS6_SCORE_MAX, PPCS6_SCORE_MIN } from '@/features/assessment/scoring';
 import type { AssessmentEntry } from '@/features/assessment/useAssessmentHistoryStore';
-import { Spacing } from '@/theme/tokens';
+import { space } from '@/theme/tokens';
 
 interface Props {
   entries: AssessmentEntry[];
@@ -48,5 +48,5 @@ export function PpcsTrendChart({ entries, width = 320, height = 140 }: Props) {
 }
 
 const styles = StyleSheet.create({
-  empty: { justifyContent: 'center', alignItems: 'center', paddingHorizontal: Spacing.four },
+  empty: { justifyContent: 'center', alignItems: 'center', paddingHorizontal: space.xl },
 });

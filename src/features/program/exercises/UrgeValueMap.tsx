@@ -7,7 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { guardFreeText } from '@/lib/safety/guard';
 import { useTheme } from '@/hooks/use-theme';
-import { Spacing, radius } from '@/theme/tokens';
+import { space, radius } from '@/theme/tokens';
 import type { UrgeValueMapOutput, UrgeValueMapPayload } from '@/types/program';
 import type { UrgeLogEntry } from '@/features/toolkit/useToolkitStore';
 import {
@@ -97,9 +97,9 @@ export function UrgeValueMap({ payload, urgeLogs, valuesCore, onSubmit }: Props)
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  container: { paddingBottom: Spacing.six },
-  notice: { marginBottom: Spacing.three },
-  input: { borderWidth: 1, borderRadius: 10, padding: 14, minHeight: 120, fontSize: 16, textAlignVertical: 'top', marginBottom: Spacing.four },
-  logCard: { borderWidth: 1, borderRadius: radius.card, padding: Spacing.three, marginBottom: Spacing.three, gap: Spacing.two },
-  tagRow: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.one },
+  container: { paddingBottom: space.xxxl },
+  notice: { marginBottom: space.base },
+  input: { borderWidth: 1, borderRadius: 10, padding: 14, minHeight: 120, fontSize: 16, textAlignVertical: 'top', marginBottom: space.xl },
+  logCard: { borderWidth: 1, borderRadius: radius.lg, padding: space.base, marginBottom: space.base, gap: space.sm },
+  tagRow: { flexDirection: 'row', flexWrap: 'wrap', gap: space.xs },
 });
